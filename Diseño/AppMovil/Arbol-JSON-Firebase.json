@@ -1,0 +1,24 @@
+{
+    "user": {
+        "uid": {
+            "name": "string",
+            "surname": "string",
+            "email": "string"
+        }
+    },
+    "task": {
+        "id": {
+            "user-uid": "string",
+            "title": "string",
+            "description": "string"
+        }
+    },
+    "reminder": {
+        "id": {
+            "user-uid": "string",
+            "title": "string",
+            "description": "string",
+            "date": "date"
+        }
+    }
+}

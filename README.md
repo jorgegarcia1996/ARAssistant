@@ -10,3 +10,7 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 * Diagrama UML de casos de uso para la app móvil.
 * Diagrama E/R de la base de datos.
 * Árbol JSON con la estructura de la BBDD para Firebase.
+
+## Avances 29/03/2020
+
+* Tablas de requisitos de la base de datos.

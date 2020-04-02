@@ -18,6 +18,4 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 ## Avances 02/04/2020
 
 * Mockup de la App Movil
-* Diseño de pantallas
-
-<iframe style="border: none;" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FpXeGToLrAQjJCZh8pPeCtl%2FArassistant_Pantallas%3Fnode-id%3D0%253A1" allowfullscreen></iframe>
+* [Diseño de pantallas](https://www.figma.com/file/pXeGToLrAQjJCZh8pPeCtl/Arassistant_Pantallas?node-id=0%3A1)

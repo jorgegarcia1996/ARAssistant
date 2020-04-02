@@ -14,3 +14,7 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 ## Avances 29/03/2020
 
 * Tablas de requisitos de la base de datos.
+
+## Avances 02/04/2020
+
+* Mockup de la App Movil

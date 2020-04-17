@@ -22,6 +22,12 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 
 ## Avances 17/04/2020
 
+***Jorge:***
 * Layout del login creado.
 * Logo e icono para la app-móvil creados.
 * Mockup y diseño de pantallas actualizado.
+
+***Lino:***
+* Layout del registro.
+* Diseño del tutorial de primeros pasos en la app.
+* Conexión firebase.

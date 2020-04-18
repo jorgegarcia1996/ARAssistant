@@ -5,4 +5,7 @@
     <string name="password_hint">Contraseña</string>
     <string name="register_link">Regístrate ahora</string>
     <string name="forgotten_password_hint">¿Olvidó su contraseña?</string>
+    <string name="toast_login_bad_credentials">Usuario o contraseña incorerectos</string>
+    <string name="toast_generic_error">Se ha producido un error</string>
+    <string name="toast_logout_success">Sesión cerrada</string>
 </resources>

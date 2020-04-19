@@ -37,6 +37,9 @@ dependencies {
     //Material
     implementation 'com.google.android.material:material:1.2.0-alpha06'
 
+    implementation 'com.jakewharton:butterknife:10.2.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
+
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.firebase:firebase-auth:19.3.0'

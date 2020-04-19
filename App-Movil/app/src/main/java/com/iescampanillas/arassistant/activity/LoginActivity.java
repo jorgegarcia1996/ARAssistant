@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,7 +27,13 @@ import com.iescampanillas.arassistant.constant.BundleName;
 import com.iescampanillas.arassistant.constant.NumberCode;
 import com.iescampanillas.arassistant.model.User;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class LoginActivity extends AppCompatActivity {
+
+    //TAG
+    private static final String TAG = "LoginActivity";
 
     //Firebase
     private FirebaseAuth fbAuth;
@@ -36,12 +44,16 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private TextView txtForgotPass, txtRegister;
 
+    @BindView(R.id.loginTextRegister)
+    protected MaterialTextView btnRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getSupportActionBar().hide();
+
+        //ButterKnife implementation
+        ButterKnife.bind(this);
 
         //Get elements and instances
         fbAuth = FirebaseAuth.getInstance();
@@ -99,6 +111,16 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         });
+
+        //Register
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivityForResult(registerIntent, NumberCode.REGISTER_CODE);
+            }
+        });
+
     }
 
     @Override
@@ -107,6 +129,12 @@ public class LoginActivity extends AppCompatActivity {
         if(requestCode == NumberCode.LOGIN_CODE){
             if (resultCode == RESULT_OK) {
                 Toast.makeText(getApplicationContext(), R.string.toast_logout_success, Toast.LENGTH_LONG).show();
+            }
+        }
+        if(requestCode == NumberCode.REGISTER_CODE){
+            if(resultCode == RESULT_OK){
+                Toast.makeText(this, getString(R.string.toast_register_succeed),
+                Toast.LENGTH_SHORT).show();
             }
         }
     }

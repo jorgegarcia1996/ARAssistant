@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_button">Login</string>
+    <string name="email_hint">user@email.com</string>
+    <string name="password_hint">Password</string>
+    <string name="register_link">Register now</string>
+    <string name="forgotten_password_hint">Forgot your password?</string>
+    <string name="toast_login_bad_credentials">Incorrect username or password.</string>
+    <string name="toast_generic_error">An error ocurred</string>
+    <string name="toast_logout_success">Logged out</string>
+</resources>

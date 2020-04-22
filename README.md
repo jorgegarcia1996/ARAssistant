@@ -34,5 +34,15 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 
 ## Avances 18/04/2020
 
-* Base de datos creada
-* Login completado y funcional
+* Base de datos creada.
+* Login completado y funcional.
+
+## Avances 22/04/2020
+
+***Lino:***
+* Registro completado y funcional.
+
+***Jorge:***
+* Navegación desde el login al registro.
+* Cambio de contraseña desde la pantalla de login.
+* Optimización de código.

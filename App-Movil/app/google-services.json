@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "84431647466",
+    "firebase_url": "https://arassistant-2e660.firebaseio.com",
+    "project_id": "arassistant-2e660",
+    "storage_bucket": "arassistant-2e660.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84431647466:android:ec26da6e89e23124f0dd93",
+        "android_client_info": {
+          "package_name": "com.iescampanillas.arassistant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "84431647466-d3vb4eqiq1n6gsi6c0m78r16o7qm95gb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iescampanillas.arassistant",
+            "certificate_hash": "af54dc8404d45fabd9bf3744a347e5ddebef987f"
+          }
+        },
+        {
+          "client_id": "84431647466-k9q5u0i71eobrlt7fbl9i85ri9qk4ec8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZ7V0UfzhrHM53ljUNLiSvwrD5R3oZx04"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "84431647466-k9q5u0i71eobrlt7fbl9i85ri9qk4ec8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

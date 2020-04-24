@@ -1,15 +1,13 @@
 package com.iescampanillas.arassistant.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.iescampanillas.arassistant.R;
-import com.iescampanillas.arassistant.constant.BundleName;
-import com.iescampanillas.arassistant.model.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

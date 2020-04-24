@@ -1,32 +1,26 @@
 package com.iescampanillas.arassistant.activity;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.util.Patterns;
+import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.util.Patterns;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.iescampanillas.arassistant.R;
-import com.iescampanillas.arassistant.constant.NumberCode;
 import com.iescampanillas.arassistant.model.User;
-
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

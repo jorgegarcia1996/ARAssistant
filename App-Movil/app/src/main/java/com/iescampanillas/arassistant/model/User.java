@@ -1,6 +1,7 @@
 package com.iescampanillas.arassistant.model;
 
 import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.io.Serializable;
 
 @IgnoreExtraProperties

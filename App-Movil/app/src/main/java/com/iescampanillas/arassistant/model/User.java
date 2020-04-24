@@ -1,6 +1,5 @@
 package com.iescampanillas.arassistant.model;
 
-<<<<<<< HEAD
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
@@ -8,13 +7,7 @@ import java.io.Serializable;
 @IgnoreExtraProperties
 public class User implements Serializable {
 
-    private String name, surname, email;
-=======
-import java.io.Serializable;
-
-public class User implements Serializable {
     private String name, surname,email;
->>>>>>> Jorge_GM
 
     public User() {
     }

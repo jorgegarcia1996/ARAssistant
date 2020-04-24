@@ -76,6 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
 
     private User user;
+    
 
 
     @Override

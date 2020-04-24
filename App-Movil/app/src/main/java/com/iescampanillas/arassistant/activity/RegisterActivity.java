@@ -127,12 +127,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void registerUser(String name, String email, String pass) {
 
-        nameText.getText().clear();
-        lastNameText.getText().clear();
-        emailText.getText().clear();
-        passText.getText().clear();
-        repeatPassText.getText().clear();
-
         fbAuth.createUserWithEmailAndPassword(email, pass)
               .addOnCompleteListener(task -> {
                   UserProfileChangeRequest.Builder user = new UserProfileChangeRequest.Builder();
@@ -143,12 +137,19 @@ public class RegisterActivity extends AppCompatActivity {
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                           @Override
                           public void onComplete(@NonNull Task<Void> task) {
-                              finishActivity(NumberCode.REGISTER_CODE);
+                              //Clear fields
+                              nameText.getText().clear();
+                              lastNameText.getText().clear();
+                              emailText.getText().clear();
+                              passText.getText().clear();
+                              repeatPassText.getText().clear();
+
+                              //Finish activity
+                              setResult(RESULT_OK);
+                              finish();
                           }
                       });
                   }
-
               }).addOnFailureListener(e -> Log.e(TAG, e.getMessage()));
     }
-
 }

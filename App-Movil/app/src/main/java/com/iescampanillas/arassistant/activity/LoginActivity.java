@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,9 +16,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,15 +41,24 @@ public class LoginActivity extends AppCompatActivity {
 
     //Firebase
     private FirebaseAuth fbAuth;
-    private FirebaseDatabase fbDatabase;
 
-    //Layout elements
-    private EditText email, password;
-    private Button btnLogin;
-    private TextView txtForgotPass, txtRegister;
+    //Text inputs
+    @BindView(R.id.loginTextEmailInput)
+    protected TextInputEditText email;
+
+    @BindView(R.id.loginTextPasswordInput)
+    protected TextInputEditText password;
+
+    //Buttons
+    @BindView(R.id.loginLoginButton)
+    protected Button btnLogin;
+
+    @BindView(R.id.loginForgottenPassword)
+    protected MaterialTextView btnForgotPass;
 
     @BindView(R.id.loginTextRegister)
     protected MaterialTextView btnRegister;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,17 +68,8 @@ public class LoginActivity extends AppCompatActivity {
         //ButterKnife implementation
         ButterKnife.bind(this);
 
-        //Get elements and instances
+        //Firebase Auth
         fbAuth = FirebaseAuth.getInstance();
-        btnLogin = findViewById(R.id.loginLoginButton);
-        txtRegister = findViewById(R.id.loginTextRegister);
-        txtForgotPass = findViewById(R.id.loginForgottenPassword);
-        email = findViewById(R.id.loginTextEmailInput);
-        password = findViewById(R.id.loginTextPasswordInput);
-
-        //For fast testing, delete before release
-        email.setText("admin@gmail.com");
-        password.setText("admin123");
 
         //Login
         btnLogin.setOnClickListener(l -> {
@@ -76,51 +80,39 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), R.string.toast_login_bad_credentials, Toast.LENGTH_LONG).show();
                 return;
             }
-
-            fbAuth.signInWithEmailAndPassword(ema, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (!task.isSuccessful()) {
-                        //Login failed
-                        Toast.makeText(getApplicationContext(), R.string.toast_generic_error, Toast.LENGTH_LONG).show();
-                        return;
-                    } else {
-                        //Login success
-                        String uid = fbAuth.getCurrentUser().getUid();
-                        fbDatabase = FirebaseDatabase.getInstance();
-                        DatabaseReference userRef = fbDatabase.getReference().child("user/" + uid);
-
-                        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                User user = dataSnapshot.getValue(User.class);
-                                Bundle loginBundle = new Bundle();
-                                loginBundle.putSerializable(BundleName.USER_DATA, user);
-
-                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                intent.putExtras(loginBundle);
-                                startActivityForResult(intent, NumberCode.LOGIN_CODE);
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                Toast.makeText(getApplicationContext(), R.string.toast_generic_error, Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
+            //Start login process
+            fbAuth.signInWithEmailAndPassword(ema, pass).addOnCompleteListener(task -> {
+                if (!task.isSuccessful()) {
+                    //Login failed
+                    Toast.makeText(getApplicationContext(), R.string.toast_generic_error, Toast.LENGTH_LONG).show();
+                    return;
+                } else {
+                    //Login success
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    startActivityForResult(intent, NumberCode.LOGIN_CODE);
                 }
             });
         });
 
-        //Register
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivityForResult(registerIntent, NumberCode.REGISTER_CODE);
+        //Password recovery
+        btnForgotPass.setOnClickListener(l -> {
+            String ema = email.getText().toString();
+            if (Patterns.EMAIL_ADDRESS.matcher(ema).matches()) {
+                fbAuth.sendPasswordResetEmail(ema).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), R.string.toast_reset_password_email_sent, Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                email.setError(getString(R.string.error_invalid_email));
             }
         });
 
+        //Register
+        btnRegister.setOnClickListener(v -> {
+            Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivityForResult(registerIntent, NumberCode.REGISTER_CODE);
+        });
     }
 
     @Override

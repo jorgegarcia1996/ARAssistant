@@ -33,15 +33,18 @@
             android:layout_width="275dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
+            android:layout_weight="2"
+            app:boxBackgroundColor="#00FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:errorEnabled="true"
             app:layout_constraintTop_toBottomOf="@+id/loginLogo">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/loginTextEmailInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/email_hint"
+                android:hint="@string/hint_email"
                 android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -52,8 +55,12 @@
             android:layout_width="275dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_weight="2"
+            app:endIconMode="password_toggle"
+            app:boxBackgroundColor="#00FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:errorEnabled="true"
             app:layout_constraintTop_toBottomOf="@+id/loginTextEmailLayout">
 
             <com.google.android.material.textfield.TextInputEditText

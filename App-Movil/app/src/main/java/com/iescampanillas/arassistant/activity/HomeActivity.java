@@ -6,32 +6,34 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.iescampanillas.arassistant.R;
 import com.iescampanillas.arassistant.constant.BundleName;
 import com.iescampanillas.arassistant.model.User;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class HomeActivity extends AppCompatActivity {
 
     private FirebaseAuth fbAuth;
-    private TextView home;
-    private User user;
+    private FirebaseUser fbUser;
+
+    @BindView(R.id.textHome)
+    protected TextView home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        //ButterKnife implementation
+        ButterKnife.bind(this);
+
         fbAuth = FirebaseAuth.getInstance();
-        home = findViewById(R.id.textHome);
+        fbUser = fbAuth.getCurrentUser();
 
-        Bundle bundle = getIntent().getExtras();
-        user = (User) bundle.getSerializable(BundleName.USER_DATA);
-
-        getSupportActionBar().setTitle(R.string.app_name);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher_round);
-
-        home.setText(user.toString());
+        home.setText(fbUser.getDisplayName());
 
         home.setOnClickListener(v -> {
             fbAuth.signOut();

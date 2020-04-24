@@ -9,15 +9,16 @@
     <string name="toast_generic_error">Se ha producido un error</string>
     <string name="toast_logout_success">Sesión cerrada</string>
     <string name="toast_register_succeed">Register completed successfully!</string>
-    <string name="label_create_account">Create account</string>
-    <string name="hint_name">Name</string>
-    <string name="hint_lastname">Last name</string>
+    <string name="label_create_account">Crear cuenta</string>
+    <string name="hint_name">Nombre</string>
+    <string name="hint_lastname">Apellidos</string>
     <string name="hint_email" translatable="false">Email</string>
-    <string name="hint_password">Password</string>
-    <string name="hint_repeat_pass">Repeat password</string>
-    <string name="error_empty_fields">This field can not be empty</string>
-    <string name="error_min_length">Too short, minimum 3 characters</string>
-    <string name="error_invalid_email">The email format is not valid</string>
-    <string name="error_pass_length">Password length minimum 6 characters</string>
-    <string name="error_pass_match">Password does not match</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="hint_repeat_pass">Repetir contraseña</string>
+    <string name="error_empty_fields">Este campo no puede estar vacío</string>
+    <string name="error_min_length">Demasiado corto, mínimo 3 carácteres</string>
+    <string name="error_invalid_email">El formato del email es incorrecto</string>
+    <string name="error_pass_length">La contraseña debe tener 6 caráctertes como mínimo</string>
+    <string name="error_pass_match">Las contraseñas no coinciden</string>
+    <string name="toast_reset_password_email_sent">Le hemos enviado un email para cambiar la contraseña</string>
 </resources>

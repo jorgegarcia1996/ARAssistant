@@ -20,8 +20,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.iescampanillas.arassistant.R;
 import com.iescampanillas.arassistant.constant.NumberCode;
+import com.iescampanillas.arassistant.model.User;
 
 import java.util.Objects;
 
@@ -76,6 +79,9 @@ public class RegisterActivity extends AppCompatActivity {
     //Firebase
     private FirebaseAuth fbAuth;
     private FirebaseUser fbUser;
+    private DatabaseReference mDatabase;
+
+    private User user;
 
 
     @Override
@@ -89,6 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
         //Firebase
         fbAuth = FirebaseAuth.getInstance();
         fbUser = fbAuth.getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         //Cancel Register
         toolbar.setNavigationOnClickListener(v -> finish());
@@ -121,19 +128,19 @@ public class RegisterActivity extends AppCompatActivity {
         } else if (!repeatPass.equals(pass)) {
             repeatPassInput.setError(getString(R.string.error_pass_match));
         } else {
-            registerUser(name + " " + lastName, email, pass);
+            registerUser(name, lastName, email, pass);
         }
     }
 
-    private void registerUser(String name, String email, String pass) {
+    private void registerUser(String name, String lastName, String email, String pass) {
 
         fbAuth.createUserWithEmailAndPassword(email, pass)
               .addOnCompleteListener(task -> {
-                  UserProfileChangeRequest.Builder user = new UserProfileChangeRequest.Builder();
-                  user.setDisplayName(name);
+                  UserProfileChangeRequest.Builder user1 = new UserProfileChangeRequest.Builder();
+                  user1.setDisplayName(name + " " + lastName);
 
                   if (fbAuth.getCurrentUser() != null) {
-                      fbAuth.getCurrentUser().updateProfile(user.build())
+                      fbAuth.getCurrentUser().updateProfile(user1.build())
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                           @Override
                           public void onComplete(@NonNull Task<Void> task) {
@@ -144,12 +151,31 @@ public class RegisterActivity extends AppCompatActivity {
                               passText.getText().clear();
                               repeatPassText.getText().clear();
 
-                              //Finish activity
-                              setResult(RESULT_OK);
-                              finish();
+                              user = new User();
+
+                              user.setName(name);
+                              user.setSurname(lastName);
+                              user.setEmail(email);
+
+                              if(user != null) {
+                                  createUserDB(user);
+                              } else {
+                                  Toast.makeText(RegisterActivity.this, getString(R.string.toast_generic_error),
+                                  Toast.LENGTH_SHORT).show();
+                              }
+
                           }
                       });
                   }
               }).addOnFailureListener(e -> Log.e(TAG, e.getMessage()));
+    }
+
+    private void createUserDB(User user) {
+
+        mDatabase.child("user").push().setValue(user);
+
+        //Finish activity
+        setResult(RESULT_OK);
+        finish();
     }
 }

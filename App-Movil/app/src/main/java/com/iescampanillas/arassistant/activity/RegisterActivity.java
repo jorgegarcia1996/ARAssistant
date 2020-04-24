@@ -104,8 +104,12 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
 
     private User user;
+<<<<<<< HEAD
 =======
 >>>>>>> Jorge_GM
+=======
+    
+>>>>>>> Lino
 
 
     @Override

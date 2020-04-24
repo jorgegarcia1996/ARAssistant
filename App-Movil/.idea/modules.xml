@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ARAssistant.iml" filepath="$PROJECT_DIR$/ARAssistant.iml" group="ARAssistant" />
+      <module fileurl="file://$PROJECT_DIR$/App-Movil-ARAssistant.iml" filepath="$PROJECT_DIR$/App-Movil-ARAssistant.iml" group="ARAssistant" />
+      <module fileurl="file://$PROJECT_DIR$/app/App-Movil-app.iml" filepath="$PROJECT_DIR$/app/App-Movil-app.iml" group="ARAssistant/app" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="ARAssistant/app" />
+    </modules>
+  </component>
+</project>

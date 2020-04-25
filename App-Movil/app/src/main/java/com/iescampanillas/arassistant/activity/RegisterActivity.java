@@ -1,29 +1,26 @@
 package com.iescampanillas.arassistant.activity;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.util.Patterns;
+import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.util.Patterns;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.iescampanillas.arassistant.R;
-import com.iescampanillas.arassistant.constant.NumberCode;
-
-import java.util.Objects;
+import com.iescampanillas.arassistant.model.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,6 +73,10 @@ public class RegisterActivity extends AppCompatActivity {
     //Firebase
     private FirebaseAuth fbAuth;
     private FirebaseUser fbUser;
+    private DatabaseReference mDatabase;
+
+    private User user;
+
 
 
     @Override
@@ -89,6 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
         //Firebase
         fbAuth = FirebaseAuth.getInstance();
         fbUser = fbAuth.getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         //Cancel Register
         toolbar.setNavigationOnClickListener(v -> finish());
@@ -121,35 +123,54 @@ public class RegisterActivity extends AppCompatActivity {
         } else if (!repeatPass.equals(pass)) {
             repeatPassInput.setError(getString(R.string.error_pass_match));
         } else {
-            registerUser(name + " " + lastName, email, pass);
+            registerUser(name, lastName, email, pass);
         }
     }
 
-    private void registerUser(String name, String email, String pass) {
+    private void registerUser(String name, String lastName, String email, String pass) {
 
         fbAuth.createUserWithEmailAndPassword(email, pass)
-              .addOnCompleteListener(task -> {
-                  UserProfileChangeRequest.Builder user = new UserProfileChangeRequest.Builder();
-                  user.setDisplayName(name);
+                .addOnCompleteListener(task -> {
+                    UserProfileChangeRequest.Builder user1 = new UserProfileChangeRequest.Builder();
+                    user1.setDisplayName(name + " " + lastName);
 
-                  if (fbAuth.getCurrentUser() != null) {
-                      fbAuth.getCurrentUser().updateProfile(user.build())
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                          @Override
-                          public void onComplete(@NonNull Task<Void> task) {
-                              //Clear fields
-                              nameText.getText().clear();
-                              lastNameText.getText().clear();
-                              emailText.getText().clear();
-                              passText.getText().clear();
-                              repeatPassText.getText().clear();
+                    if (fbAuth.getCurrentUser() != null) {
+                        fbAuth.getCurrentUser().updateProfile(user1.build())
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        //Clear fields
+                                        nameText.getText().clear();
+                                        lastNameText.getText().clear();
+                                        emailText.getText().clear();
+                                        passText.getText().clear();
+                                        repeatPassText.getText().clear();
 
-                              //Finish activity
-                              setResult(RESULT_OK);
-                              finish();
-                          }
-                      });
-                  }
-              }).addOnFailureListener(e -> Log.e(TAG, e.getMessage()));
+                                        user = new User();
+
+                                        user.setName(name);
+                                        user.setSurname(lastName);
+                                        user.setEmail(email);
+
+                                        if(user != null) {
+                                            createUserDB(user);
+                                        } else {
+                                            Toast.makeText(RegisterActivity.this, getString(R.string.toast_generic_error),
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+
+                                    }
+                                });
+                    }
+                }).addOnFailureListener(e -> Log.e(TAG, e.getMessage()));
+    }
+
+    private void createUserDB(User user) {
+
+        mDatabase.child("user").push().setValue(user);
+
+        //Finish activity
+        setResult(RESULT_OK);
+        finish();
     }
 }

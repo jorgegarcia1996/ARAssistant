@@ -20,4 +20,7 @@
     <string name="error_pass_length">La contraseña debe tener al menos 6 caracteres</string>
     <string name="error_pass_match">Password does not match</string>
     <string name="toast_reset_password_email_sent">Email sent to reset password</string>
+    <string name="label_task">Tasks</string>
+    <string name="label_reminder">Reminders</string>
+    <string name="label_home">Home</string>
 </resources>

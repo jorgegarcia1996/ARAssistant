@@ -21,4 +21,12 @@
     <string name="error_pass_length">La contraseña debe tener 6 caráctertes como mínimo</string>
     <string name="error_pass_match">Las contraseñas no coinciden</string>
     <string name="toast_reset_password_email_sent">Le hemos enviado un email para cambiar la contraseña</string>
+    <string name="profile_label">Profile</string>
+    <string name="settings_label">Settings</string>
+    <string name="link_ar_label">Link glasses</string>
+    <string name="notification_label">Notifications</string>
+    <string name="family_label">Family configuration</string>
+    <string name="account_label">Account</string>
+    <string name="sign_out_label">Sign out</string>
+    <string name="del_acc_label">Delete account</string>
 </resources>

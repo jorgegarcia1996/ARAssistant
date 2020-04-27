@@ -1,6 +1,8 @@
 package com.iescampanillas.arassistant.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +22,9 @@ public class HomeActivity extends AppCompatActivity {
     @BindView(R.id.textHome)
     protected TextView home;
 
+    @BindView(R.id.textt_profile)
+    protected TextView profile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,10 +38,31 @@ public class HomeActivity extends AppCompatActivity {
 
         home.setText(fbUser.getDisplayName());
 
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
         home.setOnClickListener(v -> {
             fbAuth.signOut();
             setResult(RESULT_OK);
             finish();
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(currentUser == null) {
+            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+            finish();
+            startActivity(intent);
+        }
     }
 }

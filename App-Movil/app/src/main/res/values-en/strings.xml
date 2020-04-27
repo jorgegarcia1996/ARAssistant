@@ -20,4 +20,12 @@
     <string name="error_pass_length">La contraseña debe tener al menos 6 caracteres</string>
     <string name="error_pass_match">Password does not match</string>
     <string name="toast_reset_password_email_sent">Email sent to reset password</string>
+    <string name="profile_label">Perfil</string>
+    <string name="settings_label">Ajustes</string>
+    <string name="link_ar_label">Enlazar gafas</string>
+    <string name="notification_label">Notificaciones</string>
+    <string name="family_label">Administrar familia</string>
+    <string name="account_label">Cuenta</string>
+    <string name="sign_out_label">Cerrar sesión</string>
+    <string name="del_acc_label">Eliminar cuenta</string>
 </resources>

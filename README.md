@@ -7,16 +7,19 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 
 ## Avances 24/03/2020
 
+***Jorge:***
 * Diagrama UML de casos de uso para la app móvil.
 * Diagrama E/R de la base de datos.
 * Árbol JSON con la estructura de la BBDD para Firebase.
 
 ## Avances 29/03/2020
 
+***Jorge:***
 * Tablas de requisitos de la base de datos.
 
 ## Avances 02/04/2020
 
+***Jorge y Rafaél:***
 * Mockup de la App Movil.
 * Diseño de pantallas, [Demo online](https://www.figma.com/proto/pXeGToLrAQjJCZh8pPeCtl/Arassistant_Pantallas?node-id=1%3A5&scaling=min-zoom)
 
@@ -34,6 +37,7 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 
 ## Avances 18/04/2020
 
+***Jorge:***
 * Base de datos creada.
 * Login completado y funcional.
 
@@ -46,3 +50,8 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 * Navegación desde el login al registro.
 * Cambio de contraseña desde la pantalla de login.
 * Optimización de código.
+
+## Avances 24/04/2020
+
+***Lino***
+* Guardar los datos del usuario en Firebase Database

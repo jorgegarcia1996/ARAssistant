@@ -76,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
 
     private User user;
-    
+
 
 
     @Override
@@ -130,39 +130,39 @@ public class RegisterActivity extends AppCompatActivity {
     private void registerUser(String name, String lastName, String email, String pass) {
 
         fbAuth.createUserWithEmailAndPassword(email, pass)
-              .addOnCompleteListener(task -> {
-                  UserProfileChangeRequest.Builder user1 = new UserProfileChangeRequest.Builder();
-                  user1.setDisplayName(name + " " + lastName);
+                .addOnCompleteListener(task -> {
+                    UserProfileChangeRequest.Builder user1 = new UserProfileChangeRequest.Builder();
+                    user1.setDisplayName(name + " " + lastName);
 
-                  if (fbAuth.getCurrentUser() != null) {
-                      fbAuth.getCurrentUser().updateProfile(user1.build())
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                          @Override
-                          public void onComplete(@NonNull Task<Void> task) {
-                              //Clear fields
-                              nameText.getText().clear();
-                              lastNameText.getText().clear();
-                              emailText.getText().clear();
-                              passText.getText().clear();
-                              repeatPassText.getText().clear();
+                    if (fbAuth.getCurrentUser() != null) {
+                        fbAuth.getCurrentUser().updateProfile(user1.build())
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        //Clear fields
+                                        nameText.getText().clear();
+                                        lastNameText.getText().clear();
+                                        emailText.getText().clear();
+                                        passText.getText().clear();
+                                        repeatPassText.getText().clear();
 
-                              user = new User();
+                                        user = new User();
 
-                              user.setName(name);
-                              user.setSurname(lastName);
-                              user.setEmail(email);
+                                        user.setName(name);
+                                        user.setSurname(lastName);
+                                        user.setEmail(email);
 
-                              if(user != null) {
-                                  createUserDB(user);
-                              } else {
-                                  Toast.makeText(RegisterActivity.this, getString(R.string.toast_generic_error),
-                                  Toast.LENGTH_SHORT).show();
-                              }
+                                        if(user != null) {
+                                            createUserDB(user);
+                                        } else {
+                                            Toast.makeText(RegisterActivity.this, getString(R.string.toast_generic_error),
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
 
-                          }
-                      });
-                  }
-              }).addOnFailureListener(e -> Log.e(TAG, e.getMessage()));
+                                    }
+                                });
+                    }
+                }).addOnFailureListener(e -> Log.e(TAG, e.getMessage()));
     }
 
     private void createUserDB(User user) {

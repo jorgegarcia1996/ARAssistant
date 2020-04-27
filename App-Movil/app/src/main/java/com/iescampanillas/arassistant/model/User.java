@@ -7,7 +7,7 @@ import java.io.Serializable;
 @IgnoreExtraProperties
 public class User implements Serializable {
 
-    private String name, surname, email;
+    private String name, surname,email;
 
     public User() {
     }

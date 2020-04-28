@@ -55,3 +55,8 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 
 ***Lino***
 * Guardar los datos del usuario en Firebase Database
+
+## Avances 27/04/2020
+
+***Lino***
+* Perfil del usuario hecho y con algunas nuevas funcionalidades.

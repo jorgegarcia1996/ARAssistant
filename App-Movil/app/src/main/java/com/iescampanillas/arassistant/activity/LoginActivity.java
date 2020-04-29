@@ -13,7 +13,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.iescampanillas.arassistant.R;
-import com.iescampanillas.arassistant.constant.NumberCode;
+import com.iescampanillas.arassistant.constant.AppCode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +55,10 @@ public class LoginActivity extends AppCompatActivity {
         //Firebase Auth
         fbAuth = FirebaseAuth.getInstance();
 
+        //Delete before release
+        email.setText("junillo@yopmail.com");
+        password.setText("12345678");
+
         //Login
         btnLogin.setOnClickListener(l -> {
             String ema = email.getText().toString();
@@ -73,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     //Login success
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivityForResult(intent, NumberCode.LOGIN_CODE);
+                    startActivityForResult(intent, AppCode.LOGIN_CODE);
                 }
             });
         });
@@ -95,19 +99,19 @@ public class LoginActivity extends AppCompatActivity {
         //Register
         btnRegister.setOnClickListener(v -> {
             Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-            startActivityForResult(registerIntent, NumberCode.REGISTER_CODE);
+            startActivityForResult(registerIntent, AppCode.REGISTER_CODE);
         });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == NumberCode.LOGIN_CODE){
+        if(requestCode == AppCode.LOGIN_CODE){
             if (resultCode == RESULT_OK) {
                 Toast.makeText(getApplicationContext(), R.string.toast_logout_success, Toast.LENGTH_LONG).show();
             }
         }
-        if(requestCode == NumberCode.REGISTER_CODE){
+        if(requestCode == AppCode.REGISTER_CODE){
             if(resultCode == RESULT_OK){
                 Toast.makeText(this, getString(R.string.toast_register_succeed),
                 Toast.LENGTH_SHORT).show();

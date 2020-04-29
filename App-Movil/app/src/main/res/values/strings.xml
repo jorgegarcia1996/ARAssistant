@@ -26,5 +26,10 @@
     <string name="label_home">Inicio</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="label_create_task">Nueva tarea</string>
+    <string name="hint_title">Titulo</string>
+    <string name="hint_desc">Descripción</string>
+    <string name="toast_create_task_success">Tarea creada correctamente</string>
+    <string name="toast_create_task_error">No se ha podido crear la tarea</string>
 </resources>

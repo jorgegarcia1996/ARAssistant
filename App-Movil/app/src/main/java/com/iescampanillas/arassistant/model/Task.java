@@ -7,13 +7,14 @@ import java.io.Serializable;
 @IgnoreExtraProperties
 public class Task implements Serializable {
 
-    private String id, title,description;
+    private String title,description;
 
     public Task() {
     }
 
-    public String getId() {
-        return id;
+    public Task( String title, String desc) {
+        this.title = title;
+        this.description = desc;
     }
 
     public String getTitle() {

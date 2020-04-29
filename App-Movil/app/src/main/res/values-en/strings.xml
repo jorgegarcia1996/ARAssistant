@@ -23,4 +23,9 @@
     <string name="label_task">Tasks</string>
     <string name="label_reminder">Reminders</string>
     <string name="label_home">Home</string>
+    <string name="label_create_task">New task</string>
+    <string name="hint_title">Title</string>
+    <string name="hint_desc">Description</string>
+    <string name="toast_create_task_success">Task added successfully</string>
+    <string name="toast_create_task_error">The task could not be created</string>
 </resources>

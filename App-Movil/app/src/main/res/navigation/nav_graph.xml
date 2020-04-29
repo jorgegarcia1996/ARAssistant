@@ -18,5 +18,21 @@
         android:id="@+id/taskFragment"
         android:name="com.iescampanillas.arassistant.fragment.TaskFragment"
         android:label="fragment_task"
-        tools:layout="@layout/fragment_task" />
+        tools:layout="@layout/fragment_task" >
+        <action
+            android:id="@+id/task_to_createTask"
+            app:destination="@id/createTaskFragment" />
+        <action
+            android:id="@+id/task_to_home"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createTaskFragment"
+        android:name="com.iescampanillas.arassistant.fragment.CreateTaskFragment"
+        android:label="fragment_create_task"
+        tools:layout="@layout/fragment_create_task" >
+        <action
+            android:id="@+id/createTask_to_task"
+            app:destination="@id/taskFragment" />
+    </fragment>
 </navigation>

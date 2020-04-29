@@ -2,16 +2,57 @@ package com.iescampanillas.arassistant.fragment;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.iescampanillas.arassistant.R;
+import com.iescampanillas.arassistant.adapter.TaskAdapter;
+import com.iescampanillas.arassistant.model.Task;
+import com.iescampanillas.arassistant.utils.Generator;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import static androidx.navigation.Navigation.findNavController;
 
 public class TaskFragment extends Fragment {
 
+    //FBDatabase
+    private FirebaseDatabase fbDatabase;
+
+    //Array
+    private ArrayList<Task> tasksList;
+
+    //Adapter
+    private TaskAdapter taskAdapter;
+
+    //Recycler
+    private RecyclerView tasksRecycler;
+
+    //Toolbar
+    private Toolbar toolbar;
+
+    //Add task button
+    private Button createTaskBtn;
 
     public TaskFragment() {
     }
@@ -20,6 +61,43 @@ public class TaskFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View taskView = inflater.inflate(R.layout.fragment_task, container, false);
+
+        toolbar = taskView.findViewById(R.id.fragmentTaskToolbar);
+        toolbar.setNavigationOnClickListener(v -> findNavController(v).navigate(R.id.task_to_home));
+
+        createTaskBtn = taskView.findViewById(R.id.fragmentTaskCreateBtn);
+        createTaskBtn.setOnClickListener(v -> findNavController(v).navigate(R.id.task_to_createTask));
+
+
+        //Adapter
+        taskAdapter = new TaskAdapter(getActivity());
+
+        //Recycler
+        tasksRecycler = taskView.findViewById(R.id.fragmentTaskRecycler);
+        tasksRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        tasksRecycler.setAdapter(taskAdapter);
+
+        //Start array
+        tasksList = new ArrayList<>();
+
+        fbDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference tasksRef = fbDatabase.getReference("task/");
+        tasksRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot dSnap: dataSnapshot.getChildren()) {
+                    Task task = dSnap.getValue(Task.class);
+                    tasksList.add(task);
+                }
+                taskAdapter.setData(tasksList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.i("FIREBASE", databaseError.getMessage());
+            }
+        });
+
         return taskView;
     }
 }

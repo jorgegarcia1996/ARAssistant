@@ -1,5 +1,6 @@
 package com.iescampanillas.arassistant.constant;
 
-public interface BundleName {
+public interface AppString {
     String USER_DATA = "userData";
+    String taskPrefix = "task_";
 }

@@ -62,3 +62,10 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 * Modelo para las tareas creado
 * Fragmentos para el home y las tareas creados
 * Navegación entre fragmentos implementada
+
+## Avances 29/04/2020
+
+***Jorge***
+* Listado de tareas sin filtro
+* Crear nueva tarea y guardarla en FB
+* Generador IDs

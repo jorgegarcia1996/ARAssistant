@@ -1,25 +1,33 @@
 package com.iescampanillas.arassistant.fragment;
 
+import android.accessibilityservice.AccessibilityService;
+import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.iescampanillas.arassistant.R;
 import com.iescampanillas.arassistant.constant.AppString;
 import com.iescampanillas.arassistant.model.Task;
 import com.iescampanillas.arassistant.utils.Generator;
+import com.iescampanillas.arassistant.utils.KeyboardUtils;
+
+import java.util.HashMap;
 
 import static androidx.navigation.Navigation.findNavController;
 
@@ -30,6 +38,9 @@ public class CreateTaskFragment extends Fragment {
 
     //Task
     private Task task;
+
+    //Boolean
+    private Boolean isUpdate;
 
     //Inputs
     private EditText taskTitle, taskDescription;
@@ -43,6 +54,12 @@ public class CreateTaskFragment extends Fragment {
     public CreateTaskFragment() {
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //Show keyboard
+        KeyboardUtils.showKeyboard(getActivity());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,33 +73,84 @@ public class CreateTaskFragment extends Fragment {
         taskDescription = createTaskView.findViewById(R.id.fragmentCreateTaskDescText);
         saveTask = createTaskView.findViewById(R.id.fragmentCreateTaskConfirmBtn);
 
-        task = new Task();
+        //Check if are any arguments for create new task or update
+        if(getArguments() != null) {
+            //Get arguments
+            task = (Task) getArguments().get(AppString.TASK_TO_EDIT);
+            taskTitle.setText(task.getTitle());
+            taskDescription.setText(task.getDescription());
+            isUpdate = true;
+        } else {
+            //Create new task
+            task = new Task();
+            isUpdate = false;
+        }
+
+        //Set focus
+        taskTitle.setFocusable(true);
+        taskTitle.requestFocus();
 
         //Back button
         toolbar.setNavigationOnClickListener(v -> findNavController(v).navigate(R.id.createTask_to_task));
 
-        saveTask.setOnClickListener(v -> {
-            //Generate task Id
-            String taskId = new Generator().generateId(AppString.taskPrefix);
-            //Save Task object
+        //Save button
+        saveTask.setOnClickListener(this::saveTask);
+
+        return createTaskView;
+    }
+
+    /**
+     * Method to save the task data in firebase
+     *
+     * @param v is the current view
+     * */
+    private void saveTask(View v) {
+        //Check if title input is empty
+        if (taskTitle.getText().toString().equals("")) {
+            //Empty
+            taskTitle.setError(getString(R.string.error_empty_fields));
+        } else {
+            //Get the data if not empty
             task.setTitle(taskTitle.getText().toString());
             task.setDescription(taskDescription.getText().toString());
 
-            fbDatabase.getReference().child("task").child(taskId).setValue(task).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(getActivity().getApplicationContext(), R.string.toast_create_task_success, Toast.LENGTH_LONG).show();
-                    taskTitle.getText().clear();
-                    taskDescription.getText().clear();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getActivity().getApplicationContext(), R.string.toast_create_task_error, Toast.LENGTH_LONG).show();
-                }
-            });
-        });
+            //Database reference
+            DatabaseReference dbRef = fbDatabase.getReference();
 
-        return createTaskView;
+            //Check if is an update or create a new task
+            if (isUpdate) {
+                //Update the task in Firebase
+                HashMap<String, Object> taskUpdate = new HashMap<>();
+                taskUpdate.put(AppString.DB_TASK_REF + task.getId(), task);
+                dbRef.updateChildren(taskUpdate).addOnSuccessListener(aVoid -> {
+                    //Update Success
+                    Toast.makeText(getActivity().getApplicationContext(), R.string.toast_update_task_success, Toast.LENGTH_LONG).show();
+                }).addOnFailureListener(e -> {
+                    //Update Failed
+                    Toast.makeText(getActivity().getApplicationContext(), R.string.toast_update_task_error, Toast.LENGTH_LONG).show();
+                });
+                //Return to Task list
+                findNavController(v).navigate(R.id.createTask_to_task);
+            } else {
+                //New task
+                //Generate task Id
+                String taskId = new Generator().generateId(AppString.TASK_PREFIX);
+                task.setId(taskId);
+                //Create the task in Firebase
+                dbRef.child(AppString.DB_TASK_REF).child(taskId).setValue(task)
+                        .addOnSuccessListener(aVoid -> {
+                            //Created Successfully
+                            Toast.makeText(getActivity().getApplicationContext(), R.string.toast_create_task_success, Toast.LENGTH_LONG).show();
+                            taskTitle.getText().clear();
+                            taskDescription.getText().clear();
+                            //Set focus
+                            taskTitle.setFocusable(true);
+                            taskTitle.requestFocus();
+                        }).addOnFailureListener(e -> {
+                            //Failure in creation process
+                            Toast.makeText(getActivity().getApplicationContext(), R.string.toast_create_task_error, Toast.LENGTH_LONG).show();
+                        });
+            }
+        }
     }
 }

@@ -28,4 +28,11 @@
     <string name="hint_desc">Description</string>
     <string name="toast_create_task_success">Task added successfully</string>
     <string name="toast_create_task_error">The task could not be created</string>
+    <string name="toast_update_task_success">Task updated</string>
+    <string name="toast_update_task_error">The task could not be updated</string>
+    <string name="toast_get_task_error">Tasks could not be readed</string>
+    <string name="label_close_dialog">Close</string>
+    <string name="label_edit_dialog">Edit</string>
+    <string name="label_delete_dialog">Delete</string>
+    <string name="toast_deleted_task">The task has been deleted</string>
 </resources>

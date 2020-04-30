@@ -15,13 +15,13 @@ public final class Generator {
      * @return Returns a random string
      * */
     public String generateId(String prefix) {
-        Random generator = new Random();
+        Random random = new Random();
         int length = 30;
         StringBuilder randomStringBuilder = new StringBuilder();
         char tempChar;
         int num, start;
         for (int i = 0; i < length; i++){
-            switch(generator.nextInt(4)) {
+            switch(random.nextInt(4)) {
                 case 0:
                     num = 9;
                     start = 48;
@@ -35,7 +35,7 @@ public final class Generator {
                     start = 97;
                     break;
             }
-            tempChar = (char) (generator.nextInt(num) + start);
+            tempChar = (char) (random.nextInt(num) + start);
             randomStringBuilder.append(tempChar);
         }
         return prefix + randomStringBuilder.toString();

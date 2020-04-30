@@ -32,4 +32,11 @@
     <string name="hint_desc">Descripción</string>
     <string name="toast_create_task_success">Tarea creada correctamente</string>
     <string name="toast_create_task_error">No se ha podido crear la tarea</string>
+    <string name="toast_update_task_success">Tarea actualizada</string>
+    <string name="toast_update_task_error">No se ha podido actualizar la tarea</string>
+    <string name="toast_get_task_error">No se han podido leer las tareas</string>
+    <string name="label_close_dialog">Cerrar</string>
+    <string name="label_edit_dialog">Editar</string>
+    <string name="label_delete_dialog">Borrar</string>
+    <string name="toast_deleted_task">La tarea ha sido eliminada</string>
 </resources>

@@ -17,5 +17,32 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 
 ## Avances 02/04/2020
 
-* Mockup de la App Movil
+* Mockup de la App Movil.
 * Diseño de pantallas, [Demo online](https://www.figma.com/proto/pXeGToLrAQjJCZh8pPeCtl/Arassistant_Pantallas?node-id=1%3A5&scaling=min-zoom)
+
+## Avances 17/04/2020
+
+***Jorge:***
+* Layout del login creado.
+* Logo e icono para la app-móvil creados.
+* Mockup y diseño de pantallas actualizado.
+
+***Lino:***
+* Layout del registro.
+* Diseño del tutorial de primeros pasos en la app.
+* Conexión firebase.
+
+## Avances 18/04/2020
+
+* Base de datos creada.
+* Login completado y funcional.
+
+## Avances 22/04/2020
+
+***Lino:***
+* Registro completado y funcional.
+
+***Jorge:***
+* Navegación desde el login al registro.
+* Cambio de contraseña desde la pantalla de login.
+* Optimización de código.

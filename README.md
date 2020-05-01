@@ -70,6 +70,9 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 * Crear nueva tarea y guardarla en FB
 * Generador IDs
 
+***Lino***
+* Pantalla de perfil creada
+
 ## Avances 30/04/2020
 
 ***Jorge***

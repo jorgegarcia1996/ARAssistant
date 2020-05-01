@@ -19,11 +19,6 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth fbAuth;
     private FirebaseUser fbUser;
 
-    @BindView(R.id.textHome)
-    protected TextView home;
-
-    @BindView(R.id.textt_profile)
-    protected TextView profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,21 +31,6 @@ public class HomeActivity extends AppCompatActivity {
         fbAuth = FirebaseAuth.getInstance();
         fbUser = fbAuth.getCurrentUser();
 
-        home.setText(fbUser.getDisplayName());
-
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        home.setOnClickListener(v -> {
-            fbAuth.signOut();
-            setResult(RESULT_OK);
-            finish();
-        });
     }
 
     @Override

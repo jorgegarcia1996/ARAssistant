@@ -55,3 +55,25 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 
 ***Lino***
 * Guardar los datos del usuario en Firebase Database
+
+## Avances 25/04/2020
+
+***Jorge***
+* Modelo para las tareas creado
+* Fragmentos para el home y las tareas creados
+* Navegación entre fragmentos implementada
+
+## Avances 29/04/2020
+
+***Jorge***
+* Listado de tareas sin filtro
+* Crear nueva tarea y guardarla en FB
+* Generador IDs
+
+***Lino***
+* Pantalla de perfil creada
+
+## Avances 30/04/2020
+
+***Jorge***
+* CRUD de las tareas implementado

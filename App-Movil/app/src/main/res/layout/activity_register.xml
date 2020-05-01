@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".activity.RegisterActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/register_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,21 +21,21 @@
         app:title="@string/label_create_account"
         app:titleTextColor="@color/primaryTextColor">
 
-        <Button
-            android:id="@+id/register_accept_btn"
-            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:background="#00FFFFFF"
-            android:checkable="false"
-            android:clickable="false"
-            app:icon="@drawable/ic_check_white_24dp"
-            app:iconTint="#FFFFFF"
-            tools:layout_editor_absoluteX="285dp"
-            tools:layout_editor_absoluteY="4dp" />
+    <Button
+        android:id="@+id/register_accept_btn"
+        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:background="#00FFFFFF"
+        android:checkable="false"
+        android:clickable="false"
+        app:icon="@drawable/ic_check_white_24dp"
+        app:iconTint="#FFFFFF"
+        tools:layout_editor_absoluteX="285dp"
+        tools:layout_editor_absoluteY="4dp" />
 
-    </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.MaterialToolbar>
 
 
     <LinearLayout

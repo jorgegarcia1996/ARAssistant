@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.iescampanillas.arassistant"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -30,6 +30,8 @@ android {
 }
 
 dependencies {
+    def nav_version = "2.3.0-alpha01"
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //Google services
     implementation 'com.google.firebase:firebase-analytics:17.3.0'
@@ -38,7 +40,15 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.0-alpha06'
 
     implementation 'com.jakewharton:butterknife:10.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
+
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

@@ -21,6 +21,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +33,7 @@ import com.iescampanillas.arassistant.constant.AppString;
 import com.iescampanillas.arassistant.model.Task;
 import com.iescampanillas.arassistant.utils.Generator;
 import com.iescampanillas.arassistant.utils.KeyboardUtils;
+import com.iescampanillas.arassistant.utils.UserUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,9 +102,12 @@ public class TaskFragment extends Fragment {
         //Start array
         tasksList = new ArrayList<>();
 
+        //Get user UID to only read his tasks
+        String uid = new UserUtils().getCurrentUserUid();
+
         //Get the data from database and send it to the adapter
         fbDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference tasksRef = fbDatabase.getReference(AppString.DB_TASK_REF);
+        DatabaseReference tasksRef = fbDatabase.getReference(AppString.DB_TASK_REF + uid);
         tasksRef.addValueEventListener(new ValueEventListener() {
             //Get data
             @Override

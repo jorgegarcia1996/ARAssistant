@@ -15,10 +15,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.iescampanillas.arassistant.R;
 import com.iescampanillas.arassistant.constant.AppString;
 import com.iescampanillas.arassistant.model.Task;
+import com.iescampanillas.arassistant.utils.UserUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -115,7 +117,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
      * */
     private void deleteTask(String taskId) {
         fbDatabase = FirebaseDatabase.getInstance();
-        fbDatabase.getReference(AppString.DB_TASK_REF).child(taskId).removeValue();
+        String uid = new UserUtils().getCurrentUserUid();
+        fbDatabase.getReference(AppString.DB_TASK_REF).child(uid).child(taskId).removeValue();
         Toast.makeText(ctx, R.string.toast_deleted_task, Toast.LENGTH_SHORT).show();
         data.clear();
     }

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.iescampanillas.arassistant.R;
@@ -26,6 +27,7 @@ import com.iescampanillas.arassistant.constant.AppString;
 import com.iescampanillas.arassistant.model.Task;
 import com.iescampanillas.arassistant.utils.Generator;
 import com.iescampanillas.arassistant.utils.KeyboardUtils;
+import com.iescampanillas.arassistant.utils.UserUtils;
 
 import java.util.HashMap;
 
@@ -114,6 +116,9 @@ public class CreateTaskFragment extends Fragment {
             task.setTitle(taskTitle.getText().toString());
             task.setDescription(taskDescription.getText().toString());
 
+            //Get UID for link the task to user
+            String uid = new UserUtils().getCurrentUserUid();
+
             //Database reference
             DatabaseReference dbRef = fbDatabase.getReference();
 
@@ -121,7 +126,7 @@ public class CreateTaskFragment extends Fragment {
             if (isUpdate) {
                 //Update the task in Firebase
                 HashMap<String, Object> taskUpdate = new HashMap<>();
-                taskUpdate.put(AppString.DB_TASK_REF + task.getId(), task);
+                taskUpdate.put(AppString.DB_TASK_REF + uid + "/" + task.getId(), task);
                 dbRef.updateChildren(taskUpdate).addOnSuccessListener(aVoid -> {
                     //Update Success
                     Toast.makeText(getActivity().getApplicationContext(), R.string.toast_update_task_success, Toast.LENGTH_LONG).show();
@@ -137,7 +142,7 @@ public class CreateTaskFragment extends Fragment {
                 String taskId = new Generator().generateId(AppString.TASK_PREFIX);
                 task.setId(taskId);
                 //Create the task in Firebase
-                dbRef.child(AppString.DB_TASK_REF).child(taskId).setValue(task)
+                dbRef.child(AppString.DB_TASK_REF).child(uid).child(taskId).setValue(task)
                         .addOnSuccessListener(aVoid -> {
                             //Created Successfully
                             Toast.makeText(getActivity().getApplicationContext(), R.string.toast_create_task_success, Toast.LENGTH_LONG).show();

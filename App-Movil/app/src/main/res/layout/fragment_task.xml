@@ -43,11 +43,19 @@
 
         </androidx.appcompat.widget.Toolbar>
 
+        <Spinner
+            android:id="@+id/fragmentTaskCategorySpinner"
+            style="@style/SpinnerTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentTaskToolbar"
+            tools:layout_editor_absoluteX="0dp"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragmentTaskRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/fragmentTaskToolbar"/>
+            app:layout_constraintTop_toBottomOf="@+id/fragmentTaskCategorySpinner"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

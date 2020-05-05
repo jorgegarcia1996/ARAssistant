@@ -56,8 +56,8 @@ public class LoginActivity extends AppCompatActivity {
         fbAuth = FirebaseAuth.getInstance();
 
         //Delete before release
-        email.setText("junillo@yopmail.com");
-        password.setText("12345678");
+        email.setText("admin@admin.com");
+        password.setText("123456");
 
         //Login
         btnLogin.setOnClickListener(l -> {

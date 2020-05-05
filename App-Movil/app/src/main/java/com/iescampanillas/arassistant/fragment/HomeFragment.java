@@ -1,6 +1,5 @@
 package com.iescampanillas.arassistant.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -34,17 +33,13 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View homeView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        btnProfile = homeView.findViewById(R.id.homeProfileButton);
+        //btnProfile = homeView.findViewById(R.id.homeProfileButton);
         btnTaskFragment = homeView.findViewById(R.id.fragmentHomeTaskButton);
 
         btnTaskFragment.setOnClickListener(v -> {
             findNavController(v).navigate(R.id.home_to_task);
         });
 
-        btnProfile.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ProfileActivity.class);
-            startActivity(intent);
-        });
         return homeView;
     }
 }

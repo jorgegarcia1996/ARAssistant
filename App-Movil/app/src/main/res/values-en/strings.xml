@@ -43,4 +43,14 @@
     <string name="account_label">Account</string>
     <string name="sign_out_label">Sing out</string>
     <string name="del_acc_label">Delete account</string>
+
+    <!--Arrays-->
+    <string-array name="arr_categories">
+        <item>All</item>
+        <item>Health</item>
+        <item>Family</item>
+        <item>Cleaning</item>
+        <item>Shopping</item>
+        <item>Others</item>
+    </string-array>
 </resources>

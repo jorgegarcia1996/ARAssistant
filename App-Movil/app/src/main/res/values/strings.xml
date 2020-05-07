@@ -24,8 +24,6 @@
     <string name="label_task">Tareas</string>
     <string name="label_reminder">Recordatorios</string>
     <string name="label_home">Inicio</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="label_create_task">Nueva tarea</string>
     <string name="hint_title">Titulo</string>
@@ -47,4 +45,14 @@
     <string name="account_label">Cuenta</string>
     <string name="sign_out_label">Cerrar sesión</string>
     <string name="del_acc_label">Borrar cuenta</string>
+
+    <!--Arrays-->
+    <string-array name="arr_categories">
+        <item>Todos</item>
+        <item>Salud</item>
+        <item>Familia</item>
+        <item>Limpieza</item>
+        <item>Compras</item>
+        <item>Otros</item>
+    </string-array>
 </resources>

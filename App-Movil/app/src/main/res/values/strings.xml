@@ -49,4 +49,8 @@
     <string name="del_acc_label">Borrar cuenta</string>
     <string name="title_home" translatable="false">Home</string>
     <string name="connect_des">Escanea el código con tus gafas</string>
+    <string name="delete_acc_title">Eliminar cuenta</string>
+    <string name="delete_acc_msg">¿Estás seguro de que quieres eliminar tu cuenta?</string>
+    <string name="delete_acc_success">Has eliminado tu cuenta correctamente</string>
+    <string name="label_edit_profile">Editar perfil</string>
 </resources>

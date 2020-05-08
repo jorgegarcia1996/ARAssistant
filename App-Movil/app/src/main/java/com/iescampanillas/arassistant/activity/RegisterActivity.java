@@ -32,10 +32,10 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
 
     //Layout Inputs
-    @BindView(R.id.register_name_input)
+    @BindView(R.id.register_lastname_input)
     protected TextInputLayout nameInput;
 
-    @BindView(R.id.register_lastname_input)
+    @BindView(R.id.register_name_input)
     protected TextInputLayout lastNameInput;
 
     @BindView(R.id.register_email_input)

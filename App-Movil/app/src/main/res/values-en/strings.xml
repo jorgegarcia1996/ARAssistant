@@ -44,4 +44,8 @@
     <string name="sign_out_label">Sing out</string>
     <string name="del_acc_label">Delete account</string>
     <string name="connect_des">Scan the QR code with your glasses</string>
+    <string name="delete_acc_title">Delete Account</string>
+    <string name="delete_acc_msg">Are you sure you want to delete your account?</string>
+    <string name="delete_acc_success">You successfully deleted your account</string>
+    <string name="label_edit_profile">Edit profile</string>
 </resources>

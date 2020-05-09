@@ -18,9 +18,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,30 +50,23 @@ public class TaskFragment extends Fragment {
 
     //FBDatabase
     private FirebaseDatabase fbDatabase;
-
+    private FirebaseAuth fbAuth;
     //Array
     private ArrayList<Task> tasksList;
 
     //Adapter
     private TaskAdapter taskAdapter;
 
+    //Spinner filter
+    private Spinner spinnerFilter;
+
+    //Button New Task
+    private Button btnNewTask;
+
     //Recycler
     private RecyclerView tasksRecycler;
 
-    //Toolbar
-    private Toolbar toolbar;
-
-    //Add task button
-    private Button createTaskBtn;
-
     public TaskFragment() {
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //Hide keyboard
-        KeyboardUtils.hideKeyboard(getActivity());
     }
 
     @Override
@@ -77,19 +74,39 @@ public class TaskFragment extends Fragment {
                              Bundle savedInstanceState) {
         View taskView = inflater.inflate(R.layout.fragment_task, container, false);
 
-        //Toolbar
-        toolbar = taskView.findViewById(R.id.fragmentTaskToolbar);
-        toolbar.setNavigationOnClickListener(v -> findNavController(v).navigate(R.id.task_to_home));
-        createTaskBtn = taskView.findViewById(R.id.fragmentTaskCreateBtn);
-        createTaskBtn.setOnClickListener(v -> findNavController(v).navigate(R.id.task_to_createTask));
+        //Hide keyboard
+        KeyboardUtils.hideKeyboard(getActivity());
 
-        //Get the data from Firebase
-        getData(taskView);
+        //NewTask button
+        btnNewTask = taskView.findViewById(R.id.fragmentNewTaskButton);
+        btnNewTask.setOnClickListener(v -> {
+            findNavController(v).navigate(R.id.task_to_createTask);
+        });
+
+        //Filter
+        spinnerFilter = taskView.findViewById(R.id.fragmentTaskSpinnerCategoryFilter);
+        spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String cat = parent.getItemAtPosition(position).toString();
+                if (position == 0) {
+                    cat = "All";
+                }
+                //Get the data from Firebase
+                getData(taskView, cat);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         return taskView;
     }
 
-    private void getData(View v) {
+    private void getData(View v, String category) {
         taskAdapter = new TaskAdapter(getActivity());
 
         //Recycler
@@ -102,7 +119,9 @@ public class TaskFragment extends Fragment {
 
         //Get the data from database and send it to the adapter
         fbDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference tasksRef = fbDatabase.getReference(AppString.DB_TASK_REF);
+        fbAuth = FirebaseAuth.getInstance();
+        String uid = fbAuth.getCurrentUser().getUid();
+        DatabaseReference tasksRef = fbDatabase.getReference(AppString.DB_TASK_REF + uid);
         tasksRef.addValueEventListener(new ValueEventListener() {
             //Get data
             @Override
@@ -110,7 +129,10 @@ public class TaskFragment extends Fragment {
                 //Get every task and save it into the array
                 for (DataSnapshot dSnap: dataSnapshot.getChildren()) {
                     Task task = dSnap.getValue(Task.class);
-                    tasksList.add(task);
+
+                    if (task.getCategory().equals(category) || category.equals("All")) {
+                        tasksList.add(task);
+                    }
                 }
                 //Send the array to the adapter
                 taskAdapter.setData(tasksList);

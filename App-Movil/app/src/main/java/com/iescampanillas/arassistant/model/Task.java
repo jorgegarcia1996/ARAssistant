@@ -7,7 +7,7 @@ import java.io.Serializable;
 @IgnoreExtraProperties
 public class Task implements Serializable {
 
-    private String id, title,description;
+    private String id, title,description, category;
 
     public Task() {
     }
@@ -41,6 +41,10 @@ public class Task implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getCategory() { return category; }
+
+    public void setCategory(String category) { this.category = category; }
 
     @Override
     public String toString() {

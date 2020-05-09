@@ -9,18 +9,11 @@
     android:elevation="4dp"
     android:minHeight="?attr/actionBarSize"
     android:theme="?attr/actionBarTheme"
+    app:title="@string/app_name"
+    app:titleTextColor="#ffffff"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:navigationIcon="@drawable/ic_menu_white_24dp">
-
-<TextView
-    android:id="@+id/toolbar_title"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/app_name"
-    android:textColor="#FFFF"
-    android:textSize="16sp"
-    android:textStyle="bold" />
 
 </androidx.appcompat.widget.Toolbar>

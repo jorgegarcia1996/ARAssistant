@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.iescampanillas.arassistant.R;
 import com.iescampanillas.arassistant.model.User;
+import com.iescampanillas.arassistant.utils.Generator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,10 +48,10 @@ public class RegisterActivity extends AppCompatActivity {
     protected TextInputLayout repeatPassInput;
 
     //Layout input text
-    @BindView(R.id.register_name_text)
+    @BindView(R.id.register_lastname_text)
     protected TextInputEditText nameText;
 
-    @BindView(R.id.register_lastname_text)
+    @BindView(R.id.register_name_text)
     protected TextInputEditText lastNameText;
 
     @BindView(R.id.register_email_text)
@@ -147,10 +148,12 @@ public class RegisterActivity extends AppCompatActivity {
                                         repeatPassText.getText().clear();
 
                                         user = new User();
+                                        Generator generator = new Generator();
 
                                         user.setName(name);
                                         user.setSurname(lastName);
-                                        user.setEmail(email);
+                                        user.setEmail(email);;
+                                        user.setConnectID(generator.generateId(""));
 
                                         if(user != null) {
                                             createUserDB(user);
@@ -167,7 +170,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void createUserDB(User user) {
 
-        mDatabase.child("user").push().setValue(user);
+        mDatabase.child("user").child(fbUser.getUid()).setValue(user);
 
         //Finish activity
         setResult(RESULT_OK);

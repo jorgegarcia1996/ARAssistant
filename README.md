@@ -77,3 +77,15 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 
 ***Jorge***
 * CRUD de las tareas implementado
+
+## Avances 09/05/2020
+
+***Lino***
+* Menú lateral creado
+* Generador de QR
+* Navigation drawer implementado
+
+***Jorge***
+* Añadidas las categorías a las tareas
+* Filtro por categorías de la lista de tareas
+* Opción de recordar usuario y contraseña en el login

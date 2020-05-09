@@ -42,6 +42,9 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.sign_out_layout)
     protected LinearLayout signOut;
 
+    @BindView(R.id.connect_layout)
+    protected LinearLayout connect;
+
     @BindView(R.id.del_acc_layout)
     protected LinearLayout delAcc;
 
@@ -56,7 +59,6 @@ public class ProfileActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         // Menu
@@ -83,6 +85,14 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //
+            }
+        });
+
+        connect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, ConnectActivity.class);
+                startActivity(intent);
             }
         });
 

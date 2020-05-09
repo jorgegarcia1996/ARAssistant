@@ -62,9 +62,16 @@
     <string name="sign_out_label">Sing out</string>
     <string name="del_acc_label">Delete account</string>
     <string name="connect_des">Scan the QR code with your glasses</string>
+<<<<<<< HEAD
     <string name="toast_delete_task_error">Task could not be deleted</string>
     <string name="label_save_task">Save</string>
     <string name="label_return">Return</string>
     <string name="label_category">Category</string>
     <string name="label_remember_me">Remember me</string>
+=======
+    <string name="delete_acc_title">Delete Account</string>
+    <string name="delete_acc_msg">Are you sure you want to delete your account?</string>
+    <string name="delete_acc_success">You successfully deleted your account</string>
+    <string name="label_edit_profile">Edit profile</string>
+>>>>>>> c2f0fb956586ff606cc957c6bb5630096de9c481
 </resources>

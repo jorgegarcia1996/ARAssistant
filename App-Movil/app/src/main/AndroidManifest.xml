@@ -9,7 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+<<<<<<< HEAD
         <activity android:name=".activity.TaskActivity"></activity>
+=======
+        <activity android:name=".activity.EditProfileActivity"></activity>
+>>>>>>> c2f0fb956586ff606cc957c6bb5630096de9c481
         <activity android:name=".activity.ConnectActivity" />
         <activity android:name=".activity.ProfileActivity" />
         <activity android:name=".activity.RegisterActivity" />

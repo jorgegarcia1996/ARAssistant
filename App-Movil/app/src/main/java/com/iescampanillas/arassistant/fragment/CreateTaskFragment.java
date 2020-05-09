@@ -9,12 +9,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -27,9 +30,10 @@ import com.iescampanillas.arassistant.constant.AppString;
 import com.iescampanillas.arassistant.model.Task;
 import com.iescampanillas.arassistant.utils.Generator;
 import com.iescampanillas.arassistant.utils.KeyboardUtils;
-import com.iescampanillas.arassistant.utils.UserUtils;
 
 import java.util.HashMap;
+
+import okio.Timeout;
 
 import static androidx.navigation.Navigation.findNavController;
 
@@ -37,6 +41,7 @@ public class CreateTaskFragment extends Fragment {
 
     //Firebase
     private FirebaseDatabase fbDatabase;
+    private FirebaseAuth fbAuth;
 
     //Task
     private Task task;
@@ -46,21 +51,12 @@ public class CreateTaskFragment extends Fragment {
 
     //Inputs
     private EditText taskTitle, taskDescription;
+    private Spinner taskCategory;
 
-    //Toolbar
-    private Toolbar toolbar;
-
-    //Save button
-    private Button saveTask;
+    //Buttons
+    private Button btnReturn, btnSaveTask;
 
     public CreateTaskFragment() {
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //Show keyboard
-        KeyboardUtils.showKeyboard(getActivity());
     }
 
     @Override
@@ -70,10 +66,12 @@ public class CreateTaskFragment extends Fragment {
 
         //Bind elements
         fbDatabase = FirebaseDatabase.getInstance();
-        toolbar = createTaskView.findViewById(R.id.fragmentCreateTaskToolbar);
+        fbAuth = FirebaseAuth.getInstance();
         taskTitle = createTaskView.findViewById(R.id.fragmentCreateTaskTitleText);
         taskDescription = createTaskView.findViewById(R.id.fragmentCreateTaskDescText);
-        saveTask = createTaskView.findViewById(R.id.fragmentCreateTaskConfirmBtn);
+        taskCategory = createTaskView.findViewById(R.id.fragmentCreateTaskCategoriesSpinner);
+        btnReturn = createTaskView.findViewById(R.id.fragmentCreateTaskReturnButton);
+        btnSaveTask = createTaskView.findViewById(R.id.fragmentCreateTaskSaveButton);
 
         //Check if are any arguments for create new task or update
         if(getArguments() != null) {
@@ -81,6 +79,7 @@ public class CreateTaskFragment extends Fragment {
             task = (Task) getArguments().get(AppString.TASK_TO_EDIT);
             taskTitle.setText(task.getTitle());
             taskDescription.setText(task.getDescription());
+            taskCategory.setSelection(getCategoryPos(taskCategory, task.getCategory()));
             isUpdate = true;
         } else {
             //Create new task
@@ -92,13 +91,23 @@ public class CreateTaskFragment extends Fragment {
         taskTitle.setFocusable(true);
         taskTitle.requestFocus();
 
-        //Back button
-        toolbar.setNavigationOnClickListener(v -> findNavController(v).navigate(R.id.createTask_to_task));
+        //Show keyboard
+        KeyboardUtils.showKeyboard(getActivity());
 
-        //Save button
-        saveTask.setOnClickListener(this::saveTask);
+        //Return button
+        btnReturn.setOnClickListener(v -> {
+            findNavController(v).navigateUp();
+        });
+
+        //Save button (Method reference)
+        btnSaveTask.setOnClickListener(this::saveTask);
 
         return createTaskView;
+    }
+
+    private int getCategoryPos(Spinner spinner, String item) {
+        ArrayAdapter<String> spinnerAdapter = (ArrayAdapter<String>) spinner.getAdapter();
+        return spinnerAdapter.getPosition(item);
     }
 
     /**
@@ -112,15 +121,16 @@ public class CreateTaskFragment extends Fragment {
             //Empty
             taskTitle.setError(getString(R.string.error_empty_fields));
         } else {
-            //Get the data if not empty
+            //Not empty
             task.setTitle(taskTitle.getText().toString());
             task.setDescription(taskDescription.getText().toString());
-
-            //Get UID for link the task to user
-            String uid = new UserUtils().getCurrentUserUid();
+            task.setCategory(taskCategory.getSelectedItem().toString());
 
             //Database reference
             DatabaseReference dbRef = fbDatabase.getReference();
+
+            //Get user UID
+            String uid = fbAuth.getCurrentUser().getUid();
 
             //Check if is an update or create a new task
             if (isUpdate) {
@@ -129,13 +139,11 @@ public class CreateTaskFragment extends Fragment {
                 taskUpdate.put(AppString.DB_TASK_REF + uid + "/" + task.getId(), task);
                 dbRef.updateChildren(taskUpdate).addOnSuccessListener(aVoid -> {
                     //Update Success
-                    Toast.makeText(getActivity().getApplicationContext(), R.string.toast_update_task_success, Toast.LENGTH_LONG).show();
+                    Toast.makeText(v.getContext(), R.string.toast_update_task_success, Toast.LENGTH_LONG).show();
                 }).addOnFailureListener(e -> {
                     //Update Failed
-                    Toast.makeText(getActivity().getApplicationContext(), R.string.toast_update_task_error, Toast.LENGTH_LONG).show();
-                });
-                //Return to Task list
-                findNavController(v).navigate(R.id.createTask_to_task);
+                    Toast.makeText(v.getContext(), R.string.toast_update_task_error, Toast.LENGTH_LONG).show();
+                }).addOnCompleteListener(task1 -> findNavController(v).navigateUp());//Return to task fragment
             } else {
                 //New task
                 //Generate task Id
@@ -148,6 +156,7 @@ public class CreateTaskFragment extends Fragment {
                             Toast.makeText(getActivity().getApplicationContext(), R.string.toast_create_task_success, Toast.LENGTH_LONG).show();
                             taskTitle.getText().clear();
                             taskDescription.getText().clear();
+                            taskCategory.setSelection(0);
                             //Set focus
                             taskTitle.setFocusable(true);
                             taskTitle.requestFocus();

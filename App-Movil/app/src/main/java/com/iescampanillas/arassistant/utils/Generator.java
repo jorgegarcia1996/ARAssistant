@@ -2,7 +2,7 @@ package com.iescampanillas.arassistant.utils;
 
 import java.util.Random;
 
-public class Generator {
+public final class Generator {
 
     public Generator() {
 

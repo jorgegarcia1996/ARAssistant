@@ -1,21 +1,24 @@
 package com.iescampanillas.arassistant.model;
 
-import com.google.firebase.database.IgnoreExtraProperties;
 
+import com.iescampanillas.arassistant.utils.Generator;
 import java.io.Serializable;
 
-@IgnoreExtraProperties
 public class User implements Serializable {
 
-    private String name, surname,email;
+    private String name;
+    private String surname;
+    private String email;
+    private String connectID;
 
     public User() {
     }
 
-    public User(String name, String surname, String email) {
+    public User(String name, String surname, String email, String connectID) {
         this.name = name;
         this.surname = surname;
         this.email = email;
+        this.connectID = connectID;
     }
 
     public String getName() {
@@ -41,6 +44,10 @@ public class User implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getConnectID() {return connectID;}
+
+    public void setConnectID(String connectID) {this.connectID = connectID;}
 
     @Override
     public String toString() {

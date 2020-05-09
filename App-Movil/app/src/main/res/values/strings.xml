@@ -1,4 +1,21 @@
 <resources>
+    <!--Arrays-->
+    <string-array name="arr_categories">
+        <item>Salud</item>
+        <item>Familia</item>
+        <item>Comida</item>
+        <item>Rutina</item>
+        <item>Otros</item>
+    </string-array>
+    <string-array name="arr_categories_filter">
+        <item>Todos</item>
+        <item>Salud</item>
+        <item>Familia</item>
+        <item>Comida</item>
+        <item>Rutina</item>
+        <item>Otros</item>
+    </string-array>
+    <!--Strings-->
     <string name="app_name" translatable="false">ARAssistant</string>
     <string name="login_button">Iniciar sesión</string>
     <string name="email_hint">user@email.com</string>
@@ -39,20 +56,17 @@
     <string name="toast_deleted_task">La tarea ha sido eliminada</string>
     <string name="profile_label">Perfil</string>
     <string name="settings_label">Ajustes</string>
-    <string name="link_ar_label">Conectar gafas</string>
+    <string name="link_ar_label">Vincular gafas</string>
     <string name="notification_label">Notificaciones</string>
     <string name="family_label">Configurar familia</string>
     <string name="account_label">Cuenta</string>
     <string name="sign_out_label">Cerrar sesión</string>
     <string name="del_acc_label">Borrar cuenta</string>
-
-    <!--Arrays-->
-    <string-array name="arr_categories">
-        <item>Todos</item>
-        <item>Salud</item>
-        <item>Familia</item>
-        <item>Limpieza</item>
-        <item>Compras</item>
-        <item>Otros</item>
-    </string-array>
+    <string name="title_home" translatable="false">Home</string>
+    <string name="connect_des">Escanea el código con tus gafas</string>
+    <string name="toast_delete_task_error">No se ha podido borrar la tarea</string>
+    <string name="label_save_task">Guardar</string>
+    <string name="label_return">Volver</string>
+    <string name="label_category">Categoría</string>
+    <string name="label_remember_me">Recordarme</string>
 </resources>

@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Arrays-->
+    <string-array name="arr_categories">
+        <item>Health</item>
+        <item>Family</item>
+        <item>Food</item>
+        <item>Routine</item>
+        <item>Others</item>
+    </string-array>
+    <string-array name="arr_categories_filter">
+        <item>All</item>
+        <item>Health</item>
+        <item>Family</item>
+        <item>Food</item>
+        <item>Routine</item>
+        <item>Others</item>
+    </string-array>
+
+    <!--Strings-->
     <string name="login_button">Login</string>
     <string name="email_hint">user@email.com</string>
     <string name="password_hint">Password</string>
     <string name="register_link">Register now</string>
     <string name="forgotten_password_hint">Forgot your password?</string>
     <string name="toast_login_bad_credentials">Incorrect username or password.</string>
-    <string name="toast_generic_error">An error ocurred</string>
+    <string name="toast_generic_error">An error occurred</string>
     <string name="toast_logout_success">Logged out</string>
     <string name="toast_register_succeed">Registro completado con exito!</string>
     <string name="label_create_account">Create account</string>
@@ -17,7 +35,7 @@
     <string name="error_empty_fields">This field can not be empty</string>
     <string name="error_min_length">Too short, minimum 3 characters</string>
     <string name="error_invalid_email">The email format is not valid</string>
-    <string name="error_pass_length">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="error_pass_length">The password must be at least 6 characters</string>
     <string name="error_pass_match">Password does not match</string>
     <string name="toast_reset_password_email_sent">Email sent to reset password</string>
     <string name="label_task">Tasks</string>
@@ -30,7 +48,7 @@
     <string name="toast_create_task_error">The task could not be created</string>
     <string name="toast_update_task_success">Task updated</string>
     <string name="toast_update_task_error">The task could not be updated</string>
-    <string name="toast_get_task_error">Tasks could not be readed</string>
+    <string name="toast_get_task_error">Tasks could not be readied</string>
     <string name="label_close_dialog">Close</string>
     <string name="label_edit_dialog">Edit</string>
     <string name="label_delete_dialog">Delete</string>
@@ -43,14 +61,10 @@
     <string name="account_label">Account</string>
     <string name="sign_out_label">Sing out</string>
     <string name="del_acc_label">Delete account</string>
-
-    <!--Arrays-->
-    <string-array name="arr_categories">
-        <item>All</item>
-        <item>Health</item>
-        <item>Family</item>
-        <item>Cleaning</item>
-        <item>Shopping</item>
-        <item>Others</item>
-    </string-array>
+    <string name="connect_des">Scan the QR code with your glasses</string>
+    <string name="toast_delete_task_error">Task could not be deleted</string>
+    <string name="label_save_task">Save</string>
+    <string name="label_return">Return</string>
+    <string name="label_category">Category</string>
+    <string name="label_remember_me">Remember me</string>
 </resources>

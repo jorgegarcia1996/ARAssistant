@@ -8,58 +8,48 @@
     android:layout_height="match_parent"
     tools:context=".fragment.TaskFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/fragmentTaskToolbar"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:elevation="10dp"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_keyboard_backspace_black_24dp"
-            app:title="@string/label_task"
-            app:titleTextColor="@color/primaryTextColor">
+            android:layout_height="match_parent">
+
+            <Spinner
+                android:id="@+id/fragmentTaskSpinnerCategoryFilter"
+                style="@style/SpinnerFilter"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:entries="@array/arr_categories_filter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/fragmentTaskCreateBtn"
-                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
-                android:layout_width="wrap_content"
+                android:id="@+id/fragmentNewTaskButton"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:background="#00FFFFFF"
-                android:checkable="false"
-                android:clickable="false"
-                app:icon="@drawable/ic_add_black_24dp"
-                app:iconTint="#FFFFFF"
-                tools:layout_editor_absoluteX="285dp"
-                tools:layout_editor_absoluteY="4dp" />
+                android:layout_gravity="end|top"
+                android:layout_margin="10dp"
+                android:text="@string/label_create_task"
+                android:background="@color/colorPrimary"
+                android:src="@drawable/ic_add_black_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragmentTaskSpinnerCategoryFilter" />
 
-        </androidx.appcompat.widget.Toolbar>
-
-        <Spinner
-            android:id="@+id/fragmentTaskCategorySpinner"
-            style="@style/SpinnerTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/arr_categories"
-            app:layout_constraintTop_toBottomOf="@+id/fragmentTaskToolbar"
-            tools:layout_editor_absoluteX="0dp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fragmentTaskRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/fragmentTaskCategorySpinner"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragmentTaskRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragmentNewTaskButton" />
 
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

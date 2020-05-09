@@ -1,12 +1,13 @@
 package com.iescampanillas.arassistant.constant;
 
 public interface AppString {
-    //Tasks
+    String USER_DATA = "userData";
     String TASK_PREFIX = "task_";
     String DB_TASK_REF = "task/";
     String TASK_TO_EDIT = "task_to_edit";
 
-    //Categories
-    String CATEGORY_PREFIX = "category_";
-    String DB_CATEGORY_REF = "category/";
+    //Login Prefs
+    String SAVE_LOGIN_PREF = "save_login";
+    String EMAIL_PREF = "email";
+    String PASSWORD_PREF = "pass";
 }

@@ -12,7 +12,7 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 <img src="https://github.com/jorgegarcia1996/ARAssistant/blob/Entrega-11-mayo/Capturas/Login.png" alt="Login"
      width="25%"/>
 
-Al iniciar la app, la primera actividad que se abre es la de login, desdeella podemos acceder al registro pulsando en el botón *Regístrate ahora*. 
+Al iniciar la app, la primera actividad que se abre es la de login, desde ella podemos acceder al registro pulsando en el botón *Regístrate ahora*. 
 
 Para iniciar sesión será obligatorio introducir el email y contraseña, bajo estos campos hay un checkbox para habilitar si se guardan los datos del login en la app o no. Bajo el check hay un botón para recuperar la contraseña, para ello debemos poner el correo en el campo email del login, esto lo cambiaré para que al pulsar en el botón aparezca un dialog pidiendo el email para la recuperación de la contraseña.
 

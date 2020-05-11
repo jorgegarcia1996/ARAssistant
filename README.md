@@ -7,6 +7,8 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 
 ## Checkpoint 11/05/2020
 
+Vídeo explicativo: https://youtu.be/hyap4CaCWjw
+
 ### Login
 
 <img src="https://github.com/jorgegarcia1996/ARAssistant/blob/Entrega-11-mayo/Capturas/Login.png" alt="Login"
@@ -40,7 +42,7 @@ Los campos tienen una validación mínima, siendo que ningún campo debe estar v
 <img src="https://github.com/jorgegarcia1996/ARAssistant/blob/Entrega-11-mayo/Capturas/Main.png" alt="Home"
      width="25%"/>
 
-Al iniciar sesión se abre la pantalla de Home, de momento solo está puesto el logo de la app, perro en esta pantalla habrá una descripción de la app y, si da tiempo, un pequeño tutorial al iniciar sesión por primera vez.
+Al iniciar sesión se abre la pantalla de Home, de momento solo está puesto el logo de la app, pero en esta pantalla habrá una descripción de la app y, si da tiempo, un pequeño tutorial al iniciar sesión por primera vez.
 
 <hr/>
 
@@ -53,7 +55,7 @@ Para acceder al menú lateral  hay que pulsar en "☰" al lado del nombre de la 
 
 Al menú se puede acceder desde cualquier actividad (excepto Login y Registro).
 
-En la cabecera del menú encontramos la imagenb de perfil del usuario, su nombre y correo. La siguiente sección corresponde a las pantallas de *Home*, *Perfil*, *Tareas*, *Recordatorios*. Luego encontramos los botonas de *Ajustes* y *Cerrar sesión* (aún faltan por implementar los Recordatorios y los ajustes).
+En la cabecera del menú encontramos la imagen de perfil del usuario, su nombre y correo. La siguiente sección corresponde a las pantallas de *Home*, *Perfil*, *Tareas*, *Recordatorios*. Luego encontramos los botonas de *Ajustes* y *Cerrar sesión* (aún faltan por implementar los recordatorios y los ajustes).
      
 <hr/>
 

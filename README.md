@@ -89,3 +89,9 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 * Añadidas las categorías a las tareas
 * Filtro por categorías de la lista de tareas
 * Opción de recordar usuario y contraseña en el login
+
+## Avances 19/05/2020
+
+***Jorge***
+* Base de datos local para las categorías implementada
+* Icono y color para cada categoría

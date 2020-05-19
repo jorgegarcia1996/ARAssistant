@@ -77,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
         toolbar.setTitle(R.string.app_name);
 
 
+
         toolbar.setNavigationOnClickListener(v -> {
             drawerLayout.openDrawer(Gravity.LEFT);
             nav.bringToFront();

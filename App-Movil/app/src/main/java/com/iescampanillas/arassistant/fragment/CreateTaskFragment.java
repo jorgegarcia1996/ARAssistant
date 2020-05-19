@@ -1,39 +1,33 @@
 package com.iescampanillas.arassistant.fragment;
 
-import android.accessibilityservice.AccessibilityService;
-import android.inputmethodservice.Keyboard;
+import android.database.Cursor;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.iescampanillas.arassistant.R;
 import com.iescampanillas.arassistant.constant.AppString;
+import com.iescampanillas.arassistant.database.CategoriesDBHelper;
+import com.iescampanillas.arassistant.database.CategoriesContract;
 import com.iescampanillas.arassistant.model.Task;
 import com.iescampanillas.arassistant.utils.Generator;
 import com.iescampanillas.arassistant.utils.KeyboardUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-
-import okio.Timeout;
+import java.util.Locale;
 
 import static androidx.navigation.Navigation.findNavController;
 
@@ -42,6 +36,9 @@ public class CreateTaskFragment extends Fragment {
     //Firebase
     private FirebaseDatabase fbDatabase;
     private FirebaseAuth fbAuth;
+
+    //Local database
+    private CategoriesDBHelper categoriesDBHelper;
 
     //Task
     private Task task;
@@ -52,6 +49,8 @@ public class CreateTaskFragment extends Fragment {
     //Inputs
     private EditText taskTitle, taskDescription;
     private Spinner taskCategory;
+
+    private String content;
 
     //Buttons
     private Button btnReturn, btnSaveTask;
@@ -72,6 +71,28 @@ public class CreateTaskFragment extends Fragment {
         taskCategory = createTaskView.findViewById(R.id.fragmentCreateTaskCategoriesSpinner);
         btnReturn = createTaskView.findViewById(R.id.fragmentCreateTaskReturnButton);
         btnSaveTask = createTaskView.findViewById(R.id.fragmentCreateTaskSaveButton);
+
+        //Get categories from database
+        categoriesDBHelper = new CategoriesDBHelper(getActivity().getApplicationContext());
+        ArrayList<String> spinnerEntries = new ArrayList<>();
+        //Get categories
+        Cursor nameCursor = categoriesDBHelper.getAllCategories();
+        content = Locale.getDefault().getLanguage();
+        //Check language
+        nameCursor.move(1);
+        if (nameCursor.getColumnIndex(content) == -1) {
+            while(nameCursor.moveToNext()) {
+                spinnerEntries.add(nameCursor.getString(nameCursor.getColumnIndex(CategoriesContract.CategoriesEntry.CAT_NAME)));
+            }
+            content = CategoriesContract.CategoriesEntry.CAT_NAME;
+        } else {
+            while(nameCursor.moveToNext()) {
+                spinnerEntries.add(nameCursor.getString(nameCursor.getColumnIndex(content)));
+            }
+        }
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.main_spinner_item_layout, spinnerEntries);
+        taskCategory.setAdapter(arrayAdapter);
+
 
         //Check if are any arguments for create new task or update
         if(getArguments() != null) {
@@ -122,9 +143,19 @@ public class CreateTaskFragment extends Fragment {
             taskTitle.setError(getString(R.string.error_empty_fields));
         } else {
             //Not empty
-            task.setTitle(taskTitle.getText().toString());
-            task.setDescription(taskDescription.getText().toString());
-            task.setCategory(taskCategory.getSelectedItem().toString());
+            String title = taskTitle.getText().toString();
+            String desc = taskDescription.getText().toString();
+            String cat = taskCategory.getSelectedItem().toString();
+            task.setTitle(title);
+            task.setDescription(desc);
+            task.setCategory(cat);
+
+            //Get icon and color
+            Cursor colorAndIconCursor = categoriesDBHelper.getCategoryColorAndIconByName(cat, CategoriesContract.CategoriesEntry.CAT_NAME);
+            while(colorAndIconCursor.moveToNext()) {
+                task.setColor(colorAndIconCursor.getString(colorAndIconCursor.getColumnIndex(CategoriesContract.CategoriesEntry.CAT_COLOR)));
+                task.setIcon(colorAndIconCursor.getInt(colorAndIconCursor.getColumnIndex(CategoriesContract.CategoriesEntry.CAT_ICON)));
+            }
 
             //Database reference
             DatabaseReference dbRef = fbDatabase.getReference();

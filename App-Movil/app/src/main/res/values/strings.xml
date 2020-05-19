@@ -1,20 +1,4 @@
 <resources>
-    <!--Arrays-->
-    <string-array name="arr_categories">
-        <item>Salud</item>
-        <item>Familia</item>
-        <item>Comida</item>
-        <item>Rutina</item>
-        <item>Otros</item>
-    </string-array>
-    <string-array name="arr_categories_filter">
-        <item>Todos</item>
-        <item>Salud</item>
-        <item>Familia</item>
-        <item>Comida</item>
-        <item>Rutina</item>
-        <item>Otros</item>
-    </string-array>
     <!--Strings-->
     <string name="app_name" translatable="false">ARAssistant</string>
     <string name="login_button">Iniciar sesión</string>

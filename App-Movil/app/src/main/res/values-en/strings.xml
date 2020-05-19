@@ -1,22 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--Arrays-->
-    <string-array name="arr_categories">
-        <item>Health</item>
-        <item>Family</item>
-        <item>Food</item>
-        <item>Routine</item>
-        <item>Others</item>
-    </string-array>
-    <string-array name="arr_categories_filter">
-        <item>All</item>
-        <item>Health</item>
-        <item>Family</item>
-        <item>Food</item>
-        <item>Routine</item>
-        <item>Others</item>
-    </string-array>
-
     <!--Strings-->
     <string name="login_button">Login</string>
     <string name="email_hint">user@email.com</string>

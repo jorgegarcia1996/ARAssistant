@@ -1,14 +1,16 @@
 package com.iescampanillas.arassistant.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,9 +23,7 @@ import com.iescampanillas.arassistant.R;
 import com.iescampanillas.arassistant.constant.AppString;
 import com.iescampanillas.arassistant.model.Task;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static androidx.navigation.Navigation.findNavController;
 
@@ -78,7 +78,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     public class TaskHolder extends RecyclerView.ViewHolder {
 
-        private TextView title, cat;
+        private TextView title;
+        private Button cat;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,9 +87,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             cat = itemView.findViewById(R.id.taskItemCategory);
         }
 
+        @SuppressLint("ResourceAsColor")
         public void BindHolder(Task task) {
             title.setText(task.getTitle());
-            cat.setText(task.getCategory());
+            title.setBackgroundColor(Color.parseColor(task.getColor()));
+            cat.setBackgroundResource(task.getIcon());
         }
     }
 
@@ -138,6 +141,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
      *
      * */
     private void deleteTask(String taskId) {
+        data.clear();
         fbDatabase = FirebaseDatabase.getInstance();
         fbAuth = FirebaseAuth.getInstance();
         String uid = fbAuth.getCurrentUser().getUid();
@@ -146,6 +150,5 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         }).addOnFailureListener(e -> {
             Toast.makeText(ctx, R.string.toast_delete_task_error, Toast.LENGTH_SHORT).show();
         });
-        data.clear();
     }
 }

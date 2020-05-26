@@ -15,4 +15,7 @@ public interface AppString {
 
     //Categories
     String CAT_PREFIX = "cat_";
+
+    //FirebaseStorage
+    String IMAGES_FOLDER = "images";
 }

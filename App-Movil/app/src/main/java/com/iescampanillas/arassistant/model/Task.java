@@ -7,7 +7,7 @@ import java.io.Serializable;
 @IgnoreExtraProperties
 public class Task implements Serializable {
 
-    private String id, title,description, category, color;
+    private String id, title,description, category, color, media;
     private int icon;
 
     public Task() {
@@ -62,6 +62,14 @@ public class Task implements Serializable {
 
     public void setIcon(int icon) {
         this.icon = icon;
+    }
+
+    public String getMedia() {
+        return media;
+    }
+
+    public void setMedia(String media) {
+        this.media = media;
     }
 
     @Override

@@ -6,90 +6,113 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.CreateTaskFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/fragmentCreateTaskReturnButton"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/label_return"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/fragmentCreateTaskSaveButton"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/label_save_task"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fragmentCreateTaskTitleInputLayout"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_weight="2"
-            android:hint="@string/hint_title"
-            app:boxBackgroundColor="#00FFFFFF"
-            app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragmentCreateTaskReturnButton">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fragmentCreateTaskTitleText"
+            <Button
+                android:id="@+id/fragmentCreateTaskReturnButton"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/label_return"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/fragmentCreateTaskSaveButton"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/label_save_task"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fragmentCreateTaskTitleInputLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_weight="2"
+                android:hint="@string/hint_title"
+                app:boxBackgroundColor="#00FFFFFF"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragmentCreateTaskReturnButton">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fragmentCreateTaskDescInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:layout_marginTop="20dp"
-            android:hint="@string/hint_desc"
-            app:boxBackgroundColor="#00FFFFFF"
-            app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragmentCreateTaskTitleInputLayout">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fragmentCreateTaskTitleText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fragmentCreateTaskDescText"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fragmentCreateTaskDescInputLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="2"
+                android:hint="@string/hint_desc"
+                app:boxBackgroundColor="#00FFFFFF"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragmentCreateTaskTitleInputLayout">
 
-        <TextView
-            android:id="@+id/fragmentCreateTaskCategoriesText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/label_category"
-            android:textSize="20sp"
-            android:textColor="#000000"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragmentCreateTaskDescInputLayout" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fragmentCreateTaskDescText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/fragmentCreateTaskCategoriesSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:layout_constraintTop_toBottomOf="@+id/fragmentCreateTaskCategoriesText"
-            tools:layout_editor_absoluteX="0dp" />
+            <TextView
+                android:id="@+id/fragmentCreateTaskCategoriesText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/label_category"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragmentCreateTaskDescInputLayout" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Spinner
+                android:id="@+id/fragmentCreateTaskCategoriesSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintTop_toBottomOf="@+id/fragmentCreateTaskCategoriesText"
+                tools:layout_editor_absoluteX="0dp" />
+
+            <ImageView
+                android:id="@+id/fragmentCreateTaskImageToUpload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragmentCreateTaskCategoriesSpinner" />
+
+            <Button
+                android:id="@+id/fragmentCreateTaskSelectImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_image_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragmentCreateTaskImageToUpload" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

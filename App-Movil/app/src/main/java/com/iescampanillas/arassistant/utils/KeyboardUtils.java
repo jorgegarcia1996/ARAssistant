@@ -34,7 +34,7 @@ public class KeyboardUtils {
         View view = activity.findViewById(android.R.id.content);
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            imm.toggleSoftInputFromWindow(view.getWindowToken(), InputMethodManager.SHOW_FORCED, 0);
         }
     }
 }

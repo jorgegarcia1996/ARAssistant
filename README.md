@@ -54,44 +54,51 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 ## Avances 24/04/2020
 
 ***Lino***
-* Guardar los datos del usuario en Firebase Database
+* Guardar los datos del usuario en Firebase Database.
 
 ## Avances 25/04/2020
 
 ***Jorge***
-* Modelo para las tareas creado
-* Fragmentos para el home y las tareas creados
-* Navegación entre fragmentos implementada
+* Modelo para las tareas creado.
+* Fragmentos para el home y las tareas creados.
+* Navegación entre fragmentos implementada.
 
 ## Avances 29/04/2020
 
 ***Jorge***
-* Listado de tareas sin filtro
-* Crear nueva tarea y guardarla en FB
-* Generador IDs
+* Listado de tareas sin filtro.
+* Crear nueva tarea y guardarla en FB.
+* Generador IDs.
 
 ***Lino***
-* Pantalla de perfil creada
+* Pantalla de perfil creada.
 
 ## Avances 30/04/2020
 
 ***Jorge***
-* CRUD de las tareas implementado
+* CRUD de las tareas implementado.
 
 ## Avances 09/05/2020
 
 ***Lino***
-* Menú lateral creado
-* Generador de QR
-* Navigation drawer implementado
+* Menú lateral creado.
+* Generador de QR.
+* Navigation drawer implementado.
 
 ***Jorge***
-* Añadidas las categorías a las tareas
-* Filtro por categorías de la lista de tareas
-* Opción de recordar usuario y contraseña en el login
+* Añadidas las categorías a las tareas.
+* Filtro por categorías de la lista de tareas.
+* Opción de recordar usuario y contraseña en el login.
 
 ## Avances 19/05/2020
 
 ***Jorge***
-* Base de datos local para las categorías implementada
-* Icono y color para cada categoría
+* Base de datos local para las categorías implementada.
+* Icono y color para cada categoría.
+
+## Avances 26/05/2020
+
+***Jorge***
+* Ahora se puede subir una imagen para cada tarea.
+* Tamaño de imágenes limitado a 4096x4096px o 1MB.
+* Se puede cambiar la images de una tarea al editar la dicha tarea.

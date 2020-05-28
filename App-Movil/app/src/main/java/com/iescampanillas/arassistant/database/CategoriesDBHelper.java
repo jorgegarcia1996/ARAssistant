@@ -30,35 +30,34 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
                 + CategoriesContract.CategoriesEntry.CAT_ICON + " NUMBER NOT NULL,"
                 + "UNIQUE (" + CategoriesContract.CategoriesEntry.CAT_ID + "))");
 
-        //Insert data
+        //Insert initial data
         setDefaultCategories(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 
     private void setDefaultCategories(SQLiteDatabase db) {
-        String genericCatTable = CategoriesContract.CategoriesEntry.TABLE_NAME;
+        String categoryTable = CategoriesContract.CategoriesEntry.TABLE_NAME;
         //Add generic categories
-        addCategory(db, genericCatTable, new Category(new Generator().generateId(AppString.CAT_PREFIX),
+        addCategory(db, categoryTable, new Category(Generator.generateId(AppString.CAT_PREFIX),
                 "Todos", "All", "", 0));
-        addCategory(db, genericCatTable, new Category(new Generator().generateId(AppString.CAT_PREFIX),
+        addCategory(db, categoryTable, new Category(Generator.generateId(AppString.CAT_PREFIX),
                 "Familia", "Family", "#FFBA0B", R.drawable.ic_family));
-        addCategory(db, genericCatTable, new Category(new Generator().generateId(AppString.CAT_PREFIX),
+        addCategory(db, categoryTable, new Category(Generator.generateId(AppString.CAT_PREFIX),
                 "Comida", "Food", "#1FBC39", R.drawable.ic_food));
-        addCategory(db, genericCatTable, new Category(new Generator().generateId(AppString.CAT_PREFIX),
+        addCategory(db, categoryTable, new Category(Generator.generateId(AppString.CAT_PREFIX),
                 "Salud", "Health", "#ED0F0F", R.drawable.ic_health));
-        addCategory(db, genericCatTable, new Category(new Generator().generateId(AppString.CAT_PREFIX),
+        addCategory(db, categoryTable, new Category(Generator.generateId(AppString.CAT_PREFIX),
                 "Rutina", "Routine", "#0F5DED", R.drawable.ic_routine));
-        addCategory(db, genericCatTable, new Category(new Generator().generateId(AppString.CAT_PREFIX),
+        addCategory(db, categoryTable, new Category(Generator.generateId(AppString.CAT_PREFIX),
                 "Otros", "Other", "#838383", R.drawable.ic_other));
 
     }
 
-    private long addCategory(SQLiteDatabase db, String tableName, Category cat) {
-        return db.insert(
+    private void addCategory(SQLiteDatabase db, String tableName, Category cat) {
+        db.insert(
                 tableName,
                 null,
                 cat.toContentValues());

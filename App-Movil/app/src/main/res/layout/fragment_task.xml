@@ -6,7 +6,7 @@
     android:id="@+id/fragmentTaskFrameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.TaskFragment">
+    tools:context=".fragment.task.TaskFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

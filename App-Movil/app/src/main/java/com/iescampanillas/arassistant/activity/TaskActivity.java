@@ -97,8 +97,13 @@ public class TaskActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.nav_home:
                     drawerLayout.closeDrawers();
-                    Intent taskIntent = new Intent(TaskActivity.this, HomeActivity.class);
-                    startActivity(taskIntent);
+                    Intent homeIntent = new Intent(TaskActivity.this, HomeActivity.class);
+                    startActivity(homeIntent);
+                    break;
+                case R.id.nav_reminder:
+                    drawerLayout.closeDrawers();
+                    Intent reminderIntent = new Intent(TaskActivity.this, ReminderActivity.class);
+                    startActivity(reminderIntent);
                     break;
                 case R.id.nav_profile:
                     drawerLayout.closeDrawers();

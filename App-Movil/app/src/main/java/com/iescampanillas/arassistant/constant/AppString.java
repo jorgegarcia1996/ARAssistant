@@ -18,4 +18,7 @@ public interface AppString {
 
     //FirebaseStorage
     String IMAGES_FOLDER = "images";
+
+    //Date
+    String DATE_FORMAT = "dd/MM/yyyy kk:mm";
 }

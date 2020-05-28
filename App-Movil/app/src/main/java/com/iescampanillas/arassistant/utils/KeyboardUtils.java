@@ -7,7 +7,16 @@ import android.view.inputmethod.InputMethodManager;
 
 public class KeyboardUtils {
 
-    public KeyboardUtils() {
+    private static KeyboardUtils keyboardUtilsInstance = null;
+
+    private KeyboardUtils() {
+    }
+
+    public static KeyboardUtils getInstance(){
+        if(keyboardUtilsInstance == null) {
+            keyboardUtilsInstance = new KeyboardUtils();
+        }
+        return keyboardUtilsInstance;
     }
 
     /**

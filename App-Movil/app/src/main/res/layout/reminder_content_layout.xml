@@ -8,7 +8,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <fragment
-        android:id="@+id/taskActivityFragment"
+        android:id="@+id/reminderActivityFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,6 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/task_nav_graph" />
+        app:navGraph="@navigation/reminder_nav_graph" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

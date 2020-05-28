@@ -1,4 +1,4 @@
-package com.iescampanillas.arassistant.fragment;
+package com.iescampanillas.arassistant.fragment.task;
 
 import android.database.Cursor;
 import android.os.Bundle;

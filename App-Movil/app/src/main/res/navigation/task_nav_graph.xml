@@ -7,7 +7,7 @@
     app:startDestination="@id/taskFragment">
     <fragment
         android:id="@+id/taskFragment"
-        android:name="com.iescampanillas.arassistant.fragment.TaskFragment"
+        android:name="com.iescampanillas.arassistant.fragment.task.TaskFragment"
         android:label="fragment_task"
         tools:layout="@layout/fragment_task" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/createTaskFragment"
-        android:name="com.iescampanillas.arassistant.fragment.CreateTaskFragment"
+        android:name="com.iescampanillas.arassistant.fragment.task.CreateTaskFragment"
         android:label="fragment_create_task"
         tools:layout="@layout/fragment_create_task" />
 </navigation>

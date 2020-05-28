@@ -1,4 +1,4 @@
-package com.iescampanillas.arassistant.fragment;
+package com.iescampanillas.arassistant.fragment.task;
 
 import android.app.Activity;
 import android.content.Context;
@@ -217,7 +217,7 @@ public class CreateTaskFragment extends Fragment {
             } else {
                 //New task
                 //Generate task Id
-                String taskId = new Generator().generateId(AppString.TASK_PREFIX);
+                String taskId = Generator.generateId(AppString.TASK_PREFIX);
                 task.setId(taskId);
                 uploadNewImage(); //Upload an image
                 //Create the task in Firebase

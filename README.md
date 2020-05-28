@@ -102,3 +102,9 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 * Ahora se puede subir una imagen para cada tarea.
 * Tamaño de imágenes limitado a 4096x4096px o 1MB.
 * Se puede cambiar la images de una tarea al editar la dicha tarea.
+
+## Avances 28/05/2020
+
+***Jorge***
+* Convertidas las clases del paquete '*Utils*' a Singleton
+* Fragmentos y actividades para los recordatorios creadas

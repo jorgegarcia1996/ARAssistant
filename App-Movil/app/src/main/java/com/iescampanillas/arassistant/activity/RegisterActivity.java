@@ -148,12 +148,11 @@ public class RegisterActivity extends AppCompatActivity {
                                         repeatPassText.getText().clear();
 
                                         user = new User();
-                                        Generator generator = new Generator();
 
                                         user.setName(name);
                                         user.setSurname(lastName);
                                         user.setEmail(email);;
-                                        user.setConnectID(generator.generateId(""));
+                                        user.setConnectID(Generator.generateId(""));
 
                                         if(user != null) {
                                             createUserDB(user);

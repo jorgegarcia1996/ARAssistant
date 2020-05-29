@@ -58,4 +58,9 @@
     <string name="toast_image_upload_failure">La imagen no se ha subido</string>
     <string name="toast_image_too_big_error">La imagen debe ser menor de 4096x4096px</string>
     <string name="toast_image_size_too_big_error">La imagen pesa más de 1MB</string>
+    <string name="label_time">Hora</string>
+    <string name="toast_update_reminder_success">Recordatorio actualizado</string>
+    <string name="toast_update_reminder_error">No se ha podido actualizar el recordatorio</string>
+    <string name="toast_create_reminder_success">Recordatorio creado</string>
+    <string name="toast_create_reminder_error">El recordatorio no se ha podido crear</string>
 </resources>

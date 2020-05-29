@@ -1,7 +1,6 @@
 package com.iescampanillas.arassistant.constant;
 
 public interface AppString {
-    String USER_DATA = "userData";
 
     //Tasks
     String TASK_PREFIX = "task_";
@@ -19,6 +18,17 @@ public interface AppString {
     //FirebaseStorage
     String IMAGES_FOLDER = "images";
 
+    //Reminder
+    String EDIT_REMINDER = "edit_reminder";
+    String DB_REMINDER_REF = "reminder/";
+    String REMINDER_PREFIX = "reminder_";
+
     //Date
+    String DATE_SELECTED = "date_selected";
     String DATE_FORMAT = "dd/MM/yyyy kk:mm";
+    String YEAR = "year";
+    String MONTH = "month";
+    String DAY_OF_MONTH = "day_of_month";
+    String HOUR = "hour";
+    String MINUTE = "minute";
 }

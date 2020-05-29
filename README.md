@@ -108,3 +108,8 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 ***Jorge***
 * Convertidas las clases del paquete '*Utils*' a Singleton
 * Fragmentos y actividades para los recordatorios creadas
+
+## Avances 29/05/2020
+
+***Jorge***
+* Creación de recordatorios implementada.

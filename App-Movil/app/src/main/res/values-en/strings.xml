@@ -30,7 +30,7 @@
     <string name="toast_create_task_success">Task added successfully</string>
     <string name="toast_create_task_error">The task could not be created</string>
     <string name="toast_update_task_success">Task updated</string>
-    <string name="toast_update_task_error">The task could not be updated</string>
+    <string name="toast_update_task_error">Task could not be updated</string>
     <string name="toast_get_task_error">Tasks could not be readied</string>
     <string name="label_close_dialog">Close</string>
     <string name="label_edit_dialog">Edit</string>
@@ -55,4 +55,9 @@
     <string name="toast_image_upload_failure">Image not uploaded</string>
     <string name="toast_image_too_big_error">Image must be smaller than 4096x4096px</string>
     <string name="toast_image_size_too_big_error">Image size too big, max 1MB</string>
+    <string name="label_time">Hour</string>
+    <string name="toast_update_reminder_success">Reminder updated</string>
+    <string name="toast_update_reminder_error">Reminder could not be updated</string>
+    <string name="toast_create_reminder_success">Reminder added</string>
+    <string name="toast_create_reminder_error">Reminder could not be created</string>
 </resources>

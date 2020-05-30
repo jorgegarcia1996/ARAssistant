@@ -63,4 +63,9 @@
     <string name="toast_update_reminder_error">No se ha podido actualizar el recordatorio</string>
     <string name="toast_create_reminder_success">Recordatorio creado</string>
     <string name="toast_create_reminder_error">El recordatorio no se ha podido crear</string>
+    <string name="toast_no_past_reminders">No se puede crear recordatorios en el pasado</string>
+    <string name="toast_get_reminder_error">No se han podido leer los recordatorios</string>
+    <string name="label_create_reminder">Nuevo recordatorio</string>
+    <string name="toast_delete_reminder">Recordatorio eliminado</string>
+    <string name="toast_delete_reminder_error">No se ha podido borrar el recordatorio</string>
 </resources>

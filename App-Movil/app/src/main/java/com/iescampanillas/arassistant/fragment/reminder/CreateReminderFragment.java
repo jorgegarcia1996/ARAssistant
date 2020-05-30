@@ -23,6 +23,7 @@ import com.iescampanillas.arassistant.utils.Generator;
 import com.iescampanillas.arassistant.utils.KeyboardUtils;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 import static androidx.navigation.Navigation.findNavController;
@@ -70,8 +71,6 @@ public class CreateReminderFragment extends Fragment {
         btnReturn = createReminderView.findViewById(R.id.fragmentCreateReminderReturnButton);
         btnSave = createReminderView.findViewById(R.id.fragmentCreateReminderSaveButton);
 
-        //Timepicker and get current time
-
         //Create Reminder or Edit
         if(getArguments().get(AppString.EDIT_REMINDER) != null) {
             //Get arguments
@@ -111,11 +110,19 @@ public class CreateReminderFragment extends Fragment {
         minuteSelected = m;
     }
 
-    private void setDateTime() {
-        Calendar date = (Calendar) getArguments().get(AppString.DATE_SELECTED);
-        date.set(Calendar.HOUR, hourSelected);
-        date.set(Calendar.MINUTE, minuteSelected);
-        dateInMilliseconds = date.getTimeInMillis();
+    private void setDateTime(boolean isUpdate) {
+        if (isUpdate) {
+            Calendar dateToUpdate = new GregorianCalendar();
+            dateToUpdate.setTimeInMillis(reminder.getDateTime());
+            dateToUpdate.set(Calendar.HOUR, hourSelected);
+            dateToUpdate.set(Calendar.MINUTE, minuteSelected);
+            dateInMilliseconds = dateToUpdate.getTimeInMillis();
+        } else {
+            Calendar date = (Calendar) getArguments().get(AppString.DATE_SELECTED);
+            date.set(Calendar.HOUR, hourSelected);
+            date.set(Calendar.MINUTE, minuteSelected);
+            dateInMilliseconds = date.getTimeInMillis();
+        }
     }
 
     private void saveReminder(View v) {
@@ -127,7 +134,7 @@ public class CreateReminderFragment extends Fragment {
             int h = reminderTimePicker.getHour();
             int m = reminderTimePicker.getMinute();
             setHourAndMinute(h, m);
-            setDateTime();
+            setDateTime(isUpdate);
             reminder.setTitle(title);
             reminder.setDescription(desc);
             reminder.setDate(dateInMilliseconds);
@@ -158,5 +165,6 @@ public class CreateReminderFragment extends Fragment {
                 });
             }
         }
+
     }
 }

@@ -22,7 +22,7 @@
                 android:layout_margin="10dp"
                 android:background="@color/colorPrimary"
                 android:src="@drawable/ic_add_black_24dp"
-                android:text="@string/label_create_task"
+                android:text="@string/label_create_reminder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -35,13 +35,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fragmentNewReminderButton" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/fragmentReminderListTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_reminder"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reminderFragmentCalendar"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/fragmentReminderRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/reminderFragmentCalendar" />
+                app:layout_constraintTop_toBottomOf="@+id/fragmentReminderListTitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

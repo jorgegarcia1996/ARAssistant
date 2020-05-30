@@ -113,3 +113,12 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 
 ***Jorge***
 * Creación de recordatorios implementada.
+
+## Avances 30/05/2020
+
+***Jorge***
+* CRUD de los recordatorios implementado.
+* Menú contextual para los recordatorios.
+* Solo se muestran los recordatorios del día seleccionado.
+* Solo se pueden crear recordatorios en un día futuro.
+* Cada usuario solo puede acceder a sus recordatorios.

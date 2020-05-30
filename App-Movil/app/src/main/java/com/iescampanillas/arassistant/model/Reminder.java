@@ -1,6 +1,8 @@
 package com.iescampanillas.arassistant.model;
 
-public class Reminder {
+import java.io.Serializable;
+
+public class Reminder implements Serializable {
 
     private String id, title, description;
     private long dateTime;

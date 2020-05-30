@@ -24,7 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.iescampanillas.arassistant.R;
-import com.iescampanillas.arassistant.adapter.TaskAdapter;
+import com.iescampanillas.arassistant.adapter.task.TaskAdapter;
 import com.iescampanillas.arassistant.constant.AppString;
 import com.iescampanillas.arassistant.database.CategoriesContract;
 import com.iescampanillas.arassistant.database.CategoriesDBHelper;

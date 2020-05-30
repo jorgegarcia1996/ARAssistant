@@ -1,9 +1,11 @@
 package com.iescampanillas.arassistant.utils;
 
 import com.iescampanillas.arassistant.constant.AppString;
+import com.iescampanillas.arassistant.model.Reminder;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class DateTimeUtils {
@@ -57,5 +59,30 @@ public class DateTimeUtils {
                 value = Integer.MAX_VALUE;
         }
         return value;
+    }
+
+    public static boolean isPast(Calendar date) {
+        long currentDate = Calendar.getInstance().getTimeInMillis();
+        long selectedDate = date.getTimeInMillis();
+        //Simplified if statement
+        return currentDate > selectedDate;
+    }
+
+    public static boolean checkReminder(long selectedDate, long reminderDate) {
+        int selectedDay = getDateElement(selectedDate, AppString.DAY_OF_MONTH);
+        int selectedMonth = getDateElement(selectedDate, AppString.MONTH);
+        int selectedYear = getDateElement(selectedDate, AppString.YEAR);
+
+        int reminderDay = getDateElement(reminderDate, AppString.DAY_OF_MONTH);
+        int reminderMonth = getDateElement(reminderDate, AppString.MONTH);
+        int reminderYear = getDateElement(reminderDate, AppString.YEAR);
+
+        Calendar selectedCalendar = new GregorianCalendar();
+        selectedCalendar.set(selectedYear, selectedMonth, selectedDay);
+
+        Calendar reminderCalendar = new GregorianCalendar();
+        reminderCalendar.set(reminderYear, reminderMonth, reminderDay);
+
+        return selectedCalendar.getTimeInMillis() == reminderCalendar.getTimeInMillis();
     }
 }

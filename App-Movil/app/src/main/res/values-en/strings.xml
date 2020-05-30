@@ -60,4 +60,9 @@
     <string name="toast_update_reminder_error">Reminder could not be updated</string>
     <string name="toast_create_reminder_success">Reminder added</string>
     <string name="toast_create_reminder_error">Reminder could not be created</string>
+    <string name="toast_no_past_reminders">Reminder could not be created in the past</string>
+    <string name="toast_get_reminder_error">Reminders could not be readied</string>
+    <string name="label_create_reminder">New reminder</string>
+    <string name="toast_delete_reminder">Reminder deleted</string>
+    <string name="toast_delete_reminder_error">Reminder could not be deleted</string>
 </resources>

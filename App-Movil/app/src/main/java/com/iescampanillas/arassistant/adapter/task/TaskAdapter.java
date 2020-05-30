@@ -1,11 +1,8 @@
-package com.iescampanillas.arassistant.adapter;
+package com.iescampanillas.arassistant.adapter.task;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -25,7 +25,7 @@ public interface AppString {
 
     //Date
     String DATE_SELECTED = "date_selected";
-    String DATE_FORMAT = "dd/MM/yyyy kk:mm";
+    String TIME_FORMAT = "kk:mm";
     String YEAR = "year";
     String MONTH = "month";
     String DAY_OF_MONTH = "day_of_month";

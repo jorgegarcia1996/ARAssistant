@@ -68,5 +68,4 @@
     <string name="dialog_password_recovery">Password recovery</string>
     <string name="dialog_recovery_pass_message">Write the email with which you created the account.</string>
     <string name="dialog_send">Send</string>
-    <string name="label_see_dialog">See</string>
 </resources>

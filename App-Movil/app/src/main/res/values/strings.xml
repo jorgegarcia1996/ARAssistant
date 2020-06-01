@@ -71,5 +71,4 @@
     <string name="dialog_password_recovery">Recuperar contraseña</string>
     <string name="dialog_recovery_pass_message">Escribe el correo con el que creaste la cuenta.</string>
     <string name="dialog_send">Enviar</string>
-    <string name="label_see_dialog">Ver</string>
 </resources>

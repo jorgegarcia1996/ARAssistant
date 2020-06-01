@@ -1,6 +1,5 @@
 package com.iescampanillas.arassistant.adapter.reminder;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -89,19 +88,14 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            MenuItem seeDetails = menu.add(Menu.NONE, 1, 1, R.string.label_see_dialog);
-            MenuItem edit = menu.add(Menu.NONE, 2, 2, R.string.label_edit_dialog);
-            MenuItem delete = menu.add(Menu.NONE, 3, 3, R.string.label_delete_dialog);
+            MenuItem edit = menu.add(Menu.NONE, 1, 1, R.string.label_edit_dialog);
+            MenuItem delete = menu.add(Menu.NONE, 2, 2, R.string.label_delete_dialog);
             edit.setOnMenuItemClickListener(item -> {
                editReminder(v, reminder);
                 return false;
             });
             delete.setOnMenuItemClickListener(item -> {
                 deleteReminder(reminder);
-                return false;
-            });
-            seeDetails.setOnMenuItemClickListener(item -> {
-                seeDetailsReminder(v, reminder);
                 return false;
             });
         }
@@ -127,16 +121,5 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
                     Toast.makeText(ctx, R.string.toast_delete_reminder_error, Toast.LENGTH_SHORT).show();
                 });
 
-    }
-
-    private void seeDetailsReminder(View v,Reminder reminder) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-        builder.setTitle(DateTimeUtils.getFormatDate(reminder.getDateTime(), AppString.TIME_FORMAT)
-                + " " + reminder.getTitle());
-        builder.setMessage(reminder.getDescription());
-        builder.setCancelable(false);
-        builder.setPositiveButton(R.string.label_close_dialog, (dialog, which) -> dialog.cancel());
-        AlertDialog taskAlert = builder.create();
-        taskAlert.show();
     }
 }

@@ -4,8 +4,16 @@ import java.util.Random;
 
 public final class Generator {
 
-    public Generator() {
+    private static Generator generatorInstance = null;
 
+    private Generator() {
+    }
+
+    public static Generator getInstance() {
+        if(generatorInstance == null) {
+            generatorInstance = new Generator();
+        }
+        return generatorInstance;
     }
 
     /**
@@ -14,7 +22,7 @@ public final class Generator {
      *
      * @return Returns a random string
      * */
-    public String generateId(String prefix) {
+    public static String generateId(String prefix) {
         Random random = new Random();
         int length = 30;
         StringBuilder randomStringBuilder = new StringBuilder();

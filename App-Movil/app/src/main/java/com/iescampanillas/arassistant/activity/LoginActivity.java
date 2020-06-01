@@ -1,13 +1,19 @@
 package com.iescampanillas.arassistant.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.renderscript.ScriptGroup;
+import android.text.InputType;
 import android.util.Patterns;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -121,16 +127,37 @@ public class LoginActivity extends AppCompatActivity {
 
         //Password recovery
         btnForgotPass.setOnClickListener(l -> {
-            String ema = email.getText().toString();
-            if (Patterns.EMAIL_ADDRESS.matcher(ema).matches()) {
-                fbAuth.sendPasswordResetEmail(ema).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(getApplicationContext(), R.string.toast_reset_password_email_sent, Toast.LENGTH_LONG).show();
-                    }
-                });
-            } else {
-                email.setError(getString(R.string.error_invalid_email));
-            }
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle(R.string.dialog_password_recovery);
+            dialog.setMessage(R.string.dialog_recovery_pass_message);
+            dialog.setCancelable(false);
+
+            //Layout inflater
+            View view = getLayoutInflater().inflate(R.layout.recovery_password_layout, null);
+            TextInputEditText recoveryEmail = view.findViewById(R.id.recPassTextEmailInput);
+            recoveryEmail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+            recoveryEmail.setHint(R.string.email_hint);
+            dialog.setView(view);
+
+            //Buttons
+            dialog.setNegativeButton(R.string.label_close_dialog, (dialog1, which) -> dialog1.cancel());
+            dialog.setPositiveButton(R.string.dialog_send, (dialog1, which) -> {
+                String ema = recoveryEmail.getText().toString();
+                if (Patterns.EMAIL_ADDRESS.matcher(ema).matches()) {
+                    fbAuth.sendPasswordResetEmail(ema).addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            dialog1.cancel();
+                            Toast.makeText(getApplicationContext(), R.string.toast_reset_password_email_sent, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    recoveryEmail.setError(getString(R.string.error_invalid_email));
+                }
+            });
+
+            //Show alert
+            AlertDialog recoveryPassAlert = dialog.create();
+            recoveryPassAlert.show();
         });
 
         //Register

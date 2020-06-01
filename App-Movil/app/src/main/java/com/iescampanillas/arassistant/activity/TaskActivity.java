@@ -1,38 +1,23 @@
 package com.iescampanillas.arassistant.activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.iescampanillas.arassistant.R;
-import com.iescampanillas.arassistant.adapter.TaskAdapter;
-import com.iescampanillas.arassistant.constant.AppString;
-import com.iescampanillas.arassistant.model.Task;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -97,8 +82,13 @@ public class TaskActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.nav_home:
                     drawerLayout.closeDrawers();
-                    Intent taskIntent = new Intent(TaskActivity.this, HomeActivity.class);
-                    startActivity(taskIntent);
+                    Intent homeIntent = new Intent(TaskActivity.this, HomeActivity.class);
+                    startActivity(homeIntent);
+                    break;
+                case R.id.nav_reminder:
+                    drawerLayout.closeDrawers();
+                    Intent reminderIntent = new Intent(TaskActivity.this, ReminderActivity.class);
+                    startActivity(reminderIntent);
                     break;
                 case R.id.nav_profile:
                     drawerLayout.closeDrawers();

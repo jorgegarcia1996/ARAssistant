@@ -1,22 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--Arrays-->
-    <string-array name="arr_categories">
-        <item>Health</item>
-        <item>Family</item>
-        <item>Food</item>
-        <item>Routine</item>
-        <item>Others</item>
-    </string-array>
-    <string-array name="arr_categories_filter">
-        <item>All</item>
-        <item>Health</item>
-        <item>Family</item>
-        <item>Food</item>
-        <item>Routine</item>
-        <item>Others</item>
-    </string-array>
-
     <!--Strings-->
     <string name="login_button">Login</string>
     <string name="email_hint">user@email.com</string>
@@ -47,7 +30,7 @@
     <string name="toast_create_task_success">Task added successfully</string>
     <string name="toast_create_task_error">The task could not be created</string>
     <string name="toast_update_task_success">Task updated</string>
-    <string name="toast_update_task_error">The task could not be updated</string>
+    <string name="toast_update_task_error">Task could not be updated</string>
     <string name="toast_get_task_error">Tasks could not be readied</string>
     <string name="label_close_dialog">Close</string>
     <string name="label_edit_dialog">Edit</string>
@@ -67,4 +50,22 @@
     <string name="label_return">Return</string>
     <string name="label_category">Category</string>
     <string name="label_remember_me">Remember me</string>
+    <string name="select_image_label">Select image</string>
+    <string name="toast_image_upload_success">Image uploaded</string>
+    <string name="toast_image_upload_failure">Image not uploaded</string>
+    <string name="toast_image_too_big_error">Image must be smaller than 4096x4096px</string>
+    <string name="toast_image_size_too_big_error">Image size too big, max 1MB</string>
+    <string name="label_time">Hour</string>
+    <string name="toast_update_reminder_success">Reminder updated</string>
+    <string name="toast_update_reminder_error">Reminder could not be updated</string>
+    <string name="toast_create_reminder_success">Reminder added</string>
+    <string name="toast_create_reminder_error">Reminder could not be created</string>
+    <string name="toast_no_past_reminders">Reminder could not be created in the past</string>
+    <string name="toast_get_reminder_error">Reminders could not be readied</string>
+    <string name="label_create_reminder">New reminder</string>
+    <string name="toast_delete_reminder">Reminder deleted</string>
+    <string name="toast_delete_reminder_error">Reminder could not be deleted</string>
+    <string name="dialog_password_recovery">Password recovery</string>
+    <string name="dialog_recovery_pass_message">Write the email with which you created the account.</string>
+    <string name="dialog_send">Send</string>
 </resources>

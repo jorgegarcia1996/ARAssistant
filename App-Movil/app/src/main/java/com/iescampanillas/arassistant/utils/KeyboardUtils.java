@@ -7,7 +7,16 @@ import android.view.inputmethod.InputMethodManager;
 
 public class KeyboardUtils {
 
-    public KeyboardUtils() {
+    private static KeyboardUtils keyboardUtilsInstance = null;
+
+    private KeyboardUtils() {
+    }
+
+    public static KeyboardUtils getInstance(){
+        if(keyboardUtilsInstance == null) {
+            keyboardUtilsInstance = new KeyboardUtils();
+        }
+        return keyboardUtilsInstance;
     }
 
     /**
@@ -34,7 +43,7 @@ public class KeyboardUtils {
         View view = activity.findViewById(android.R.id.content);
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            imm.toggleSoftInputFromWindow(view.getWindowToken(), InputMethodManager.SHOW_FORCED, 0);
         }
     }
 }

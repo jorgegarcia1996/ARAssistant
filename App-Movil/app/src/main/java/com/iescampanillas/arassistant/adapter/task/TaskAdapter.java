@@ -1,14 +1,13 @@
-package com.iescampanillas.arassistant.adapter;
+package com.iescampanillas.arassistant.adapter.task;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,13 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.iescampanillas.arassistant.R;
 import com.iescampanillas.arassistant.constant.AppString;
 import com.iescampanillas.arassistant.model.Task;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static androidx.navigation.Navigation.findNavController;
 
@@ -32,6 +31,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     //Firebase
     private FirebaseDatabase fbDatabase;
     private FirebaseAuth fbAuth;
+    private FirebaseStorage fbStorage;
 
     //Data and context
     private ArrayList<Task> data;
@@ -78,7 +78,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     public class TaskHolder extends RecyclerView.ViewHolder {
 
-        private TextView title, cat;
+        private TextView title;
+        private Button cat;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
@@ -88,7 +89,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
         public void BindHolder(Task task) {
             title.setText(task.getTitle());
-            cat.setText(task.getCategory());
+            title.setBackgroundColor(Color.parseColor(task.getColor()));
+            cat.setBackgroundResource(task.getIcon());
         }
     }
 
@@ -113,7 +115,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         //Edit button
         builder.setNegativeButton(R.string.label_edit_dialog, (dialog, which) -> editTask(task, view));
         //Delete button
-        builder.setNeutralButton(R.string.label_delete_dialog, (dialog, which) -> deleteTask(task.getId()));
+        builder.setNeutralButton(R.string.label_delete_dialog, (dialog, which) -> deleteTask(task));
         AlertDialog taskAlert = builder.create();
         taskAlert.show();
     }
@@ -134,18 +136,24 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     /**
      * Method to delete a task from firebase and update the list
      *
-     * @param taskId Id of the task to delete
+     * @param task The task to delete
      *
      * */
-    private void deleteTask(String taskId) {
+    private void deleteTask(Task task) {
+        data.clear();
         fbDatabase = FirebaseDatabase.getInstance();
+        fbStorage = FirebaseStorage.getInstance();
         fbAuth = FirebaseAuth.getInstance();
         String uid = fbAuth.getCurrentUser().getUid();
-        fbDatabase.getReference(AppString.DB_TASK_REF).child(uid).child(taskId).removeValue().addOnSuccessListener(aVoid -> {
-            Toast.makeText(ctx, R.string.toast_deleted_task, Toast.LENGTH_SHORT).show();
+        StorageReference storageRef = fbStorage.getReference().child(AppString.IMAGES_FOLDER).child(task.getId()).child(task.getMedia());
+        storageRef.delete().addOnSuccessListener(command -> {
+            fbDatabase.getReference(AppString.DB_TASK_REF).child(uid).child(task.getId()).removeValue().addOnSuccessListener(aVoid -> {
+                Toast.makeText(ctx, R.string.toast_deleted_task, Toast.LENGTH_SHORT).show();
+            }).addOnFailureListener(e -> {
+                Toast.makeText(ctx, R.string.toast_delete_task_error, Toast.LENGTH_SHORT).show();
+            });
         }).addOnFailureListener(e -> {
             Toast.makeText(ctx, R.string.toast_delete_task_error, Toast.LENGTH_SHORT).show();
         });
-        data.clear();
     }
 }

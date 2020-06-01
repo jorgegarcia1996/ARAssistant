@@ -1,29 +1,22 @@
-package com.iescampanillas.arassistant.fragment;
+package com.iescampanillas.arassistant.fragment.task;
 
-import android.app.Activity;
-import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,18 +24,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.iescampanillas.arassistant.R;
-import com.iescampanillas.arassistant.adapter.TaskAdapter;
+import com.iescampanillas.arassistant.adapter.task.TaskAdapter;
 import com.iescampanillas.arassistant.constant.AppString;
+import com.iescampanillas.arassistant.database.CategoriesContract;
+import com.iescampanillas.arassistant.database.CategoriesDBHelper;
 import com.iescampanillas.arassistant.model.Task;
-import com.iescampanillas.arassistant.utils.Generator;
 import com.iescampanillas.arassistant.utils.KeyboardUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static androidx.navigation.Navigation.findNavController;
 
@@ -51,6 +42,10 @@ public class TaskFragment extends Fragment {
     //FBDatabase
     private FirebaseDatabase fbDatabase;
     private FirebaseAuth fbAuth;
+
+    //Local Database
+    private CategoriesDBHelper categoriesDBHelper;
+
     //Array
     private ArrayList<Task> tasksList;
 
@@ -83,8 +78,26 @@ public class TaskFragment extends Fragment {
             findNavController(v).navigate(R.id.task_to_createTask);
         });
 
+        //SQLite data to spinner
+        categoriesDBHelper = new CategoriesDBHelper(getActivity().getApplicationContext());
+        ArrayList<String> spinnerEntries = new ArrayList<>();
+        Cursor cursor = categoriesDBHelper.getAllCategories();
+        String language = Locale.getDefault().getLanguage();
+        //Check language
+        if (cursor.getColumnIndex(language) == -1) {
+            while(cursor.moveToNext()) {
+                spinnerEntries.add(cursor.getString(cursor.getColumnIndex(CategoriesContract.CategoriesEntry.CAT_NAME)));
+            }
+        } else {
+            while(cursor.moveToNext()) {
+                spinnerEntries.add(cursor.getString(cursor.getColumnIndex(language)));
+            }
+        }
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.main_spinner_item_layout, spinnerEntries);
+
         //Filter
         spinnerFilter = taskView.findViewById(R.id.fragmentTaskSpinnerCategoryFilter);
+        spinnerFilter.setAdapter(arrayAdapter);
         spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -129,9 +142,16 @@ public class TaskFragment extends Fragment {
                 //Get every task and save it into the array
                 for (DataSnapshot dSnap: dataSnapshot.getChildren()) {
                     Task task = dSnap.getValue(Task.class);
-
                     if (task.getCategory().equals(category) || category.equals("All")) {
-                        tasksList.add(task);
+                        AtomicBoolean taskAlreadyAdded = new AtomicBoolean(false);
+                        tasksList.forEach(task1 -> {
+                            if(task.getId().equals(task1.getId())) {
+                                taskAlreadyAdded.set(true);
+                            }
+                        });
+                        if(!taskAlreadyAdded.get()) {
+                            tasksList.add(task);
+                        }
                     }
                 }
                 //Send the array to the adapter

@@ -1,20 +1,4 @@
 <resources>
-    <!--Arrays-->
-    <string-array name="arr_categories">
-        <item>Salud</item>
-        <item>Familia</item>
-        <item>Comida</item>
-        <item>Rutina</item>
-        <item>Otros</item>
-    </string-array>
-    <string-array name="arr_categories_filter">
-        <item>Todos</item>
-        <item>Salud</item>
-        <item>Familia</item>
-        <item>Comida</item>
-        <item>Rutina</item>
-        <item>Otros</item>
-    </string-array>
     <!--Strings-->
     <string name="app_name" translatable="false">ARAssistant</string>
     <string name="login_button">Iniciar sesión</string>
@@ -69,4 +53,22 @@
     <string name="label_return">Volver</string>
     <string name="label_category">Categoría</string>
     <string name="label_remember_me">Recordarme</string>
+    <string name="select_image_label">Seleccionar imagen</string>
+    <string name="toast_image_upload_success">Imagen subida correctamente</string>
+    <string name="toast_image_upload_failure">La imagen no se ha subido</string>
+    <string name="toast_image_too_big_error">La imagen debe ser menor de 4096x4096px</string>
+    <string name="toast_image_size_too_big_error">La imagen pesa más de 1MB</string>
+    <string name="label_time">Hora</string>
+    <string name="toast_update_reminder_success">Recordatorio actualizado</string>
+    <string name="toast_update_reminder_error">No se ha podido actualizar el recordatorio</string>
+    <string name="toast_create_reminder_success">Recordatorio creado</string>
+    <string name="toast_create_reminder_error">El recordatorio no se ha podido crear</string>
+    <string name="toast_no_past_reminders">No se puede crear recordatorios en el pasado</string>
+    <string name="toast_get_reminder_error">No se han podido leer los recordatorios</string>
+    <string name="label_create_reminder">Nuevo recordatorio</string>
+    <string name="toast_delete_reminder">Recordatorio eliminado</string>
+    <string name="toast_delete_reminder_error">No se ha podido borrar el recordatorio</string>
+    <string name="dialog_password_recovery">Recuperar contraseña</string>
+    <string name="dialog_recovery_pass_message">Escribe el correo con el que creaste la cuenta.</string>
+    <string name="dialog_send">Enviar</string>
 </resources>

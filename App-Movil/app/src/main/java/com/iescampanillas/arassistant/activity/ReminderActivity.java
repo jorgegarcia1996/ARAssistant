@@ -1,41 +1,28 @@
 package com.iescampanillas.arassistant.activity;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.iescampanillas.arassistant.R;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static androidx.navigation.Navigation.findNavController;
-
-public class HomeActivity extends AppCompatActivity {
+public class ReminderActivity extends AppCompatActivity {
 
     @BindView(R.id.navigation)
     protected NavigationView nav;
@@ -43,7 +30,7 @@ public class HomeActivity extends AppCompatActivity {
     @BindView(R.id.main_toolbar)
     protected Toolbar toolbar;
 
-    @BindView(R.id.home_drawer_layout)
+    @BindView(R.id.reminder_drawer_layout)
     protected DrawerLayout drawerLayout;
 
     // User data
@@ -51,6 +38,7 @@ public class HomeActivity extends AppCompatActivity {
     protected TextView userEmail;
     protected TextView userName;
 
+    private FirebaseDatabase fbDatabase;
     private FirebaseAuth fbAuth;
     private FirebaseUser fbUser;
 
@@ -59,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_reminder);
 
         //ButterKnife implementation
         ButterKnife.bind(this);
@@ -72,39 +60,43 @@ public class HomeActivity extends AppCompatActivity {
         userEmail = nav.getHeaderView(0).findViewById(R.id.nav_email);
         userName = nav.getHeaderView(0).findViewById(R.id.nav_username);
 
+        setUserData();
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setTitle(R.string.app_name);
+        toolbar.setTitle(R.string.label_reminder);
 
-
-
-        toolbar.setNavigationOnClickListener(v -> {
-            drawerLayout.openDrawer(Gravity.LEFT);
-            nav.bringToFront();
+        //Open nav
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(Gravity.LEFT);
+                nav.bringToFront();
+            }
         });
 
-        nav.setCheckedItem(R.id.nav_home);
+        nav.setCheckedItem(R.id.nav_reminder);
         nav.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.nav_task:
                     drawerLayout.closeDrawers();
-                    Intent taskIntent = new Intent(HomeActivity.this, TaskActivity.class);
+                    Intent taskIntent = new Intent(ReminderActivity.this, TaskActivity.class);
                     startActivity(taskIntent);
                     break;
-                case R.id.nav_reminder:
+                case R.id.nav_home:
                     drawerLayout.closeDrawers();
-                    Intent reminderIntent = new Intent(HomeActivity.this, ReminderActivity.class);
-                    startActivity(reminderIntent);
+                    Intent homeIntent = new Intent(ReminderActivity.this, HomeActivity.class);
+                    startActivity(homeIntent);
                     break;
                 case R.id.nav_profile:
                     drawerLayout.closeDrawers();
-                    Intent profileIntent = new Intent(HomeActivity.this, ProfileActivity.class);
+                    Intent profileIntent = new Intent(ReminderActivity.this, ProfileActivity.class);
                     startActivity(profileIntent);
                     break;
                 case R.id.nav_logout:
                     fbAuth.signOut();
                     finish();
-                    Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                    Intent intent = new Intent(ReminderActivity.this, LoginActivity.class);
                     startActivity(intent);
                     break;
             }
@@ -121,18 +113,4 @@ public class HomeActivity extends AppCompatActivity {
         userName.setText(fbUser.getDisplayName());
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        if(currentUser == null) {
-            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-            finish();
-            startActivity(intent);
-        } else {
-            setUserData();
-        }
-    }
 }

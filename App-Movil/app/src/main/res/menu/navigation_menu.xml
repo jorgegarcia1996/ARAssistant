@@ -18,7 +18,7 @@
             android:title="@string/label_task" />
 
         <item
-            android:id="@+id/nav_calendar"
+            android:id="@+id/nav_reminder"
             android:icon="@drawable/icon_reminder"
             android:title="@string/label_reminder" />
 

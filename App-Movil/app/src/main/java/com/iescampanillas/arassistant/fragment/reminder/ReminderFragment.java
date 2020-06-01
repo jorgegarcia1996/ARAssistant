@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.EventDay;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,6 +39,8 @@ public class ReminderFragment extends Fragment {
     private FirebaseDatabase fbDatabase;
 
     private ArrayList<Reminder> reminderList;
+
+    private ArrayList<EventDay> eventDays;
 
     private ReminderAdapter reminderAdapter;
 
@@ -65,8 +68,8 @@ public class ReminderFragment extends Fragment {
         dateBundle = new Bundle();
         date = GregorianCalendar.getInstance();
 
-        calendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
-            date.set(year, month,dayOfMonth);
+        calendar.setOnDayClickListener(eventDay -> {
+            date.setTimeInMillis(eventDay.getCalendar().getTimeInMillis());
             getData(reminderView, date.getTimeInMillis());
         });
 
@@ -92,6 +95,7 @@ public class ReminderFragment extends Fragment {
         reminderRecycler.setAdapter(reminderAdapter);
 
         reminderList = new ArrayList<>();
+        eventDays = new ArrayList<>();
 
         fbDatabase = FirebaseDatabase.getInstance();
         fbAuth = FirebaseAuth.getInstance();
@@ -102,7 +106,13 @@ public class ReminderFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dSnap: dataSnapshot.getChildren()) {
                     Reminder reminder = dSnap.getValue(Reminder.class);
-                    if(DateTimeUtils.checkReminder(date.getTimeInMillis(), reminder.getDateTime())) {
+
+                    Calendar cal = new GregorianCalendar();
+                    cal.setTimeInMillis(reminder.getDateTime());
+                    eventDays.add(new EventDay(cal, R.drawable.ic_mark));
+
+
+                    if(DateTimeUtils.checkReminder(selectedDate, reminder.getDateTime())) {
                         AtomicBoolean reminderAlreadyAdded = new AtomicBoolean(false);
                         reminderList.forEach(reminder1 -> {
                             if(reminder.getId().equals(reminder1.getId())) {
@@ -114,6 +124,7 @@ public class ReminderFragment extends Fragment {
                         }
                     }
                 }
+                calendar.setEvents(eventDays);
                 reminderAdapter.setData(reminderList);
             }
 

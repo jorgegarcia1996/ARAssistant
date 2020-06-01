@@ -65,4 +65,7 @@
     <string name="label_create_reminder">New reminder</string>
     <string name="toast_delete_reminder">Reminder deleted</string>
     <string name="toast_delete_reminder_error">Reminder could not be deleted</string>
+    <string name="dialog_password_recovery">Password recovery</string>
+    <string name="dialog_recovery_pass_message">Write the email with which you created the account.</string>
+    <string name="dialog_send">Send</string>
 </resources>

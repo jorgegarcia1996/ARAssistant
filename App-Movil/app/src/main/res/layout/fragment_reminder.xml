@@ -27,10 +27,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <CalendarView
+            <com.applandeo.materialcalendarview.CalendarView
                 android:id="@+id/reminderFragmentCalendar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:type="one_day_picker"
+                app:headerColor="@color/colorPrimary"
+                app:selectionColor="@color/colorPrimary"
+                app:eventsEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fragmentNewReminderButton" />

@@ -122,3 +122,9 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 * Solo se muestran los recordatorios del día seleccionado.
 * Solo se pueden crear recordatorios en un día futuro.
 * Cada usuario solo puede acceder a sus recordatorios.
+
+## Avances 01/06/2020
+
+***Jorge***
+* Al pulsar en el botón de recuperar contraseña, ahora se abre un dialog pidiendo el email.
+* En los recordatorios, si hay algún día con un recordatorio, se marca en el calendario.

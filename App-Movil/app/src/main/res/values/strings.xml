@@ -68,4 +68,7 @@
     <string name="label_create_reminder">Nuevo recordatorio</string>
     <string name="toast_delete_reminder">Recordatorio eliminado</string>
     <string name="toast_delete_reminder_error">No se ha podido borrar el recordatorio</string>
+    <string name="dialog_password_recovery">Recuperar contraseña</string>
+    <string name="dialog_recovery_pass_message">Escribe el correo con el que creaste la cuenta.</string>
+    <string name="dialog_send">Enviar</string>
 </resources>

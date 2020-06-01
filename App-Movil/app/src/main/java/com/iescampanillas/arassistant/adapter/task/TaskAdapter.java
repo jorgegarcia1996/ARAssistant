@@ -3,6 +3,8 @@ package com.iescampanillas.arassistant.adapter.task;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableContainer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -90,7 +93,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         public void BindHolder(Task task) {
             title.setText(task.getTitle());
             title.setBackgroundColor(Color.parseColor(task.getColor()));
-            cat.setBackgroundResource(task.getIcon());
+            //Cambiar esto
+            if(task.getCategory().equals("Family") || task.getCategory().equals("Familia")) {
+                cat.setBackgroundResource(R.drawable.ic_family);
+            } else if(task.getCategory().equals("Food") || task.getCategory().equals("Comida")) {
+                cat.setBackgroundResource(R.drawable.ic_food);
+            }else if(task.getCategory().equals("Health") || task.getCategory().equals("Salud")) {
+                cat.setBackgroundResource(R.drawable.ic_health);
+            }else if(task.getCategory().equals("Routine") || task.getCategory().equals("Rutina")) {
+                cat.setBackgroundResource(R.drawable.ic_routine);
+            }else if(task.getCategory().equals("Other") || task.getCategory().equals("Otros")) {
+                cat.setBackgroundResource(R.drawable.ic_other);
+            }
         }
     }
 

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.DrawableContainer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,18 +94,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         public void BindHolder(Task task) {
             title.setText(task.getTitle());
             title.setBackgroundColor(Color.parseColor(task.getColor()));
-            //Cambiar esto
-            if(task.getCategory().equals("Family") || task.getCategory().equals("Familia")) {
-                cat.setBackgroundResource(R.drawable.ic_family);
-            } else if(task.getCategory().equals("Food") || task.getCategory().equals("Comida")) {
-                cat.setBackgroundResource(R.drawable.ic_food);
-            }else if(task.getCategory().equals("Health") || task.getCategory().equals("Salud")) {
-                cat.setBackgroundResource(R.drawable.ic_health);
-            }else if(task.getCategory().equals("Routine") || task.getCategory().equals("Rutina")) {
-                cat.setBackgroundResource(R.drawable.ic_routine);
-            }else if(task.getCategory().equals("Other") || task.getCategory().equals("Otros")) {
-                cat.setBackgroundResource(R.drawable.ic_other);
-            }
+            cat.setBackgroundResource(task.getIcon());
         }
     }
 
@@ -159,15 +149,23 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         fbStorage = FirebaseStorage.getInstance();
         fbAuth = FirebaseAuth.getInstance();
         String uid = fbAuth.getCurrentUser().getUid();
-        StorageReference storageRef = fbStorage.getReference().child(AppString.IMAGES_FOLDER).child(task.getId()).child(task.getMedia());
-        storageRef.delete().addOnSuccessListener(command -> {
+        if(!task.getMedia().equals("")) {
+            StorageReference storageRef = fbStorage.getReference().child(AppString.IMAGES_FOLDER).child(task.getId()).child(task.getMedia());
+            storageRef.delete().addOnSuccessListener(command -> {
+                fbDatabase.getReference(AppString.DB_TASK_REF).child(uid).child(task.getId()).removeValue().addOnSuccessListener(aVoid -> {
+                    Toast.makeText(ctx, R.string.toast_deleted_task, Toast.LENGTH_SHORT).show();
+                }).addOnFailureListener(e -> {
+                    Toast.makeText(ctx, R.string.toast_delete_task_error, Toast.LENGTH_SHORT).show();
+                });
+            }).addOnFailureListener(e -> {
+                Toast.makeText(ctx, R.string.toast_delete_task_error, Toast.LENGTH_SHORT).show();
+            });
+        } else {
             fbDatabase.getReference(AppString.DB_TASK_REF).child(uid).child(task.getId()).removeValue().addOnSuccessListener(aVoid -> {
                 Toast.makeText(ctx, R.string.toast_deleted_task, Toast.LENGTH_SHORT).show();
             }).addOnFailureListener(e -> {
                 Toast.makeText(ctx, R.string.toast_delete_task_error, Toast.LENGTH_SHORT).show();
             });
-        }).addOnFailureListener(e -> {
-            Toast.makeText(ctx, R.string.toast_delete_task_error, Toast.LENGTH_SHORT).show();
-        });
+        }
     }
 }

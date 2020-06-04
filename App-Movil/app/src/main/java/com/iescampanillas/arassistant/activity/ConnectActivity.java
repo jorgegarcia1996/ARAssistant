@@ -1,20 +1,17 @@
 package com.iescampanillas.arassistant.activity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,13 +19,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.WriterException;
 import com.iescampanillas.arassistant.R;
 import com.iescampanillas.arassistant.constant.AppString;
-import com.iescampanillas.arassistant.model.Task;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -39,6 +33,7 @@ public class ConnectActivity extends AppCompatActivity {
 
     private final static String TAG = "GenerateQRCode";
 
+    //Bind elements
     @BindView(R.id.qrcode)
     protected ImageView qrImage;
 
@@ -47,9 +42,11 @@ public class ConnectActivity extends AppCompatActivity {
 
     private String inputValue = "";
 
+    //QR Code
     private QRGEncoder qrgEncoder;
     private Bitmap bitmap;
 
+    //Firebase
     private FirebaseDatabase fbDatabase;
     private FirebaseAuth fbAuth;
     private FirebaseUser fbUser;
@@ -60,18 +57,20 @@ public class ConnectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
 
+        //Butterknife
         ButterKnife.bind(this);
 
+        //Firebase
         fbDatabase = FirebaseDatabase.getInstance();
         fbAuth = FirebaseAuth.getInstance();
         fbUser = fbAuth.getCurrentUser();
-        DatabaseReference userRef = fbDatabase.getReference("user")
+        DatabaseReference userRef = fbDatabase.getReference(AppString.DB_USER_REF)
             .child(fbUser.getUid())
-            .child("connectID");
+            .child(AppString.DB_CONNECT_ID_REF);
 
+        //Toolbar
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +78,7 @@ public class ConnectActivity extends AppCompatActivity {
             }
         });
 
+        //Generate QR
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -91,6 +91,10 @@ public class ConnectActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * QR code generator
+     *
+     * */
     private void generateQR() {
         if (inputValue.length() > 0) {
             WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
@@ -99,7 +103,7 @@ public class ConnectActivity extends AppCompatActivity {
             display.getSize(point);
             int width = point.x;
             int height = point.y;
-            int smallerDimension = width < height ? width : height;
+            int smallerDimension = Math.min(width, height);
             smallerDimension = smallerDimension * 3 / 4;
 
             qrgEncoder = new QRGEncoder(

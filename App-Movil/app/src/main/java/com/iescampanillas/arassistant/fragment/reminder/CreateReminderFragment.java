@@ -1,9 +1,6 @@
 package com.iescampanillas.arassistant.fragment.reminder;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +25,9 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static androidx.navigation.Navigation.findNavController;
 
 public class CreateReminderFragment extends Fragment {
@@ -35,11 +37,9 @@ public class CreateReminderFragment extends Fragment {
     private FirebaseAuth fbAuth;
 
     //Inputs
-    private EditText reminderTitle, reminderDescription;
+    private EditText reminderTitle;
+    private EditText reminderDescription;
     private TimePicker reminderTimePicker;
-
-    //Buttons
-    private Button btnReturn, btnSave;
 
     //Reminder
     private Reminder reminder;
@@ -47,7 +47,7 @@ public class CreateReminderFragment extends Fragment {
     //Date
     private long dateInMilliseconds;
 
-    //Time
+    //Time selected
     private int hourSelected, minuteSelected;
 
     //Boolean
@@ -62,14 +62,20 @@ public class CreateReminderFragment extends Fragment {
                              Bundle savedInstanceState) {
         View createReminderView = inflater.inflate(R.layout.fragment_create_reminder, container, false);
 
-        //Bind Elements
-        fbAuth = FirebaseAuth.getInstance();
-        fbDatabase = FirebaseDatabase.getInstance();
+        //Bind elements
         reminderTitle = createReminderView.findViewById(R.id.fragmentCreateReminderTitleText);
         reminderDescription = createReminderView.findViewById(R.id.fragmentCreateReminderDescText);
         reminderTimePicker = createReminderView.findViewById(R.id.fragmentCreateReminderTimePicker);
-        btnReturn = createReminderView.findViewById(R.id.fragmentCreateReminderReturnButton);
-        btnSave = createReminderView.findViewById(R.id.fragmentCreateReminderSaveButton);
+        Button btnReturn = createReminderView.findViewById(R.id.fragmentCreateReminderReturnButton);
+        Button btnSave = createReminderView.findViewById(R.id.fragmentCreateReminderSaveButton);
+
+        //Firebase
+        fbAuth = FirebaseAuth.getInstance();
+        fbDatabase = FirebaseDatabase.getInstance();
+
+
+        //Set time picker mode
+        reminderTimePicker.setIs24HourView(true);
 
         //Create Reminder or Edit
         if(getArguments().get(AppString.EDIT_REMINDER) != null) {
@@ -85,84 +91,120 @@ public class CreateReminderFragment extends Fragment {
             isUpdate = false;
         }
 
+        //Show keyboard
+        KeyboardUtils.showKeyboard(getActivity());
+
         //Set focus
         reminderTitle.setFocusable(true);
         reminderTitle.requestFocus();
 
-        //Show keyboard
-        KeyboardUtils.showKeyboard(getActivity());
 
         //Time picker
-        reminderTimePicker.setIs24HourView(true);
         setHourAndMinute(reminderTimePicker.getHour(), reminderTimePicker.getMinute());
         reminderTimePicker.setOnTimeChangedListener((view, hourOfDay, minute) ->
                 setHourAndMinute(hourOfDay, minute));
 
+        //Return button
         btnReturn.setOnClickListener(v -> findNavController(v).navigateUp());
 
+        //Save button
         btnSave.setOnClickListener(this::saveReminder);
 
         return createReminderView;
     }
 
+    /**
+     * Save the selected hour and minute
+     *
+     * @param h The hour to be stored in 'hourSelected'
+     * @param m The minute to be stored in 'minuteSelected'
+     * */
     private void setHourAndMinute(int h, int m) {
         hourSelected = h;
         minuteSelected = m;
     }
 
+    /**
+     * Set in milliseconds the date and time selected
+     *
+     * @param isUpdate Boolean to see if a reminder is a new one or not
+     * */
     private void setDateTime(boolean isUpdate) {
         if (isUpdate) {
             Calendar dateToUpdate = new GregorianCalendar();
             dateToUpdate.setTimeInMillis(reminder.getDateTime());
-            dateToUpdate.set(Calendar.HOUR, hourSelected);
+            dateToUpdate.set(Calendar.HOUR_OF_DAY, hourSelected);
             dateToUpdate.set(Calendar.MINUTE, minuteSelected);
             dateInMilliseconds = dateToUpdate.getTimeInMillis();
         } else {
             Calendar date = (Calendar) getArguments().get(AppString.DATE_SELECTED);
-            date.set(Calendar.HOUR, hourSelected);
+            date.set(Calendar.HOUR_OF_DAY, hourSelected);
             date.set(Calendar.MINUTE, minuteSelected);
             dateInMilliseconds = date.getTimeInMillis();
         }
     }
 
+    /**
+     * Save the reminder in the database
+     *
+     * @param v The actual view
+     * */
     private void saveReminder(View v) {
+        //Check title
         if(reminderTitle.getText().toString().isEmpty()) {
             reminderTitle.setError(getString(R.string.error_empty_fields));
         } else {
+            //Get the data
             String title = reminderTitle.getText().toString();
             String desc = reminderDescription.getText().toString();
             int h = reminderTimePicker.getHour();
             int m = reminderTimePicker.getMinute();
             setHourAndMinute(h, m);
             setDateTime(isUpdate);
+
+            //Set the data in the reminder
             reminder.setTitle(title);
             reminder.setDescription(desc);
             reminder.setDate(dateInMilliseconds);
 
+            //Get the database reference, uid and the current date
             DatabaseReference dbRef = fbDatabase.getReference();
             String uid = fbAuth.getCurrentUser().getUid();
+            Calendar currentDate = Calendar.getInstance();
+            currentDate.set(Calendar.SECOND, 0);
+            long currentDateMs = currentDate.getTimeInMillis();
 
-            if(isUpdate) {
-                HashMap<String, Object> reminderUpdate = new HashMap<>();
-                reminderUpdate.put(AppString.DB_REMINDER_REF + uid + "/" + reminder.getId(), reminder);
-                dbRef.updateChildren(reminderUpdate).addOnSuccessListener(aVoid -> {
-                    Toast.makeText(v.getContext(), R.string.toast_update_reminder_success, Toast.LENGTH_LONG).show();
-                }).addOnFailureListener(e -> {
-                    Toast.makeText(v.getContext(), R.string.toast_update_reminder_error, Toast.LENGTH_LONG).show();
-                }).addOnCompleteListener(task -> findNavController(v).navigateUp());
+            //Check if the selected date if in the past
+            if(currentDateMs < dateInMilliseconds) {
+
+                //Save the data or update
+                if (isUpdate) {
+                    //Update
+                    HashMap<String, Object> reminderUpdate = new HashMap<>();
+                    reminderUpdate.put(AppString.DB_REMINDER_REF + uid + "/" + reminder.getId(), reminder);
+                    dbRef.updateChildren(reminderUpdate).addOnSuccessListener(aVoid -> {
+                        Toast.makeText(v.getContext(), R.string.toast_update_reminder_success, Toast.LENGTH_LONG).show();
+                    }).addOnFailureListener(e -> {
+                        Toast.makeText(v.getContext(), R.string.toast_update_reminder_error, Toast.LENGTH_LONG).show();
+                    }).addOnCompleteListener(task -> findNavController(v).navigateUp());
+                } else {
+                    //Generate id
+                    String reminderId = Generator.generateId(AppString.REMINDER_PREFIX);
+                    reminder.setId(reminderId);
+                    //Save tha data
+                    dbRef.child(AppString.DB_REMINDER_REF).child(uid).child(reminderId).setValue(reminder)
+                            .addOnSuccessListener(aVoid -> {
+                                Toast.makeText(v.getContext(), R.string.toast_create_reminder_success, Toast.LENGTH_LONG).show();
+                                reminderTitle.getText().clear();
+                                reminderDescription.getText().clear();
+                                reminderTitle.setFocusable(true);
+                                reminderTitle.requestFocus();
+                            }).addOnFailureListener(e -> {
+                        Toast.makeText(v.getContext(), R.string.toast_create_reminder_error, Toast.LENGTH_LONG).show();
+                    });
+                }
             } else {
-                String reminderId = Generator.generateId(AppString.REMINDER_PREFIX);
-                reminder.setId(reminderId);
-                dbRef.child(AppString.DB_REMINDER_REF).child(uid).child(reminderId).setValue(reminder)
-                        .addOnSuccessListener(aVoid -> {
-                            Toast.makeText(v.getContext(), R.string.toast_create_reminder_success, Toast.LENGTH_LONG).show();
-                            reminderTitle.getText().clear();
-                            reminderDescription.getText().clear();
-                            reminderTitle.setFocusable(true);
-                            reminderTitle.requestFocus();
-                        }).addOnFailureListener(e -> {
-                            Toast.makeText(v.getContext(), R.string.toast_create_reminder_error, Toast.LENGTH_LONG).show();
-                });
+                Toast.makeText(v.getContext(), R.string.toast_no_past_reminders, Toast.LENGTH_LONG).show();
             }
         }
 

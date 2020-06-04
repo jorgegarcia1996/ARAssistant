@@ -1,9 +1,5 @@
 package com.iescampanillas.arassistant.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +7,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 
 public class ReminderActivity extends AppCompatActivity {
 
+    //Bind elements
     @BindView(R.id.navigation)
     protected NavigationView nav;
 
@@ -34,11 +35,11 @@ public class ReminderActivity extends AppCompatActivity {
     protected DrawerLayout drawerLayout;
 
     // User data
-    protected ImageView userImage;
-    protected TextView userEmail;
-    protected TextView userName;
+    private ImageView userImage;
+    private TextView userEmail;
+    private TextView userName;
 
-    private FirebaseDatabase fbDatabase;
+    //Firebase
     private FirebaseAuth fbAuth;
     private FirebaseUser fbUser;
 
@@ -49,32 +50,29 @@ public class ReminderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder);
 
-        //ButterKnife implementation
+        //ButterKnife
         ButterKnife.bind(this);
 
         // Firebase
         fbAuth = FirebaseAuth.getInstance();
         fbUser = fbAuth.getCurrentUser();
 
+        //User data
         userImage = nav.getHeaderView(0).findViewById(R.id.nav_image);
         userEmail = nav.getHeaderView(0).findViewById(R.id.nav_email);
         userName = nav.getHeaderView(0).findViewById(R.id.nav_username);
-
         setUserData();
 
+        //Toolbar
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setTitle(R.string.label_reminder);
-
-        //Open nav
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(Gravity.LEFT);
-                nav.bringToFront();
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            drawerLayout.openDrawer(Gravity.LEFT);
+            nav.bringToFront();
         });
 
+        //Navigation
         nav.setCheckedItem(R.id.nav_reminder);
         nav.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -105,6 +103,9 @@ public class ReminderActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Set the user data in the menu
+     * */
     private void setUserData() {
         if (fbUser.getPhotoUrl() != null) {
             Picasso.get().load(fbUser.getPhotoUrl()).into(userImage);

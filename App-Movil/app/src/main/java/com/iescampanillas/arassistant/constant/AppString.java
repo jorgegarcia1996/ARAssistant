@@ -1,6 +1,9 @@
 package com.iescampanillas.arassistant.constant;
 
 public interface AppString {
+    //Users
+    String DB_USER_REF = "user/";
+    String DB_CONNECT_ID_REF = "connectID/";
 
     //Tasks
     String TASK_PREFIX = "task_";

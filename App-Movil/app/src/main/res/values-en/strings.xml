@@ -68,4 +68,10 @@
     <string name="dialog_password_recovery">Password recovery</string>
     <string name="dialog_recovery_pass_message">Write the email with which you created the account.</string>
     <string name="dialog_send">Send</string>
+    <string name="label_see_reminder">See reminder</string>
+    <string name="dialog_delete_account_title">Delete account</string>
+    <string name="dialog_delete_account_message">Are you sure you want to delete your account? You will return to the login screen</string>
+    <string name="dialog_delete_button">Delete</string>
+    <string name="toast_account_deleted">Account deleted</string>
+    <string name="dialog_cancel">Cancel</string>
 </resources>

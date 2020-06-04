@@ -1,7 +1,6 @@
 package com.iescampanillas.arassistant.model;
 
 
-import com.iescampanillas.arassistant.utils.Generator;
 import java.io.Serializable;
 
 public class User implements Serializable {

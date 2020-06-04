@@ -1,20 +1,23 @@
 package com.iescampanillas.arassistant.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.iescampanillas.arassistant.R;
-import com.iescampanillas.arassistant.model.User;
+import com.iescampanillas.arassistant.constant.AppCode;
+import com.iescampanillas.arassistant.constant.AppString;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -22,11 +25,15 @@ import butterknife.ButterKnife;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private FirebaseAuth firebaseAuth;
+    //TAG
+    private static final String TAG = "ProfileActivity";
+
+    //Firebase
+    private FirebaseAuth fbAuth;
     private FirebaseUser fireUser;
+    private FirebaseDatabase fbDatabase;
 
-    private User user;
-
+    //Bind elements
     @BindView(R.id.profile_name)
     protected TextView name;
 
@@ -56,49 +63,44 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        //Butterknife
         ButterKnife.bind(this);
 
+        //Toolbar
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        // Menu
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         // Sign out
-        signOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseAuth.signOut();
-                Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        signOut.setOnClickListener(v -> {
+            fbAuth.signOut();
+            Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         });
 
-        // Delete Account
-        delAcc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //
-            }
+        // Delete Account Alert
+        delAcc.setOnClickListener(v -> {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ProfileActivity.this);
+            builder.setTitle(R.string.dialog_delete_account_title);
+            builder.setMessage(R.string.dialog_delete_account_message);
+            builder.setCancelable(false);
+            builder.setNegativeButton(R.string.dialog_cancel, (dialog, which) -> dialog.cancel());
+            builder.setPositiveButton(R.string.dialog_delete_button, (dialog, which) -> deleteAcc());
+            //Mostrar el dialog
+            AlertDialog alert = builder.create();
+            alert.show();
         });
 
-        connect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, ConnectActivity.class);
-                startActivity(intent);
-            }
+        // Connect activity
+        connect.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, ConnectActivity.class);
+            startActivity(intent);
         });
 
         // Firebase
-        firebaseAuth = FirebaseAuth.getInstance();
-        fireUser = firebaseAuth.getCurrentUser();
+        fbAuth = FirebaseAuth.getInstance();
+        fireUser = fbAuth.getCurrentUser();
 
         // Set content
         name.setText(fireUser.getDisplayName());
@@ -111,12 +113,26 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Delete account from Auth and the data in Database
+     * */
+    public void deleteAcc() {
+        fbDatabase = FirebaseDatabase.getInstance();
+        String uid = fbAuth.getCurrentUser().getUid();
+        fbAuth.getCurrentUser().delete();
+        fbDatabase.getReference(AppString.DB_USER_REF).child(uid).removeValue();
+        Toast.makeText(getApplicationContext(), R.string.toast_account_deleted, Toast.LENGTH_LONG).show();
+        setResult(AppCode.DELETE_ACCOUNT);
+        fbAuth.signOut();
+        finish();
+        return;
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
-
+        //Check if user id logged in
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
         if(currentUser == null) {
             Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
             finish();

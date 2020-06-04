@@ -38,6 +38,11 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
+    /**
+     * Insert the default categories in the database
+     *
+     * @param db The database to insert the data
+     * */
     private void setDefaultCategories(SQLiteDatabase db) {
         String categoryTable = CategoriesContract.CategoriesEntry.TABLE_NAME;
         //Add generic categories
@@ -56,6 +61,13 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Insert a category in the database
+     *
+     * @param db The database to insert the data
+     * @param cat the category to be inserted in the database
+     * @param tableName The name of the table where insert the data
+     * */
     private void addCategory(SQLiteDatabase db, String tableName, Category cat) {
         db.insert(
                 tableName,
@@ -63,7 +75,9 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
                 cat.toContentValues());
     }
 
-    //Get all categories from database
+    /**
+     * Get all categories from the database
+     * */
     public Cursor getAllCategories() {
         Cursor c = getReadableDatabase()
                 .query(
@@ -78,7 +92,11 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
         return c;
     }
 
-    //Get category by id
+    /**
+     * Get a category by id
+     *
+     * @param id The id of the category
+     * */
     public Cursor getCategoryById(String id) {
         Cursor c = getReadableDatabase()
                 .query(
@@ -93,6 +111,12 @@ public class CategoriesDBHelper extends SQLiteOpenHelper {
         return c;
     }
 
+    /**
+     * Get the color and icon of a category by the name and language
+     *
+     * @param name the name of the category
+     * @param language The language of the system
+     * */
     public Cursor getCategoryColorAndIconByName(String name, String language) {
         Cursor c = getReadableDatabase()
                 .query(

@@ -17,10 +17,9 @@ public final class Generator {
     }
 
     /**
-     * Id generator for Tasks and Reminders
-     * Valid Characters 0-9, a-z, A-Z
+     * Id generator
      *
-     * @return Returns a random string
+     * @param prefix The prefix of the id
      * */
     public static String generateId(String prefix) {
         Random random = new Random();

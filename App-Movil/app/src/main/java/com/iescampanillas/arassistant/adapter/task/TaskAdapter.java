@@ -3,10 +3,7 @@ package com.iescampanillas.arassistant.adapter.task;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.DrawableContainer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,8 +30,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     //Firebase
     private FirebaseDatabase fbDatabase;
-    private FirebaseAuth fbAuth;
-    private FirebaseStorage fbStorage;
 
     //Data and context
     private ArrayList<Task> data;
@@ -146,12 +140,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     private void deleteTask(Task task) {
         data.clear();
         fbDatabase = FirebaseDatabase.getInstance();
-        fbStorage = FirebaseStorage.getInstance();
-        fbAuth = FirebaseAuth.getInstance();
+        FirebaseStorage fbStorage = FirebaseStorage.getInstance();
+        FirebaseAuth fbAuth = FirebaseAuth.getInstance();
         String uid = fbAuth.getCurrentUser().getUid();
+        //Delete the image from storage if exists
         if(!task.getMedia().equals("")) {
             StorageReference storageRef = fbStorage.getReference().child(AppString.IMAGES_FOLDER).child(task.getId()).child(task.getMedia());
             storageRef.delete().addOnSuccessListener(command -> {
+                //Delete task after delete the image
                 fbDatabase.getReference(AppString.DB_TASK_REF).child(uid).child(task.getId()).removeValue().addOnSuccessListener(aVoid -> {
                     Toast.makeText(ctx, R.string.toast_deleted_task, Toast.LENGTH_SHORT).show();
                 }).addOnFailureListener(e -> {
@@ -161,6 +157,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 Toast.makeText(ctx, R.string.toast_delete_task_error, Toast.LENGTH_SHORT).show();
             });
         } else {
+            //Delete the task
             fbDatabase.getReference(AppString.DB_TASK_REF).child(uid).child(task.getId()).removeValue().addOnSuccessListener(aVoid -> {
                 Toast.makeText(ctx, R.string.toast_deleted_task, Toast.LENGTH_SHORT).show();
             }).addOnFailureListener(e -> {

@@ -5,15 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.text.InputType;
+import android.util.Log;
 import android.util.Patterns;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -42,18 +40,16 @@ public class LoginActivity extends AppCompatActivity {
     //Firebase
     private FirebaseAuth fbAuth;
 
-    //Text inputs
+    //Bind elements
     @BindView(R.id.loginTextEmailInput)
     protected TextInputEditText email;
 
     @BindView(R.id.loginTextPasswordInput)
     protected TextInputEditText password;
 
-    //Remember me checkbox
     @BindView(R.id.loginRememberMeCheckbox)
     protected CheckBox chkRememberMe;
 
-    //Buttons
     @BindView(R.id.loginLoginButton)
     protected Button btnLogin;
 
@@ -89,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //Login
         btnLogin.setOnClickListener(l -> {
-            //Set the IMM
+            //Set the IMM (Input Method Manager)
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(email.getWindowToken(), 0);
 
@@ -105,23 +101,20 @@ public class LoginActivity extends AppCompatActivity {
                 loginPrefsEditor.putBoolean(AppString.SAVE_LOGIN_PREF, true);
                 loginPrefsEditor.putString(AppString.EMAIL_PREF, ema);
                 loginPrefsEditor.putString(AppString.PASSWORD_PREF, pass);
-                loginPrefsEditor.commit();
+                loginPrefsEditor.apply();
             } else {
                 loginPrefsEditor.clear();
                 loginPrefsEditor.commit();
             }
 
             //Start login process
-            fbAuth.signInWithEmailAndPassword(ema, pass).addOnCompleteListener(task -> {
-                if (!task.isSuccessful()) {
-                    //Login failed
-                    Toast.makeText(getApplicationContext(), R.string.toast_generic_error, Toast.LENGTH_LONG).show();
-                    return;
-                } else {
-                    //Login success
-                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                    startActivityForResult(intent, AppCode.LOGIN_CODE);
-                }
+            fbAuth.signInWithEmailAndPassword(ema, pass).addOnSuccessListener(command -> {
+                //Login success
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivityForResult(intent, AppCode.LOGIN_CODE);
+            }).addOnFailureListener(e -> {
+                //Login failed
+                Toast.makeText(getApplicationContext(), R.string.toast_generic_error, Toast.LENGTH_LONG).show();
             });
         });
 
@@ -170,11 +163,13 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //Log out
         if(requestCode == AppCode.LOGIN_CODE){
             if (resultCode == RESULT_OK) {
                 Toast.makeText(getApplicationContext(), R.string.toast_logout_success, Toast.LENGTH_LONG).show();
             }
         }
+        //Register success
         if(requestCode == AppCode.REGISTER_CODE){
             if(resultCode == RESULT_OK){
                 Toast.makeText(this, getString(R.string.toast_register_succeed),

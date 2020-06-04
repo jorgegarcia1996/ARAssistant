@@ -1,21 +1,14 @@
 package com.iescampanillas.arassistant.fragment.task;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +19,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -35,8 +30,8 @@ import com.google.firebase.storage.StorageReference;
 import com.iescampanillas.arassistant.R;
 import com.iescampanillas.arassistant.constant.AppCode;
 import com.iescampanillas.arassistant.constant.AppString;
-import com.iescampanillas.arassistant.database.CategoriesDBHelper;
 import com.iescampanillas.arassistant.database.CategoriesContract;
+import com.iescampanillas.arassistant.database.CategoriesDBHelper;
 import com.iescampanillas.arassistant.model.Task;
 import com.iescampanillas.arassistant.utils.Generator;
 import com.iescampanillas.arassistant.utils.KeyboardUtils;
@@ -47,8 +42,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static androidx.navigation.Navigation.findNavController;
 
@@ -72,15 +65,12 @@ public class CreateTaskFragment extends Fragment {
     private EditText taskTitle, taskDescription;
     private Spinner taskCategory;
 
-    private String content, imageName;
-
+    //Image
+    private String imageName;
     private ImageView imageSelected;
 
     //Uri
     private Uri localImageUri;
-
-    //Buttons
-    private Button btnReturn, btnSaveTask, btnSelectImage;
 
     public CreateTaskFragment() {
     }
@@ -90,16 +80,18 @@ public class CreateTaskFragment extends Fragment {
                              Bundle savedInstanceState) {
         View createTaskView = inflater.inflate(R.layout.fragment_create_task, container, false);
 
-        //Bind elements
+        //Firebase
         fbDatabase = FirebaseDatabase.getInstance();
         fbAuth = FirebaseAuth.getInstance();
         fbStorage = FirebaseStorage.getInstance();
+
+        //Bind elements
         taskTitle = createTaskView.findViewById(R.id.fragmentCreateTaskTitleText);
         taskDescription = createTaskView.findViewById(R.id.fragmentCreateTaskDescText);
         taskCategory = createTaskView.findViewById(R.id.fragmentCreateTaskCategoriesSpinner);
-        btnReturn = createTaskView.findViewById(R.id.fragmentCreateTaskReturnButton);
-        btnSaveTask = createTaskView.findViewById(R.id.fragmentCreateTaskSaveButton);
-        btnSelectImage = createTaskView.findViewById(R.id.fragmentCreateTaskSelectImageButton);
+        Button btnReturn = createTaskView.findViewById(R.id.fragmentCreateTaskReturnButton);
+        Button btnSaveTask = createTaskView.findViewById(R.id.fragmentCreateTaskSaveButton);
+        Button btnSelectImage = createTaskView.findViewById(R.id.fragmentCreateTaskSelectImageButton);
 
         //Image elements and variables
         localImageUri = Uri.EMPTY;
@@ -111,19 +103,19 @@ public class CreateTaskFragment extends Fragment {
         ArrayList<String> spinnerEntries = new ArrayList<>();
         //Get categories
         Cursor nameCursor = categoriesDBHelper.getAllCategories();
-        content = Locale.getDefault().getLanguage();
+        String content = Locale.getDefault().getLanguage();
         //Check language
         nameCursor.move(1);
         if (nameCursor.getColumnIndex(content) == -1) {
             while(nameCursor.moveToNext()) {
                 spinnerEntries.add(nameCursor.getString(nameCursor.getColumnIndex(CategoriesContract.CategoriesEntry.CAT_NAME)));
             }
-            content = CategoriesContract.CategoriesEntry.CAT_NAME;
         } else {
             while(nameCursor.moveToNext()) {
                 spinnerEntries.add(nameCursor.getString(nameCursor.getColumnIndex(content)));
             }
         }
+        //Load the categories in the spinner
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.main_spinner_item_layout, spinnerEntries);
         taskCategory.setAdapter(arrayAdapter);
 
@@ -143,12 +135,12 @@ public class CreateTaskFragment extends Fragment {
             isUpdate = false;
         }
 
+        //Show keyboard
+        KeyboardUtils.showKeyboard(getActivity());
+
         //Set focus
         taskTitle.setFocusable(true);
         taskTitle.requestFocus();
-
-        //Show keyboard
-        KeyboardUtils.showKeyboard(getActivity());
 
         //Return button
         btnReturn.setOnClickListener(v -> {
@@ -164,6 +156,12 @@ public class CreateTaskFragment extends Fragment {
         return createTaskView;
     }
 
+    /**
+     * Get the position on an item in the spinner
+     *
+     * @param item The item to get the position
+     * @param spinner The spinner to search the item
+     * */
     private int getCategoryPos(Spinner spinner, String item) {
         ArrayAdapter<String> spinnerAdapter = (ArrayAdapter<String>) spinner.getAdapter();
         return spinnerAdapter.getPosition(item);
@@ -295,7 +293,7 @@ public class CreateTaskFragment extends Fragment {
 
 
     /**
-     * Load the image in the ImageView
+     * Load the local image in the ImageView
      * */
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

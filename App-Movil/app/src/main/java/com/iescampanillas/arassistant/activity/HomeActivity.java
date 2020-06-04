@@ -2,25 +2,14 @@ package com.iescampanillas.arassistant.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,15 +17,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.iescampanillas.arassistant.R;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static androidx.navigation.Navigation.findNavController;
-
 public class HomeActivity extends AppCompatActivity {
 
+    private final static String TAG = "HomeActivity";
+
+    //Bind elements
     @BindView(R.id.navigation)
     protected NavigationView nav;
 
@@ -47,10 +35,11 @@ public class HomeActivity extends AppCompatActivity {
     protected DrawerLayout drawerLayout;
 
     // User data
-    protected ImageView userImage;
-    protected TextView userEmail;
-    protected TextView userName;
+    private ImageView userImage;
+    private TextView userEmail;
+    private TextView userName;
 
+    //Firebase
     private FirebaseAuth fbAuth;
     private FirebaseUser fbUser;
 
@@ -68,21 +57,21 @@ public class HomeActivity extends AppCompatActivity {
         fbAuth = FirebaseAuth.getInstance();
         fbUser = fbAuth.getCurrentUser();
 
+        //Bind user data elements
         userImage = nav.getHeaderView(0).findViewById(R.id.nav_image);
         userEmail = nav.getHeaderView(0).findViewById(R.id.nav_email);
         userName = nav.getHeaderView(0).findViewById(R.id.nav_username);
 
+        //Toolbar
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setTitle(R.string.app_name);
-
-
-
         toolbar.setNavigationOnClickListener(v -> {
             drawerLayout.openDrawer(Gravity.LEFT);
             nav.bringToFront();
         });
 
+        //Navigation
         nav.setCheckedItem(R.id.nav_home);
         nav.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -110,9 +99,11 @@ public class HomeActivity extends AppCompatActivity {
             }
             return false;
         });
-
     }
 
+    /**
+     * Get the user data from Firebase to user data elements
+     * */
     private void setUserData() {
         if (fbUser.getPhotoUrl() != null) {
             Picasso.get().load(fbUser.getPhotoUrl()).into(userImage);
@@ -121,12 +112,13 @@ public class HomeActivity extends AppCompatActivity {
         userName.setText(fbUser.getDisplayName());
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
 
+        //Check if user is logged in
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
         if(currentUser == null) {
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             finish();

@@ -20,6 +20,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.iescampanillas.arassistant.R;
+import com.iescampanillas.arassistant.constant.AppString;
 import com.iescampanillas.arassistant.model.User;
 import com.iescampanillas.arassistant.utils.Generator;
 
@@ -31,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     //TAG
     private static final String TAG = "RegisterActivity";
 
-    //Layout Inputs
+    //Bind elements
     @BindView(R.id.register_name_input)
     protected TextInputLayout nameInput;
 
@@ -63,11 +64,9 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.register_repeatpass_text)
     protected TextInputEditText repeatPassText;
 
-    //Buttons
     @BindView(R.id.register_accept_btn)
     protected Button acceptBtn;
 
-    //Toolbar
     @BindView(R.id.register_toolbar)
     protected Toolbar toolbar;
 
@@ -85,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        //ButterKnife implementation
+        //ButterKnife
         ButterKnife.bind(this);
 
         //Firebase
@@ -101,6 +100,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Check the inputs
+     *
+     * */
     private void checkFields() {
 
         String name = nameText.getText().toString();
@@ -128,48 +131,54 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Create a new user in firebase
+     *
+     * @param name User's name.
+     * @param lastName User's last name.
+     * @param email User's email.
+     * @param pass User's password
+     * */
     private void registerUser(String name, String lastName, String email, String pass) {
-
+        //Create the user in firebase auth
         fbAuth.createUserWithEmailAndPassword(email, pass)
                 .addOnCompleteListener(task -> {
                     UserProfileChangeRequest.Builder user1 = new UserProfileChangeRequest.Builder();
                     user1.setDisplayName(name + " " + lastName);
-
                     if (fbAuth.getCurrentUser() != null) {
                         fbAuth.getCurrentUser().updateProfile(user1.build())
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        //Clear fields
-                                        nameText.getText().clear();
-                                        lastNameText.getText().clear();
-                                        emailText.getText().clear();
-                                        passText.getText().clear();
-                                        repeatPassText.getText().clear();
-
-                                        user = new User();
-
-                                        user.setName(name);
-                                        user.setSurname(lastName);
-                                        user.setEmail(email);;
-                                        user.setConnectID(Generator.generateId(""));
-
-                                        if(user != null) {
-                                            createUserDB(user);
-                                        } else {
-                                            Toast.makeText(RegisterActivity.this, getString(R.string.toast_generic_error),
-                                                    Toast.LENGTH_SHORT).show();
-                                        }
-
+                                .addOnCompleteListener(task1 -> {
+                                    //Clear fields
+                                    nameText.getText().clear();
+                                    lastNameText.getText().clear();
+                                    emailText.getText().clear();
+                                    passText.getText().clear();
+                                    repeatPassText.getText().clear();
+                                    user = new User();
+                                    user.setName(name);
+                                    user.setSurname(lastName);
+                                    user.setEmail(email);;
+                                    user.setConnectID(Generator.generateId(""));
+                                    //Save user's data in database
+                                    if(user != null) {
+                                        createUserDB(user);
+                                    } else {
+                                        Toast.makeText(RegisterActivity.this, getString(R.string.toast_generic_error),
+                                                Toast.LENGTH_SHORT).show();
                                     }
+
                                 });
                     }
                 }).addOnFailureListener(e -> Log.e(TAG, e.getMessage()));
     }
 
+    /**
+     * Save the user data in Firebase Database
+     *
+     * @param user The user to be stored in the database
+     * */
     private void createUserDB(User user) {
-
-        mDatabase.child("user").child(fbUser.getUid()).setValue(user);
+        mDatabase.child(AppString.DB_USER_REF).child(fbUser.getUid()).setValue(user);
 
         //Finish activity
         setResult(RESULT_OK);

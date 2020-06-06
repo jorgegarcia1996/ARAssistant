@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,6 +34,12 @@ public class HomeActivity extends AppCompatActivity {
 
     @BindView(R.id.home_drawer_layout)
     protected DrawerLayout drawerLayout;
+
+    @BindView(R.id.home_task_list_button)
+    protected Button btnTaskList;
+
+    @BindView(R.id.home_reminder_list_button)
+    protected Button btnReminderList;
 
     // User data
     private ImageView userImage;
@@ -98,6 +105,17 @@ public class HomeActivity extends AppCompatActivity {
                     break;
             }
             return false;
+        });
+
+        //Buttons
+        btnTaskList.setOnClickListener(v -> {
+            Intent taskIntent = new Intent(HomeActivity.this, TaskActivity.class);
+            startActivity(taskIntent);
+        });
+
+        btnReminderList.setOnClickListener(v -> {
+            Intent reminderIntent = new Intent(HomeActivity.this, ReminderActivity.class);
+            startActivity(reminderIntent);
         });
     }
 

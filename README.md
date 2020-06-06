@@ -134,3 +134,8 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 ***Jorge***
 * Borrar cuenta implementado
 * Código comentado
+
+## Avances 06/06/2020
+
+***Jorge***
+* Botones para ir a tareas o recordatorios en la pantalla principal

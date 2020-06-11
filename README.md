@@ -139,3 +139,8 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 
 ***Jorge***
 * Botones para ir a tareas o recordatorios en la pantalla principal
+
+## Avances 11/06/2020
+
+***Rafael y Jorge***
+* App web para la administración de usuario desplegada en el siguiente [enlace](https://arassistant-2e660.web.app/home)

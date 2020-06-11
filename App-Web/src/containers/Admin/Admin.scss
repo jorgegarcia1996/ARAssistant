@@ -1,0 +1,67 @@
+.Admin {
+  th {
+    font-weight: bolder;
+  }
+  td,
+  th {
+    text-align: center;
+    font-weight: bold;
+  }
+  td#icons {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+  svg {
+    margin: 0 1.2vh;
+  }
+  svg:hover {
+    cursor: pointer;
+  }
+  svg#delete {
+    color: #de4545;
+    transition: color 0.25s;
+  }
+  svg#delete:hover {
+    color: #ad3535;
+  }
+  svg#edit {
+    color: #decc45;
+    transition: color 0.25s;
+  }
+  svg#edit:hover {
+    color: #b3a437;
+  }
+  
+  .logoutBtn {
+    vertical-align: middle;
+    float: right;
+    width: 13vw;
+    margin: 0 auto;
+    color: black;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: bold;
+    border-radius: 0 0 0 100px ;
+    background-color: #017bb8;
+    border: 2px solid black;
+    border-right: none;
+  }
+  .logoutBtn:hover {
+    border: 2px solid rgb(0, 80, 121);
+    border-right: none;
+    text-decoration: none;
+    cursor: pointer;
+    color: white;
+    background-color: rgb(0, 80, 121);
+  }
+  
+  .ButtonMenu{
+    display: inline-block;
+    width: 100%;
+  }
+
+  .table-responsive{
+    min-height: 60vh;
+  }
+}

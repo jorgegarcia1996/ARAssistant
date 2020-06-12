@@ -33,7 +33,7 @@ La aplicación web será utilizada para la gestión de usuarios del proyecto ARA
   <img width="70%"src="https://github.com/jorgegarcia1996/ARAssistant/blob/Entrega-12-Junio/Dise%C3%B1o/Capturas/AppWeb-Home.PNG">
 </p>
 
-Al entrar en la app web, se muestra una descripción del proyecto, en el footer se encuentran los nombres de los participantes en el proyecto, junto con unas imágenes de Dualiza Bankia, FP Empresa y FP IES Campanillas.
+Al entrar en la app web, se muestra una descripción del proyecto, en el footer se encuentran los nombres de los participantes en el proyecto, un enlace al repositorio ne GitHub y unas imágenes de Dualiza Bankia, FP Empresa y FP IES Campanillas.
 
 Al hacer click sobre el botón de 'Admin', se abre la pantalla de 'Login' si no hemos iniciado sesión en la web, o directamente se muestra la pantalla de administración de usuarios de la app si ya tenemos la sesión iniciada.
 

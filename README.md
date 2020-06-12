@@ -144,7 +144,7 @@ Al entrar en *Tareas* desde el menú lateral, lo primero que encontramos es la l
 
 En la pantalla de crear una tarea encontramos 2 botones, *Volver* para volver a la lista de tareas y *Guardar* que guarda la tarea en la base de datos.
 
-Para guardar una tarea el título es obligatorio y la categoría por defecto es la de *Salud* y podemos elegir entre 5: *Salud*, *Familia*, *Comida*, *Rutina*, *Otros*. Las categorías están almacenadas en una base de datos local.
+Para guardar una tarea el título es obligatorio y la categoría por defecto es la de *Familia* y podemos elegir entre 5: *Salud*, *Familia*, *Comida*, *Rutina*, *Otros*. Las categorías están almacenadas en una base de datos local.
 
 En la lista de tareas, para ver los detalles de una tarea, solo hay que pulsar en ella y se muestra un dialog con la información de la tarea y varias opciones:
 

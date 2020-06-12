@@ -187,7 +187,7 @@ Los recordatorios tienen 3 campos, el título que es obligatorio, la descripció
 
 Si el día seleccionado en el calendario tiene algún recordatorio, se muestran debajo del calendario. Si mantenemos presionado un segundo algún recordatorio se muestra un menú contextual con diferentes opciones: 
 
-* **Editar**: Abre la pantalla de crear recordatorio y le mando los datos del mismo a los campos para poder modificarlos. Si el recordatorio es del día actual y se cambia la hora a una hora que ya ha pasado, no se puede guardar el recordatorio.
+* **Editar**: Abre la pantalla de crear recordatorio y le manda los datos del mismo a los campos para poder modificarlos. Si el recordatorio es del día actual y se cambia la hora a una hora que ya ha pasado, no se puede guardar el recordatorio.
 
 * **Ver recordatorio**: Muestra la información del recordatorio en un dialog.
 

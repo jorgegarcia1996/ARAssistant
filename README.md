@@ -104,7 +104,7 @@ Para acceder al menú lateral  hay que pulsar en "☰" al lado del nombre de la 
   <img width="25%"src="https://github.com/jorgegarcia1996/ARAssistant/blob/Entrega-12-Junio/Dise%C3%B1o/Capturas/05-Menu_lateral.png">
 </p>
 
-Al menú se puede acceder desde cualquier actividad (excepto Login y Registro).
+Al menú se puede acceder desde cualquier actividad (excepto Login, Registro y Perfil).
 
 En la cabecera del menú encontramos la imagen de perfil del usuario, su nombre y correo. La siguiente sección corresponde a las pantallas de *Home*, *Perfil*, *Tareas*, *Recordatorios*. Luego encontramos los botonas de *Ajustes* y *Cerrar sesión* (aún faltan por implementar los ajustes).
 

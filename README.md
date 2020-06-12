@@ -196,3 +196,13 @@ Si el día seleccionado en el calendario tiene algún recordatorio, se muestran 
 </p>
 
 * **Borrar**: Borra el recordatorio de la base de datos y de la lista.
+
+## App Realidad Aumentada
+
+La aplicación de realidad aumentada es la que se usará con las gafas epson moverio, la app está hecha con unity y vuforia para la realidad aumentada. La App está pensada para funcionar junto a la otra y complementarse. La app de vuforia nos permite vincular unas gafas con nuestra cuenta de firebase en de la app android, una vez hecho esto, podremos usar la aplicación como ayuda para ver las tareas y recordatorios que tenemos puestos con nuestra cuenta. Podremos ver las capas de información con las gafas puesta y así ayudarnos a recodar cosas.
+
+La aplicación todavia está en desarrollo y en un futuro contará con muchas más funciones y un diseño mejorado.
+
+[Enlace al video de la app](https://drive.google.com/file/d/1DyTJAXEdP24XP4GLC0uYEyydadxA4Yz_/view?usp=sharing)
+
+[Enlace a la apk AR](https://drive.google.com/file/d/1Zybkof0uw4amvnuQkw3QAQhCJKvJgWxf/view?usp=sharing)

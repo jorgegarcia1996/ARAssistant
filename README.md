@@ -24,6 +24,9 @@ El proyecto tiene 3 desarrolladores principales, cada uno encargado de una o var
 * Demo online de la [app móvil](https://www.figma.com/proto/pXeGToLrAQjJCZh8pPeCtl/Arassistant_Pantallas_App-Movil?node-id=67%3A95&scaling=scale-down)
 * Demo online de la [app web](https://www.figma.com/proto/NoyU4wde7UXZ3LIGUhWpUM/ARAssistant-App-Web?node-id=1%3A2&scaling=min-zoom)
 
+**Aplicaciones**
+* [Enlace a la apk AR](https://drive.google.com/file/d/1Zybkof0uw4amvnuQkw3QAQhCJKvJgWxf/view?usp=sharing)
+
 ## Aplicacion Web
 La [app web](https://arassistant-2e660.web.app/home) se encuentra desplegada en firebase hosting.
 

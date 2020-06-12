@@ -1,24 +1,33 @@
 {
     "user": {
         "uid": {
+            "connectId": "string",
             "name": "string",
             "surname": "string",
             "email": "string"
         }
     },
     "task": {
-        "id": {
-            "user-uid": "string",
-            "title": "string",
-            "description": "string"
+        "user-uid": {
+            "id": {
+                "category": "string",
+                "title": "string",
+                "description": "string",
+                "color": "string",
+                "icon": "number",
+                "id": "string",
+                "media": "string"
+            }
         }
     },
     "reminder": {
-        "id": {
-            "user-uid": "string",
-            "title": "string",
-            "description": "string",
-            "date": "date"
+        "user-uid": {
+            "id": {
+                "id": "string",
+                "title": "string",
+                "description": "string",
+                "dateTime": "date in milliseconds (number)"
+            }
         }
     }
 }

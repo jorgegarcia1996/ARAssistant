@@ -5,6 +5,8 @@ En esta aplicación podemos incluir capas con información o elementos 3D los cu
 
 La app Android será utilizada como servidor de contenidos para las gafas Epson Moverio BT-350 y con servicios para recoger o proveer datos a la aplicación instalada en las gafas de Realidad Aumentada. Gracias al posicionamiento de las capas, el usuario puede moverse libremente y los elementos aparecerás por proximidad, indicando tareas, descripciones, recordatorios, notificaciones, etc...
 
+[AR App vuforia](https://drive.google.com/file/d/1uSet_6U3CkLxNrmYnMyoFpa0xbtka-0p/view?usp=sharing)
+
 ## Avances 24/03/2020
 
 ***Jorge:***

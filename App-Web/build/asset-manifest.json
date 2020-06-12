@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.b9c71124.chunk.css",
+    "main.js": "/static/js/main.e53a6023.chunk.js",
+    "main.js.map": "/static/js/main.e53a6023.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.b1dfd432.js",
+    "runtime-main.js.map": "/static/js/runtime-main.b1dfd432.js.map",
+    "static/js/2.8665fa76.chunk.js": "/static/js/2.8665fa76.chunk.js",
+    "static/js/2.8665fa76.chunk.js.map": "/static/js/2.8665fa76.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.67338dc23e1ff90cf55f4a646de170e9.js": "/precache-manifest.67338dc23e1ff90cf55f4a646de170e9.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.b9c71124.chunk.css.map": "/static/css/main.b9c71124.chunk.css.map",
+    "static/js/2.8665fa76.chunk.js.LICENSE.txt": "/static/js/2.8665fa76.chunk.js.LICENSE.txt",
+    "static/media/Icono_persona_arassistant.svg": "/static/media/Icono_persona_arassistant.3054ad2d.svg",
+    "static/media/bankia.png": "/static/media/bankia.c6ebd640.png",
+    "static/media/fpempresa.png": "/static/media/fpempresa.2162b092.png",
+    "static/media/iescampanillas.png": "/static/media/iescampanillas.00a412a5.png",
+    "static/media/logo.svg": "/static/media/logo.510de448.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b1dfd432.js",
+    "static/js/2.8665fa76.chunk.js",
+    "static/css/main.b9c71124.chunk.css",
+    "static/js/main.e53a6023.chunk.js"
+  ]
+}

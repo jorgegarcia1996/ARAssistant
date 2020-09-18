@@ -146,3 +146,9 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 
 ***Rafael y Jorge***
 * App web para la administración de usuario desplegada en el siguiente [enlace](https://arassistant-2e660.web.app/home)
+
+
+## Avances 18/09/2020
+
+***Jorge***
+* Proyecto android actualizado.

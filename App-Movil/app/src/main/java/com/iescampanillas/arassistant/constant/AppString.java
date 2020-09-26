@@ -20,6 +20,7 @@ public interface AppString {
 
     //FirebaseStorage
     String IMAGES_FOLDER = "images";
+    String VIDEOS_FOLDER = "videos";
 
     //Reminder
     String EDIT_REMINDER = "edit_reminder";
@@ -29,9 +30,15 @@ public interface AppString {
     //Date
     String DATE_SELECTED = "date_selected";
     String TIME_FORMAT = "kk:mm";
+    String TIME_LONG_FORMAT = "yyyyMMdd_HHmmss";
     String YEAR = "year";
     String MONTH = "month";
     String DAY_OF_MONTH = "day_of_month";
     String HOUR = "hour";
     String MINUTE = "minute";
+
+    //Camera
+    String PICTURES_DIR = "Arassistant";
+    String FILE_PREFIX = "IMG_";
+    String FILE_SUFIX = ".jpg";
 }

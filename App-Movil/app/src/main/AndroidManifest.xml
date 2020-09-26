@@ -3,8 +3,13 @@
     package="com.iescampanillas.arassistant">
     <!-- Gallery -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Calendar -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+
+    <!--Hardware-->
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
 
     <application
         android:allowBackup="true"
@@ -13,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ReminderActivity"></activity>
+        <activity android:name=".activity.ReminderActivity"/>
         <activity android:name=".activity.TaskActivity" />
         <activity android:name=".activity.ConnectActivity" />
         <activity android:name=".activity.ProfileActivity" />
@@ -22,7 +27,6 @@
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

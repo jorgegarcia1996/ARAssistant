@@ -152,3 +152,8 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 
 ***Jorge***
 * Proyecto android actualizado.
+
+## Avances 26/09/2020
+
+***Jorge***
+* Al crear o editar una tarea, la parte de subir una imagen ahora abre la cámara para tomar una foto directamente sin abrir la galería.

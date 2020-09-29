@@ -38,7 +38,7 @@ public interface AppString {
     String MINUTE = "minute";
 
     //Camera
-    String PICTURES_DIR = "Arassistant";
+    String MEDIA_DIR = "Arassistant";
     String FILE_PREFIX = "IMG_";
     String FILE_SUFIX = ".jpg";
 }

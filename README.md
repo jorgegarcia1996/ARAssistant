@@ -157,3 +157,10 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 
 ***Jorge***
 * Al crear o editar una tarea, la parte de subir una imagen ahora abre la cámara para tomar una foto directamente sin abrir la galería.
+
+## Avances 29/09/2020
+
+***Jorge***
+* Creados los botones para abrir la galería, tomar una foto o grabar un vídeo al crear o editar una tarea.
+* El boton de Abrir la galería permite seleccionar una imagen de la galería del móvil para subirla.
+* Si la tarea ya tiene una imagen, esta se sustituye por la imagen seleccionada de la galería o la imagen tomada con la cámara al guardar la tarea.

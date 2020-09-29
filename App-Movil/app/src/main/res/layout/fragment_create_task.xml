@@ -103,6 +103,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fragmentCreateTaskCategoriesSpinner" />
 
+            <Button
+                android:id="@+id/fragmentCreateTaskTakePictureButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="28dp"
+                android:text="@string/label_take_picture"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragmentCreateTaskSelectImageButton" />
+
+            <Button
+                android:id="@+id/fragmentCreateTaskRecordVideoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="40dp"
+                android:text="@string/label_record_video"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragmentCreateTaskSelectImageButton" />
+
             <TextView
                 android:id="@+id/fragmentCreateTaskFileName"
                 android:textColor="#000000"
@@ -113,18 +133,28 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fragmentCreateTaskSelectImageButton" />
+                app:layout_constraintTop_toBottomOf="@+id/fragmentCreateTaskRecordVideoButton" />
 
             <ImageView
                 android:id="@+id/fragmentCreateTaskImageToUpload"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fragmentCreateTaskFileName" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <VideoView
+                android:id="@+id/fragmentCreateTaskVideoToUpload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragmentCreateTaskImageToUpload"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 

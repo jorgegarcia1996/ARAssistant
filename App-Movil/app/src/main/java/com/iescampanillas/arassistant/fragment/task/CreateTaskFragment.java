@@ -65,11 +65,6 @@ public class CreateTaskFragment extends Fragment {
     //Local database
     private CategoriesDBHelper categoriesDBHelper;
 
-    //Buttons
-    private Button btnReturn;
-    private Button btnSaveTask;
-    private Button btnSelectImage;
-
     //Task
     private Task task;
 
@@ -105,15 +100,13 @@ public class CreateTaskFragment extends Fragment {
         taskTitle = createTaskView.findViewById(R.id.fragmentCreateTaskTitleText);
         taskDescription = createTaskView.findViewById(R.id.fragmentCreateTaskDescText);
         taskCategory = createTaskView.findViewById(R.id.fragmentCreateTaskCategoriesSpinner);
-        btnReturn = createTaskView.findViewById(R.id.fragmentCreateTaskReturnButton);
-        btnSaveTask = createTaskView.findViewById(R.id.fragmentCreateTaskSaveButton);
-        btnSelectImage = createTaskView.findViewById(R.id.fragmentCreateTaskSelectImageButton);
+        //Buttons
+        Button btnReturn = createTaskView.findViewById(R.id.fragmentCreateTaskReturnButton);
+        Button btnSaveTask = createTaskView.findViewById(R.id.fragmentCreateTaskSaveButton);
+        Button btnSelectImage = createTaskView.findViewById(R.id.fragmentCreateTaskSelectImageButton);
+        Button btnTakePicture = createTaskView.findViewById(R.id.fragmentCreateTaskTakePictureButton);
+        Button btnRecordVideo = createTaskView.findViewById(R.id.fragmentCreateTaskRecordVideoButton);
         fileName = createTaskView.findViewById(R.id.fragmentCreateTaskFileName);
-
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            btnSelectImage.setEnabled(false);
-            ActivityCompat.requestPermissions(getActivity(), new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
-        }
 
         //Image elements and variables
         localImageUri = Uri.EMPTY;
@@ -172,21 +165,23 @@ public class CreateTaskFragment extends Fragment {
         //Save button (Method reference)
         btnSaveTask.setOnClickListener(this::saveTask);
 
-        //Select image Button
-        btnSelectImage.setOnClickListener(this::openCamera);
+        //Open Gallery Button
+        btnSelectImage.setOnClickListener(this::openGallery);
+
+        //Take Picture Button
+        btnTakePicture.setOnClickListener(this::takePicture);
 
         return createTaskView;
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == 0) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                btnSelectImage.setEnabled(true);
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        if (requestCode == 0) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+//                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+//            }
+//        }
+//    }
 
     /**
      * Get the position on an item in the spinner
@@ -318,16 +313,29 @@ public class CreateTaskFragment extends Fragment {
     }
 
     /**
-     * Open gallery and select an image
+     *Open gallery and select a picture
+     */
+    private void openGallery(View v){
+        Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(openGalleryIntent, AppCode.OPEN_GALERY);
+    }
+
+    /**
+     * Take a picture with the camera
      * */
-    private void openCamera(View v) {
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        localImageUri = Uri.fromFile(getOutputMediaFile());
-        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, localImageUri);
-        if(takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, AppCode.OPEN_CAMERA);
+    private void takePicture(View v) {
+        //Check Permissions
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+        } else {
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            localImageUri = Uri.fromFile(getOutputMediaFile());
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, localImageUri);
+            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivityForResult(takePictureIntent, AppCode.TAKE_PICTURE);
+            }
         }
     }
 
@@ -335,7 +343,7 @@ public class CreateTaskFragment extends Fragment {
      * Create output media file to store the photo or video
      */
     private static File getOutputMediaFile() {
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), AppString.PICTURES_DIR);
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), AppString.MEDIA_DIR);
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
                 return null;
@@ -353,46 +361,53 @@ public class CreateTaskFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == AppCode.OPEN_CAMERA && resultCode == Activity.RESULT_OK) {
-            imageSelected.setImageURI(localImageUri);
-            File f = new File("" + localImageUri);
-            imageName = f.getName();
-            fileName.setText(imageName);
+        switch (requestCode) {
+            case AppCode.TAKE_PICTURE:
+                if(resultCode == Activity.RESULT_OK) {
+                    imageSelected.setImageURI(localImageUri);
+                    File f = new File("" + localImageUri);
+                    imageName = f.getName();
+                    fileName.setText(imageName);
+                }
+                break;
+            case AppCode.OPEN_GALERY:
+                //Get image Uri
+                localImageUri = data.getData();
 
+                //Get file name
+                Cursor cursor = getActivity().getContentResolver().query(localImageUri,
+                        null, null, null, null,
+                        null);
+                int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                cursor.moveToFirst();
+                imageName = cursor.getString(nameIndex);
 
-            //Viejo código
-            
-            //Get image Uri
-//            localImageUri = data.getData();
-//
-//            //Get file name
-//            Cursor cursor = getActivity().getContentResolver().query(localImageUri,
-//                    null, null, null, null,
-//                    null);
-//            int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-//            cursor.moveToFirst();
-//            imageName = cursor.getString(nameIndex);
-//
-//            //Get file size
-//            File tempFile = new File(localImageUri.getPath());
-//            long fileSizeInMb = (tempFile.length() / 1024) / 1024;
-//
-//            //Check image size, width and height
-//            Bitmap bitmap;
-//            try {
-//                bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(localImageUri));
-//                if(bitmap.getHeight() > 4096 || bitmap.getWidth() > 4096) { //Check width and height
-//                    Toast.makeText(getContext(), R.string.toast_image_too_big_error, Toast.LENGTH_LONG).show();
-//                    localImageUri = Uri.EMPTY;
-//                } else if(fileSizeInMb > 1) { //Check size
-//                    Toast.makeText(getContext(), R.string.toast_image_size_too_big_error, Toast.LENGTH_LONG).show();
-//                    localImageUri = Uri.EMPTY;
-//                } else {
-//                    imageSelected.setImageBitmap(bitmap); //Put image on image view
-//                }
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
+                //Get file size
+                File tempFile = new File(localImageUri.getPath());
+                long fileSizeInMb = (tempFile.length() / 1024) / 1024;
+
+                //Check image size, width and height
+                Bitmap bitmap;
+                try {
+                    bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(localImageUri));
+                    if(bitmap.getHeight() > 4096 || bitmap.getWidth() > 4096) { //Check width and height
+                        Toast.makeText(getContext(), R.string.toast_image_too_big_error, Toast.LENGTH_LONG).show();
+                        localImageUri = Uri.EMPTY;
+                    } else if(fileSizeInMb > 1) { //Check size
+                        Toast.makeText(getContext(), R.string.toast_image_size_too_big_error, Toast.LENGTH_LONG).show();
+                        localImageUri = Uri.EMPTY;
+                    } else {
+                        imageSelected.setImageBitmap(bitmap); //Put image on image view
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                localImageUri = Uri.EMPTY;
+                imageSelected.setImageURI(localImageUri);
+                break;
+
         }
     }
 }

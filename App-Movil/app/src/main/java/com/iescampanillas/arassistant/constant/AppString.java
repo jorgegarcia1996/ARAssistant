@@ -37,8 +37,12 @@ public interface AppString {
     String HOUR = "hour";
     String MINUTE = "minute";
 
-    //Camera
+    //Media
     String MEDIA_DIR = "Arassistant";
-    String FILE_PREFIX = "IMG_";
-    String FILE_SUFIX = ".jpg";
+    String IMAGE_PREFIX = "IMG_";
+    String IMAGE_SUFFIX = ".jpg";
+    String VIDEO_PREFIX = "VID_";
+    String VIDEO_SUFFIX = ".mp4";
+    String IMAGE_TYPE = "image";
+    String VIDEO_TYPE = "video";
 }

@@ -76,4 +76,8 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="label_take_picture">Take picture</string>
     <string name="label_record_video">Record video</string>
+    <string name="label_no_media_selected">No media</string>
+    <string name="toast_video_upload_success">Video uploaded</string>
+    <string name="toast_video_upload_error">Video not uploaded</string>
+    <string name="label_view_video">Open video</string>
 </resources>

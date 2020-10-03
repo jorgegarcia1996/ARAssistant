@@ -2,12 +2,16 @@ package com.iescampanillas.arassistant.fragment.task;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -21,9 +25,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -75,13 +81,17 @@ public class CreateTaskFragment extends Fragment {
     private EditText taskTitle, taskDescription;
     private Spinner taskCategory;
     private TextView fileName;
+    private Button btnViewVideo;
 
-    //Image
+    //Media
     private String imageName;
     private ImageView imageSelected;
+    private String videoName;
+    private VideoView videoSelected;
 
     //Uri
-    private Uri localImageUri;
+    private Uri imageUri;
+    private Uri videoUri;
 
     public CreateTaskFragment() {
     }
@@ -106,12 +116,17 @@ public class CreateTaskFragment extends Fragment {
         Button btnSelectImage = createTaskView.findViewById(R.id.fragmentCreateTaskSelectImageButton);
         Button btnTakePicture = createTaskView.findViewById(R.id.fragmentCreateTaskTakePictureButton);
         Button btnRecordVideo = createTaskView.findViewById(R.id.fragmentCreateTaskRecordVideoButton);
+        btnViewVideo = createTaskView.findViewById(R.id.fragmentCreateTaskViewVideoButton);
         fileName = createTaskView.findViewById(R.id.fragmentCreateTaskFileName);
 
-        //Image elements and variables
-        localImageUri = Uri.EMPTY;
+        //Media elements and variables
+        videoUri = Uri.EMPTY;
+        imageUri = Uri.EMPTY;
+        videoName = "";
         imageName = "";
+        videoSelected = createTaskView.findViewById(R.id.fragmentCreateTaskVideoToUpload);
         imageSelected = createTaskView.findViewById(R.id.fragmentCreateTaskImageToUpload);
+
 
         //Get categories from database
         categoriesDBHelper = new CategoriesDBHelper(getActivity().getApplicationContext());
@@ -142,7 +157,7 @@ public class CreateTaskFragment extends Fragment {
             taskTitle.setText(task.getTitle());
             taskDescription.setText(task.getDescription());
             taskCategory.setSelection(getCategoryPos(taskCategory, task.getCategory()));
-            getTaskImage();
+            getTaskMedia();
             isUpdate = true;
         } else {
             //Create new task
@@ -171,17 +186,11 @@ public class CreateTaskFragment extends Fragment {
         //Take Picture Button
         btnTakePicture.setOnClickListener(this::takePicture);
 
+        //Record Video
+        btnRecordVideo.setOnClickListener(this::recordVideo);
+
         return createTaskView;
     }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//        if (requestCode == 0) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
-//                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-//            }
-//        }
-//    }
 
     /**
      * Get the position on an item in the spinner
@@ -231,7 +240,7 @@ public class CreateTaskFragment extends Fragment {
                 //Update the task in Firebase
                 HashMap<String, Object> taskUpdate = new HashMap<>();
                 taskUpdate.put(AppString.DB_TASK_REF + uid + "/" + task.getId(), task);
-                updateImage(); //Update the task image
+                updateMedia(); //Update the task image
                 dbRef.updateChildren(taskUpdate).addOnSuccessListener(aVoid -> {
                     //Update Success
                     Toast.makeText(v.getContext(), R.string.toast_update_task_success, Toast.LENGTH_LONG).show();
@@ -244,7 +253,7 @@ public class CreateTaskFragment extends Fragment {
                 //Generate task Id
                 String taskId = Generator.generateId(AppString.TASK_PREFIX);
                 task.setId(taskId);
-                uploadNewImage(); //Upload an image
+                uploadNewMedia(); //Upload an image
                 //Create the task in Firebase
                 dbRef.child(AppString.DB_TASK_REF).child(uid).child(taskId).setValue(task)
                         .addOnSuccessListener(aVoid -> {
@@ -269,47 +278,89 @@ public class CreateTaskFragment extends Fragment {
     /**
      * Upload the selected image to Firebase Storage
      * */
-    private void uploadNewImage() {
-        if(localImageUri != Uri.EMPTY && !imageName.equals("")) {
+    private void uploadNewMedia() {
+        if(imageUri != Uri.EMPTY && !imageName.equals("")) {
             StorageReference storageRef = fbStorage.getReference().child(AppString.IMAGES_FOLDER).child(task.getId()).child(imageName);
             task.setMedia(imageName);
-            storageRef.putFile(localImageUri).addOnSuccessListener(taskSnapshot -> {
-                Toast.makeText(getContext(),R.string.toast_image_upload_success, Toast.LENGTH_LONG).show();
+            task.setMediaType(AppString.IMAGE_TYPE);
+            storageRef.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
+                Toast.makeText(getContext(), R.string.toast_image_upload_success, Toast.LENGTH_LONG).show();
             }).addOnFailureListener(e -> {
-                Toast.makeText(getContext(),R.string.toast_image_upload_failure, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), R.string.toast_image_upload_failure, Toast.LENGTH_LONG).show();
+            });
+        } else if (videoUri != Uri.EMPTY && !videoName.equals("")) {
+            StorageReference storageRef = fbStorage.getReference().child(AppString.VIDEOS_FOLDER).child(task.getId()).child(videoName);
+            task.setMedia(videoName);
+            task.setMediaType(AppString.VIDEO_TYPE);
+            storageRef.putFile(videoUri).addOnSuccessListener(taskSnapshot -> {
+                Toast.makeText(getContext(), R.string.toast_image_upload_success, Toast.LENGTH_LONG).show();
+            }).addOnFailureListener(e -> {
+                Toast.makeText(getContext(), R.string.toast_image_upload_failure, Toast.LENGTH_LONG).show();
             });
         } else {
             task.setMedia("");
+            task.setMediaType("");
         }
     }
 
     /**
      * Update the current image of a task
      * */
-    private void updateImage() {
-        if(localImageUri != Uri.EMPTY && !imageName.equals("")) {
-            if(!task.getMedia().equals("")) {
+    private void updateMedia() {
+        if(!task.getMedia().equals("")) {
+            if (task.getMediaType().equals(AppString.IMAGE_TYPE)) {
                 StorageReference oldStorageRef = fbStorage.getReference().child(AppString.IMAGES_FOLDER).child(task.getId()).child(task.getMedia());
                 oldStorageRef.delete();
+            } else {
+                StorageReference oldStorageRef = fbStorage.getReference().child(AppString.VIDEOS_FOLDER).child(task.getId()).child(task.getMedia());
+                oldStorageRef.delete();
             }
-            StorageReference newStorageRef = fbStorage.getReference().child(AppString.IMAGES_FOLDER).child(task.getId()).child(imageName);
-            task.setMedia(imageName);
-            newStorageRef.putFile(localImageUri);
+            if (imageUri != Uri.EMPTY && !imageName.equals("")) {
+                StorageReference newStorageRef = fbStorage.getReference().child(AppString.IMAGES_FOLDER).child(task.getId()).child(imageName);
+                task.setMedia(imageName);
+                task.setMediaType(AppString.IMAGE_TYPE);
+                newStorageRef.putFile(imageUri);
+            } else if (videoUri != Uri.EMPTY && !videoName.equals("")){
+                StorageReference newStorageRef = fbStorage.getReference().child(AppString.VIDEOS_FOLDER).child(task.getId()).child(videoName);
+                task.setMedia(videoName);
+                task.setMediaType(AppString.VIDEO_TYPE);
+                newStorageRef.putFile(videoUri);
+            }
         }
     }
 
     /**
      * Get task image from Firebase Storage
      * */
-    private void getTaskImage() {
+    private void getTaskMedia() {
         if(!task.getMedia().equals("")) {
-            StorageReference storageRef = fbStorage.getReference().child(AppString.IMAGES_FOLDER).child(task.getId()).child(task.getMedia());
-            storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                Picasso.get().load(uri).into(imageSelected);
-                imageName = task.getMedia();
-                fileName.setText(imageName);
-            });
+            switch(task.getMediaType()) {
+                case AppString.IMAGE_TYPE:
+                    StorageReference imageRef = fbStorage.getReference().child(AppString.IMAGES_FOLDER).child(task.getId()).child(task.getMedia());
+                    imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        Picasso.get().load(uri).into(imageSelected);
+                        fileName.setText(task.getMedia());
+                    });
+                    break;
+                case AppString.VIDEO_TYPE:
+                    StorageReference videoRef = fbStorage.getReference().child(AppString.VIDEOS_FOLDER).child(task.getId()).child(task.getMedia());
+                    videoRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        btnViewVideo.setVisibility(View.VISIBLE);
+                        btnViewVideo.setOnClickListener(view -> openVideo(uri));
+                        fileName.setText(task.getMedia());
+                    });
+                    break;
+            }
         }
+    }
+
+    /**
+     * open video
+     */
+    private void openVideo(Uri uri) {
+        Intent viewVideoIntent = new Intent(Intent.ACTION_VIEW);
+        viewVideoIntent.setData(uri);
+        startActivity(viewVideoIntent);
     }
 
     /**
@@ -317,7 +368,7 @@ public class CreateTaskFragment extends Fragment {
      */
     private void openGallery(View v){
         Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(openGalleryIntent, AppCode.OPEN_GALERY);
+        startActivityForResult(openGalleryIntent, AppCode.OPEN_GALLERY);
     }
 
     /**
@@ -331,8 +382,8 @@ public class CreateTaskFragment extends Fragment {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            localImageUri = Uri.fromFile(getOutputMediaFile());
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, localImageUri);
+            imageUri = Uri.fromFile(getOutputImageFile());
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
             if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                 startActivityForResult(takePictureIntent, AppCode.TAKE_PICTURE);
             }
@@ -340,18 +391,72 @@ public class CreateTaskFragment extends Fragment {
     }
 
     /**
-     * Create output media file to store the photo or video
+     * Create output media file to store the photo
      */
-    private static File getOutputMediaFile() {
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), AppString.MEDIA_DIR);
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
+    private static File getOutputImageFile() {
+        File imageStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), AppString.MEDIA_DIR);
+        if (!imageStorageDir.exists()) {
+            if (!imageStorageDir.mkdirs()) {
                 return null;
             }
         }
         String timeStamp = new SimpleDateFormat(AppString.TIME_LONG_FORMAT).format(new Date());
-        return new File(mediaStorageDir.getPath() + File.separator
-                         + AppString.FILE_PREFIX + timeStamp + AppString.FILE_SUFIX);
+        return new File(imageStorageDir.getPath() + File.separator
+                         + AppString.IMAGE_PREFIX + timeStamp + AppString.IMAGE_SUFFIX);
+    }
+
+    /**
+     * Record a video with the camera
+     * */
+    private void recordVideo(View v) {
+        //Check Permissions
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+        } else {
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+            videoUri = Uri.fromFile(getOutputVideoFile());
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
+            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivityForResult(takePictureIntent, AppCode.RECORD_VIDEO);
+            }
+        }
+    }
+
+    /**
+     * Create output media file to store the video
+     */
+    private static File getOutputVideoFile() {
+        File videoStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), AppString.MEDIA_DIR);
+        if (!videoStorageDir.exists()) {
+            if (!videoStorageDir.mkdirs()) {
+                return null;
+            }
+        }
+        String timeStamp = new SimpleDateFormat(AppString.TIME_LONG_FORMAT).format(new Date());
+        return new File(videoStorageDir.getPath() + File.separator
+                + AppString.VIDEO_PREFIX + timeStamp + AppString.VIDEO_SUFFIX);
+    }
+
+    /**
+     * Clear image
+     */
+    private void clearImage() {
+        imageName = "";
+        imageUri = Uri.EMPTY;
+        imageSelected.setImageURI(imageUri);
+    }
+
+    /**
+     * Clear video
+     */
+    private void clearVideo() {
+        videoSelected.setMinimumHeight(0);
+        videoName = "";
+        videoUri = Uri.EMPTY;
+        videoSelected.setVideoURI(videoUri);
+        videoSelected.setVisibility(View.GONE);
     }
 
     /**
@@ -362,50 +467,67 @@ public class CreateTaskFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
+            case AppCode.RECORD_VIDEO:
+                if(resultCode == Activity.RESULT_OK) {
+                    btnViewVideo.setVisibility(View.GONE);
+                    videoSelected.setVideoURI(videoUri);
+                    videoSelected.setVisibility(View.VISIBLE);
+                    File f = new File("" + videoUri);
+                    videoName = f.getName();
+                    fileName.setText(videoName);
+                    MediaController mediaController = new MediaController(getContext());
+                    videoSelected.setMediaController(mediaController);
+                    mediaController.setAnchorView(videoSelected);
+                    clearImage();
+                }
+                break;
             case AppCode.TAKE_PICTURE:
                 if(resultCode == Activity.RESULT_OK) {
-                    imageSelected.setImageURI(localImageUri);
-                    File f = new File("" + localImageUri);
+                    btnViewVideo.setVisibility(View.GONE);
+                    imageSelected.setImageURI(imageUri);
+                    File f = new File("" + imageUri);
                     imageName = f.getName();
                     fileName.setText(imageName);
+                    clearVideo();
                 }
                 break;
-            case AppCode.OPEN_GALERY:
-                //Get image Uri
-                localImageUri = data.getData();
+            case AppCode.OPEN_GALLERY:
+                if(resultCode == Activity.RESULT_OK) {
+                    btnViewVideo.setVisibility(View.GONE);
+                    //Get image Uri
+                    imageUri = data.getData();
 
-                //Get file name
-                Cursor cursor = getActivity().getContentResolver().query(localImageUri,
-                        null, null, null, null,
-                        null);
-                int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                cursor.moveToFirst();
-                imageName = cursor.getString(nameIndex);
+                    //Get file name
+                    Cursor cursor = getActivity().getContentResolver().query(imageUri,
+                            null, null, null, null,
+                            null);
+                    int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                    cursor.moveToFirst();
+                    imageName = cursor.getString(nameIndex);
+                    fileName.setText(imageName);
 
-                //Get file size
-                File tempFile = new File(localImageUri.getPath());
-                long fileSizeInMb = (tempFile.length() / 1024) / 1024;
+                    //Get file size
+                    File tempFile = new File(imageUri.getPath());
+                    long fileSizeInMb = (tempFile.length() / 1024) / 1024;
 
-                //Check image size, width and height
-                Bitmap bitmap;
-                try {
-                    bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(localImageUri));
-                    if(bitmap.getHeight() > 4096 || bitmap.getWidth() > 4096) { //Check width and height
-                        Toast.makeText(getContext(), R.string.toast_image_too_big_error, Toast.LENGTH_LONG).show();
-                        localImageUri = Uri.EMPTY;
-                    } else if(fileSizeInMb > 1) { //Check size
-                        Toast.makeText(getContext(), R.string.toast_image_size_too_big_error, Toast.LENGTH_LONG).show();
-                        localImageUri = Uri.EMPTY;
-                    } else {
-                        imageSelected.setImageBitmap(bitmap); //Put image on image view
+                    //Check image size, width and height
+                    Bitmap bitmap;
+                    try {
+                        bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(imageUri));
+                        if (bitmap.getHeight() > 4096 || bitmap.getWidth() > 4096) { //Check width and height
+                            Toast.makeText(getContext(), R.string.toast_image_too_big_error, Toast.LENGTH_LONG).show();
+                            imageUri = Uri.EMPTY;
+                        } else if (fileSizeInMb > 1) { //Check size
+                            Toast.makeText(getContext(), R.string.toast_image_size_too_big_error, Toast.LENGTH_LONG).show();
+                            imageUri = Uri.EMPTY;
+                        } else {
+                            imageSelected.setImageBitmap(bitmap); //Put image on image view
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
                     }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    clearVideo();
                 }
-                break;
-            default:
-                localImageUri = Uri.EMPTY;
-                imageSelected.setImageURI(localImageUri);
                 break;
 
         }

@@ -164,3 +164,11 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 * Creados los botones para abrir la galería, tomar una foto o grabar un vídeo al crear o editar una tarea.
 * El boton de Abrir la galería permite seleccionar una imagen de la galería del móvil para subirla.
 * Si la tarea ya tiene una imagen, esta se sustituye por la imagen seleccionada de la galería o la imagen tomada con la cámara al guardar la tarea.
+
+## Avances 03/10/2020
+
+***Jorge***
+* Implementada la función para grabar vídeos en las tareas.
+* Los videos se guardan al firebase storage en la carpeta vídeos.
+* Añadido el atributo 'mediaType' a las tareas para saber si el archivo de media es un vídeo o imagen.
+* Previsualización de los vídeos agregada.

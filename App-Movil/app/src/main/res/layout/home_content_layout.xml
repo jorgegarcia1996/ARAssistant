@@ -5,38 +5,38 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <ImageView
-        android:id="@+id/taskImageLogo"
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/homeTabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/logo_arassistant"
+        app:tabMode="fixed"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/home_task_list_button"
-        android:layout_width="300dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="30dp"
-        android:gravity="center"
-        android:text="@string/label_task"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskImageLogo" />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/homeTaskTab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/icon_task"
+            android:text="@string/label_task"/>
 
-    <Button
-        android:id="@+id/home_reminder_list_button"
-        android:layout_width="300dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="30dp"
-        android:gravity="center"
-        android:text="@string/label_reminder"
-        android:textSize="30sp"
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/homeReminderTab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/icon_reminder"
+            android:text="@string/label_reminder"/>
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homeRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_task_list_button" />
+        app:layout_constraintTop_toBottomOf="@+id/homeTabs" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

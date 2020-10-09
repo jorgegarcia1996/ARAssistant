@@ -58,12 +58,15 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
     public void onBindViewHolder(@NonNull ReminderHolder holder, int pos) {
         Reminder reminder = data.get(pos);
         holder.BindHolder(reminder);
+        //Show Alert Dialog
+        holder.title.setOnClickListener(v -> showReminderAlertDialog(v, reminder));
+        holder.time.setOnClickListener(v -> showReminderAlertDialog(v, reminder));
     }
 
     @Override
     public int getItemCount() {return this.data.size();}
 
-    public class ReminderHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+    public class ReminderHolder extends RecyclerView.ViewHolder {
         //Elements of each item
         private TextView time, title;
         private Reminder reminder;
@@ -73,8 +76,6 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
             //Bind elements
             title = itemView.findViewById(R.id.reminderItemTitle);
             time = itemView.findViewById(R.id.reminderItemTime);
-            title.setOnCreateContextMenuListener(this);
-            time.setOnCreateContextMenuListener(this);
         }
 
         public void BindHolder(Reminder reminder) {
@@ -83,32 +84,6 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
             title.setText(reminder.getTitle());
             time.setText(DateTimeUtils.getFormatDate(reminder.getDateTime(), AppString.TIME_FORMAT));
         }
-
-        /**
-         * Context menu of each element
-         * */
-        @Override
-        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            //Menu options
-            MenuItem seeDetails = menu.add(Menu.NONE, 2, 2, R.string.label_see_reminder);
-            MenuItem edit = menu.add(Menu.NONE, 1, 1, R.string.label_edit_dialog);
-            MenuItem delete = menu.add(Menu.NONE, 2, 2, R.string.label_delete_dialog);
-
-            //Actions of menu options
-            seeDetails.setOnMenuItemClickListener(item -> {
-                seeReminder(v, reminder);
-                return false;
-            });
-            edit.setOnMenuItemClickListener(item -> {
-               editReminder(v, reminder);
-                return false;
-            });
-            delete.setOnMenuItemClickListener(item -> {
-                deleteReminder(reminder);
-                return false;
-            });
-        }
-
     }
 
     //Custom methods
@@ -118,7 +93,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
      * @param reminder The reminder to edit.
      * @param v The actual view.
      * */
-    private void editReminder(View v, Reminder reminder) {
+    private void editReminder( Reminder reminder, View v) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(AppString.EDIT_REMINDER, reminder);
         findNavController(v).navigate(R.id.reminder_to_createReminder, bundle);
@@ -151,14 +126,20 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
      * @param reminder The reminder to show the details
      * @param view The actual view
      * */
-    private void seeReminder(View view, Reminder reminder) {
+    private void showReminderAlertDialog(View view, Reminder reminder) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-        builder.setTitle(DateTimeUtils.getFormatDate(reminder.getDateTime(), AppString.TIME_FORMAT)
-                + " " + reminder.getTitle());
+        builder.setTitle(DateTimeUtils.getFormatDate(reminder.getDateTime(), AppString.DATE_FORMAT)
+                + " " + DateTimeUtils.getFormatDate(reminder.getDateTime(), AppString.TIME_FORMAT)
+                + "\n\n" + reminder.getTitle());
         builder.setMessage(reminder.getDescription());
         builder.setCancelable(false);
         //Close button
         builder.setPositiveButton(R.string.label_close_dialog, (dialog, which) -> dialog.cancel());
+
+        //Edit button
+        builder.setNegativeButton(R.string.label_edit_dialog, (dialog, which) -> editReminder(reminder, view));
+        //Delete button
+        builder.setNeutralButton(R.string.label_delete_dialog, (dialog, which) -> deleteReminder(reminder));
         AlertDialog reminderAlert = builder.create();
         reminderAlert.show();
     }

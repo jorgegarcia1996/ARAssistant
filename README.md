@@ -172,3 +172,10 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 * Los videos se guardan al firebase storage en la carpeta vídeos.
 * Añadido el atributo 'mediaType' a las tareas para saber si el archivo de media es un vídeo o imagen.
 * Previsualización de los vídeos agregada.
+
+## Avances 09/10/2020
+
+***Jorge***
+* Ahora en la pantalla principal se muestran las tareas y recordatorios del usuario.
+* Solo se pueden ver, para borrar, crear o editar las mismas hay que ir a la pantalla correspondiente.
+* Ahora al ver los detalles de un recordatorio solo hay que pulsar una vez como con las tareas y no mantener pulsado.

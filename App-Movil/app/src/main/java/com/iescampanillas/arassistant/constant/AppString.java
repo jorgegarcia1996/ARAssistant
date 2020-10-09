@@ -30,6 +30,7 @@ public interface AppString {
     //Date
     String DATE_SELECTED = "date_selected";
     String TIME_FORMAT = "kk:mm";
+    String DATE_FORMAT = "dd/MM";
     String TIME_LONG_FORMAT = "yyyyMMdd_HHmmss";
     String YEAR = "year";
     String MONTH = "month";

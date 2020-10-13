@@ -179,3 +179,10 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 * Ahora en la pantalla principal se muestran las tareas y recordatorios del usuario.
 * Solo se pueden ver, para borrar, crear o editar las mismas hay que ir a la pantalla correspondiente.
 * Ahora al ver los detalles de un recordatorio solo hay que pulsar una vez como con las tareas y no mantener pulsado.
+
+## Avances 13/10/2020
+
+***Jorge***
+* Solucionado el problema de los permisos, antes los solicitaba en la pantalla de tareas, ahora al iniciar la aplicación.
+* Si no se conceden los permisos, no se mostrarán los botones de 'tomar foto' y 'grabar vídeo' a la hora de editar o crear una tarea.
+* Los permisos que se piden son 'Acceder a la cámara' y 'Leer y escribir datos en el almacenamiento del dispositivo'.

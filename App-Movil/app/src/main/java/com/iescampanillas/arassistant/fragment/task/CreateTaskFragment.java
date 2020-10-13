@@ -183,12 +183,17 @@ public class CreateTaskFragment extends Fragment {
         //Open Gallery Button
         btnSelectImage.setOnClickListener(this::openGallery);
 
-        //Take Picture Button
-        btnTakePicture.setOnClickListener(this::takePicture);
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            btnTakePicture.setVisibility(View.GONE);
+            btnRecordVideo.setVisibility(View.GONE);
+        } else {
+            //Take Picture Button
+            btnTakePicture.setOnClickListener(this::takePicture);
+            //Record Video
+            btnRecordVideo.setOnClickListener(this::recordVideo);
 
-        //Record Video
-        btnRecordVideo.setOnClickListener(this::recordVideo);
-
+        }
         return createTaskView;
     }
 
@@ -375,18 +380,13 @@ public class CreateTaskFragment extends Fragment {
      * Take a picture with the camera
      * */
     private void takePicture(View v) {
-        //Check Permissions
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
-        } else {
-            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-            StrictMode.setVmPolicy(builder.build());
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            imageUri = Uri.fromFile(getOutputImageFile());
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                startActivityForResult(takePictureIntent, AppCode.TAKE_PICTURE);
-            }
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        imageUri = Uri.fromFile(getOutputImageFile());
+        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, AppCode.TAKE_PICTURE);
         }
     }
 
@@ -409,18 +409,13 @@ public class CreateTaskFragment extends Fragment {
      * Record a video with the camera
      * */
     private void recordVideo(View v) {
-        //Check Permissions
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
-        } else {
-            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-            StrictMode.setVmPolicy(builder.build());
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-            videoUri = Uri.fromFile(getOutputVideoFile());
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
-            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                startActivityForResult(takePictureIntent, AppCode.RECORD_VIDEO);
-            }
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        videoUri = Uri.fromFile(getOutputVideoFile());
+        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, AppCode.RECORD_VIDEO);
         }
     }
 

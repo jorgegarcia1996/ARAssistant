@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,7 +14,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 import com.iescampanillas.arassistant.R;
 import com.squareup.picasso.Picasso;
 

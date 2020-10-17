@@ -25,9 +25,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import static androidx.navigation.Navigation.findNavController;
 
 public class CreateReminderFragment extends Fragment {

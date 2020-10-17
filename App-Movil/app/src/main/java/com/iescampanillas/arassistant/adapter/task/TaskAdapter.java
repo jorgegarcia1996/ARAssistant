@@ -2,12 +2,10 @@ package com.iescampanillas.arassistant.adapter.task;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,7 +64,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         holder.BindHolder(task);
         //Event to show dialog with the details
         holder.title.setOnClickListener(v -> showTaskAlertDialog(v, task));
-        holder.cat.setOnClickListener(v -> showTaskAlertDialog(v, task));
     }
 
     @Override
@@ -77,18 +74,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     public class TaskHolder extends RecyclerView.ViewHolder {
 
         private TextView title;
-        private Button cat;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.taskItemTitle);
-            cat = itemView.findViewById(R.id.taskItemCategory);
         }
 
         public void BindHolder(Task task) {
             title.setText(task.getTitle());
-            title.setBackgroundColor(Color.parseColor(task.getColor()));
-            cat.setBackgroundResource(task.getIcon());
+            title.setCompoundDrawablesRelativeWithIntrinsicBounds(task.getIcon(), 0, 0, 0);
         }
     }
 

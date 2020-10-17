@@ -29,10 +29,10 @@
             android:enabled="true"
             android:title="@string/settings_label">
             <menu>
-                <item
+                <!--item
                     android:id="@+id/nav_settings"
                     android:icon="@drawable/ic_settings_black_24dp"
-                    android:title="@string/settings_label" />
+                    android:title="@string/settings_label" /-->
                 <item
                     android:id="@+id/nav_logout"
                     android:icon="@android:drawable/ic_lock_power_off"

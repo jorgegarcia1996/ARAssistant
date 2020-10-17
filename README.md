@@ -186,3 +186,9 @@ La app Android será utilizada como servidor de contenidos para las gafas Epson 
 * Solucionado el problema de los permisos, antes los solicitaba en la pantalla de tareas, ahora al iniciar la aplicación.
 * Si no se conceden los permisos, no se mostrarán los botones de 'tomar foto' y 'grabar vídeo' a la hora de editar o crear una tarea.
 * Los permisos que se piden son 'Acceder a la cámara' y 'Leer y escribir datos en el almacenamiento del dispositivo'.
+
+## Avances 17/10/2020
+
+***Jorge***
+* Cambiado el diseño de la lista de tareas y recordatorios.
+* Desabilitada la opción del menú 'Ajustes'.

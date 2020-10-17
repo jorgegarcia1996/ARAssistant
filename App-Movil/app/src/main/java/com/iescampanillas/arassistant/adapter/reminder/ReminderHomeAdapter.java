@@ -17,8 +17,6 @@ import com.iescampanillas.arassistant.utils.DateTimeUtils;
 
 import java.util.ArrayList;
 
-import static androidx.navigation.Navigation.findNavController;
-
 public class ReminderHomeAdapter extends RecyclerView.Adapter<ReminderHomeAdapter.ReminderHomeHolder> {
 
     //Array, index and context

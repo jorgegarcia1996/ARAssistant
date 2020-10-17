@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragmentTaskFrameLayout"
     android:layout_width="match_parent"
+    android:background="#C3C3C3"
     android:layout_height="match_parent"
     tools:context=".fragment.task.TaskFragment">
 
@@ -30,7 +31,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|top"
-                android:layout_margin="10dp"
                 android:text="@string/label_create_task"
                 android:background="@color/colorPrimary"
                 android:src="@drawable/ic_add_black_24dp"

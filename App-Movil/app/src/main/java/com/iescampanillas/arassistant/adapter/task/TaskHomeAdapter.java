@@ -2,11 +2,9 @@ package com.iescampanillas.arassistant.adapter.task;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,8 +14,6 @@ import com.iescampanillas.arassistant.R;
 import com.iescampanillas.arassistant.model.Task;
 
 import java.util.ArrayList;
-
-import static androidx.navigation.Navigation.findNavController;
 
 public class TaskHomeAdapter extends RecyclerView.Adapter<TaskHomeAdapter.TaskHomeHolder> {
 
@@ -56,7 +52,6 @@ public class TaskHomeAdapter extends RecyclerView.Adapter<TaskHomeAdapter.TaskHo
         holder.BindHolder(task);
         //Event to show dialog with the details
         holder.title.setOnClickListener(v -> showTaskAlertDialog(v, task));
-        holder.cat.setOnClickListener(v -> showTaskAlertDialog(v, task));
     }
 
     @Override
@@ -67,18 +62,15 @@ public class TaskHomeAdapter extends RecyclerView.Adapter<TaskHomeAdapter.TaskHo
     public class TaskHomeHolder extends RecyclerView.ViewHolder {
 
         private TextView title;
-        private Button cat;
 
         public TaskHomeHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.taskItemTitle);
-            cat = itemView.findViewById(R.id.taskItemCategory);
         }
 
         public void BindHolder(Task task) {
             title.setText(task.getTitle());
-            title.setBackgroundColor(Color.parseColor(task.getColor()));
-            cat.setBackgroundResource(task.getIcon());
+            title.setCompoundDrawablesRelativeWithIntrinsicBounds(task.getIcon(), 0, 0, 0);
         }
     }
 
